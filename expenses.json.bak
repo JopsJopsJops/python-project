@@ -1,0 +1,298 @@
+{
+    "expenses": {
+        "Food": [
+            {
+                "amount": 20.0,
+                "date": "2025-09-01",
+                "description": "egg"
+            },
+            {
+                "category": "Food",
+                "amount": 100.0,
+                "date": "2025-09-10",
+                "description": "Burger"
+            },
+            {
+                "category": "Food",
+                "amount": 100.0,
+                "date": "2025-09-10",
+                "description": "Pizza"
+            },
+            {
+                "category": "Food",
+                "amount": 10.0,
+                "date": "2025-09-04",
+                "description": "Tinapay"
+            },
+            {
+                "category": "Food",
+                "amount": 121.0,
+                "date": "2025-09-04",
+                "description": "Steak"
+            },
+            {
+                "category": "Food",
+                "amount": 12.0,
+                "date": "2025-09-04",
+                "description": "brownies"
+            },
+            {
+                "amount": 10.0,
+                "date": "2025-09-02",
+                "description": "bread"
+            },
+            {
+                "category": "Food",
+                "amount": 20.0,
+                "date": "2025-09-04",
+                "description": "pancit canton"
+            },
+            {
+                "amount": 20.0,
+                "date": "2025-09-01",
+                "description": "egg"
+            },
+            {
+                "amount": 10.0,
+                "date": "2025-09-02",
+                "description": "bread"
+            },
+            {
+                "amount": 10.0,
+                "date": "2025-09-04",
+                "description": "Tinapay"
+            },
+            {
+                "amount": 121.0,
+                "date": "2025-09-04",
+                "description": "Steak"
+            },
+            {
+                "amount": 12.0,
+                "date": "2025-09-04",
+                "description": "brownies"
+            },
+            {
+                "amount": 20.0,
+                "date": "2025-09-04",
+                "description": "pancit canton"
+            },
+            {
+                "amount": 100.0,
+                "date": "2025-09-10",
+                "description": "Burger"
+            },
+            {
+                "amount": 100.0,
+                "date": "2025-09-10",
+                "description": "Pizza"
+            }
+        ],
+        "Medical": [
+            {
+                "category": "Medical",
+                "amount": 11.0,
+                "date": "2025-09-04",
+                "description": "check up"
+            },
+            {
+                "amount": 11.0,
+                "date": "2025-09-04",
+                "description": "check up"
+            }
+        ],
+        "Travel": [
+            {
+                "amount": 10.0,
+                "date": "2025-09-04",
+                "description": "palengke"
+            },
+            {
+                "category": "Travel",
+                "amount": 111.0,
+                "date": "2025-09-10",
+                "description": "moa"
+            },
+            {
+                "category": "Travel",
+                "amount": 121.0,
+                "date": "2025-10-20",
+                "description": "intramuros"
+            },
+            {
+                "category": "Travel",
+                "amount": 11.0,
+                "date": "2025-09-09",
+                "description": "Bacoor"
+            },
+            {
+                "category": "Travel",
+                "amount": 120.0,
+                "date": "2025-10-22",
+                "description": "baguio"
+            },
+            {
+                "amount": 1000.0,
+                "date": "2026-01-20",
+                "description": "siargao"
+            },
+            {
+                "amount": 10.0,
+                "date": "2025-09-04",
+                "description": "palengke"
+            },
+            {
+                "amount": 11.0,
+                "date": "2025-09-09",
+                "description": "Bacoor"
+            },
+            {
+                "amount": 111.0,
+                "date": "2025-09-10",
+                "description": "moa"
+            },
+            {
+                "amount": 121.0,
+                "date": "2025-10-20",
+                "description": "intramuros"
+            },
+            {
+                "amount": 120.0,
+                "date": "2025-10-22",
+                "description": "baguio"
+            },
+            {
+                "amount": 1000.0,
+                "date": "2026-01-20",
+                "description": "siargao"
+            }
+        ],
+        "Transport": [
+            {
+                "category": "Transport",
+                "amount": 121.0,
+                "date": "2025-09-04",
+                "description": "sm rosario"
+            },
+            {
+                "amount": 121.0,
+                "date": "2025-09-04",
+                "description": "sm rosario"
+            }
+        ],
+        "Utilities": [
+            {
+                "category": "Utilities",
+                "amount": 123.0,
+                "date": "2025-09-09",
+                "description": "soap"
+            },
+            {
+                "amount": 100.0,
+                "date": "2025-07-08",
+                "description": "sabon"
+            },
+            {
+                "amount": 20.0,
+                "date": "2025-09-15",
+                "description": "soap"
+            },
+            {
+                "amount": 100.0,
+                "date": "2025-07-08",
+                "description": "sabon"
+            },
+            {
+                "amount": 123.0,
+                "date": "2025-09-09",
+                "description": "soap"
+            },
+            {
+                "amount": 20.0,
+                "date": "2025-09-15",
+                "description": "soap"
+            }
+        ],
+        "Clothing": [
+            {
+                "amount": 100.0,
+                "date": "2025-09-10",
+                "description": "brief"
+            },
+            {
+                "category": "Clothing",
+                "amount": 121.0,
+                "date": "2025-09-04",
+                "description": "T-shirt"
+            },
+            {
+                "amount": 121.0,
+                "date": "2025-09-04",
+                "description": "T-shirt"
+            },
+            {
+                "amount": 100.0,
+                "date": "2025-09-10",
+                "description": "brief"
+            }
+        ],
+        "Uncategorized": [
+            {
+                "amount": 120.0,
+                "date": "2025-09-10",
+                "description": "Steam wallet"
+            },
+            {
+                "amount": 120.0,
+                "date": "2025-09-10",
+                "description": "Steam wallet"
+            }
+        ],
+        "Vehicle": [
+            {
+                "category": "Vehicle",
+                "amount": 250.0,
+                "date": "2025-09-10",
+                "description": "motor upgrade"
+            },
+            {
+                "amount": 250.0,
+                "date": "2025-09-10",
+                "description": "motor upgrade"
+            }
+        ],
+        "Sports": [
+            {
+                "amount": 100.0,
+                "date": "2025-09-11",
+                "description": "Basketball"
+            },
+            {
+                "amount": 120.0,
+                "date": "2025-09-12",
+                "description": "golf"
+            },
+            {
+                "amount": 100.0,
+                "date": "2025-09-11",
+                "description": "Basketball"
+            },
+            {
+                "amount": 120.0,
+                "date": "2025-09-12",
+                "description": "golf"
+            }
+        ]
+    },
+    "categories": [
+        "Food",
+        "Medical",
+        "Travel",
+        "Transport",
+        "Utilities",
+        "Transportation",
+        "Clothing",
+        "Sports",
+        "Vehicle"
+    ]
+}

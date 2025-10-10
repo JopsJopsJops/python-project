@@ -1,0 +1,13 @@
+{
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggest.showSnippets": false,
+    "editor.parameterHints.enabled": true,
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+    "python.languageServer": "Pylance",
+    "python.analysis.completeFunctionParens": false,
+    "editor.defaultFoldingRangeProvider": "ms-python.autopep8"
+}
