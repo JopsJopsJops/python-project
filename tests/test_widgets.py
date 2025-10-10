@@ -529,6 +529,7 @@ class TestExpenseTracker:
 
 
 class TestDashboardWidget:
+    @pytest.mark.gui
     @pytest.fixture
     def dashboard_widget(qtbot):  # CRITICAL: Add qtbot parameter
         """Create DashboardWidget with proper mocking"""
@@ -570,6 +571,7 @@ class TestDashboardWidget:
 
             yield dashboard
 
+    @pytest.mark.gui
     def test_init(self, qtbot):  # ADD qtbot parameter here
         """Test DashboardWidget initialization"""
         mock_dm = Mock()
@@ -588,50 +590,62 @@ class TestDashboardWidget:
             assert dashboard.data_manager is not None
             print("✓ DashboardWidget initialized successfully")
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_update_dashboard(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - fix after core tests")
     def test_update_summary_tab(self):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_generate_insights_with_data(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_generate_insights_empty(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_update_chart_filters(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_get_filtered_chart_data(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_update_chart_date_ranges(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - fix after core tests")
     def test_export_charts_png(self):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_export_charts_pdf(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_get_category_expenses(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_apply_cross_platform_style(self, dashboard_widget):
         pass
 
+    @pytest.mark.gui
     @pytest.mark.skip(reason="Dashboard UI complexity - focus on core functionality")
     def test_add_tab_header(self, dashboard_widget):
         pass

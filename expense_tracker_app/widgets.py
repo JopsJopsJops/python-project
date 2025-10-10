@@ -172,24 +172,6 @@ class DashboardWidget(QWidget):
         layout.setSpacing(12)
         self.summary_tab.setLayout(layout)
 
-        # Title
-        title_label = QLabel("Spending Summary")
-        title_label.setStyleSheet("""
-            QLabel {
-                color: #00ffff;
-                font-family: "Segoe UI";
-                font-size: 18px;
-                font-weight: bold;
-                padding: 10px;
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                    stop:0 #0f3460, stop:0.5 #533483, stop:1 #e94560);
-                border-radius: 8px;
-                margin: 5px;
-            }
-        """)
-        title_label.setAlignment(Qt.AlignCenter)
-        layout.addWidget(title_label)
-
         self.summary_table = QTableWidget()
         self.summary_table.setColumnCount(2)
         self.summary_table.setHorizontalHeaderLabels(["Category", "Amount"])
@@ -309,8 +291,8 @@ class DashboardWidget(QWidget):
             total_all += subtotal
             category_totals.append((category, subtotal))
 
-        # Sort categories by amount (highest first)
-        category_totals.sort(key=lambda x: x[1], reverse=True)
+        # Sort categories by amount (lowest first)
+        category_totals.sort(key=lambda x: x[1], reverse=False)
 
         # Add sorted categories to table
         for category, subtotal in category_totals:

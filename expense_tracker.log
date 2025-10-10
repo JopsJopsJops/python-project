@@ -4343,3 +4343,341 @@
 2025-10-06 01:26:41,950 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
 2025-10-06 01:26:42,004 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
 2025-10-06 01:26:48,382 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:30,278 [DEBUG] __main__: Application started with logging configured
+2025-10-10 22:43:30,316 [INFO] expense_tracker_app.data_manager: Loaded 5 categories and 0 total expenses from expenses.json
+2025-10-10 22:43:30,321 [INFO] expense_tracker_app.data_manager: Loaded 5 categories and 0 total expenses from expenses.json
+2025-10-10 22:43:30,676 [DEBUG] expense_tracker_app.widgets: Displaying 0 categories of expenses
+2025-10-10 22:43:33,288 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {}
+2025-10-10 22:43:33,288 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱0.00
+2025-10-10 22:43:33,395 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {}
+2025-10-10 22:43:33,437 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 0 months of data
+2025-10-10 22:43:41,686 [INFO] expense_tracker_app.import_service: Importing from CSV: C:/Users/jophe/Downloads/dummy_expense_data.csv
+2025-10-10 22:43:41,688 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,688 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 12.5, 'date': '2024-01-15', 'description': "Lunch at McDonald's"}
+2025-10-10 22:43:41,689 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,689 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 45.0, 'date': '2024-01-15', 'description': 'Monthly bus pass'}
+2025-10-10 22:43:41,690 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,690 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 125.75, 'date': '2024-01-14', 'description': 'Electricity bill'}
+2025-10-10 22:43:41,691 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,691 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 25.0, 'date': '2024-01-13', 'description': 'Movie tickets'}
+2025-10-10 22:43:41,692 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,692 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 89.99, 'date': '2024-01-12', 'description': 'New jeans'}
+2025-10-10 22:43:41,693 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,693 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 8.75, 'date': '2024-01-12', 'description': 'Coffee and pastry'}
+2025-10-10 22:43:41,694 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,694 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 35.0, 'date': '2024-01-11', 'description': 'Pharmacy'}
+2025-10-10 22:43:41,695 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,695 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 65.3, 'date': '2024-01-10', 'description': 'Weekly groceries'}
+2025-10-10 22:43:41,696 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,696 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 15.5, 'date': '2024-01-09', 'description': 'Taxi ride'}
+2025-10-10 22:43:41,697 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,697 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 12.99, 'date': '2024-01-08', 'description': 'Netflix subscription'}
+2025-10-10 22:43:41,698 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,699 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 45.25, 'date': '2024-01-07', 'description': 'Internet bill'}
+2025-10-10 22:43:41,700 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,700 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 45.0, 'date': '2024-01-06', 'description': 'Books'}
+2025-10-10 22:43:41,701 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,701 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 22.4, 'date': '2024-01-05', 'description': 'Dinner with friends'}
+2025-10-10 22:43:41,702 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,703 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 60.0, 'date': '2024-01-04', 'description': 'Gas for car'}
+2025-10-10 22:43:41,703 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,704 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 5.25, 'date': '2024-01-03', 'description': 'Morning coffee'}
+2025-10-10 22:43:41,705 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,705 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 120.0, 'date': '2024-01-02', 'description': 'Dentist appointment'}
+2025-10-10 22:43:41,705 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,705 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 199.99, 'date': '2024-01-01', 'description': 'New headphones'}
+2025-10-10 22:43:41,707 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,708 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 18.75, 'date': '2023-12-30', 'description': 'Pizza delivery'}
+2025-10-10 22:43:41,710 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,710 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 45.0, 'date': '2023-12-29', 'description': 'Bowling night'}
+2025-10-10 22:43:41,711 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,711 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 85.6, 'date': '2023-12-28', 'description': 'Water bill'}
+2025-10-10 22:43:41,712 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,712 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 25.0, 'date': '2023-12-27', 'description': 'Car wash'}
+2025-10-10 22:43:41,714 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,714 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 32.15, 'date': '2023-12-26', 'description': 'Restaurant dinner'}
+2025-10-10 22:43:41,715 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,715 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 75.5, 'date': '2023-12-25', 'description': 'Christmas gifts'}
+2025-10-10 22:43:41,717 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,717 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 12.0, 'date': '2023-12-24', 'description': 'Snacks for road trip'}
+2025-10-10 22:43:41,718 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,718 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 25.0, 'date': '2023-12-23', 'description': 'Vitamins'}
+2025-10-10 22:43:41,720 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,721 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 60.0, 'date': '2023-12-22', 'description': 'Concert tickets'}
+2025-10-10 22:43:41,722 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,722 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 7.5, 'date': '2023-12-21', 'description': 'Quick lunch'}
+2025-10-10 22:43:41,723 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,723 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 40.0, 'date': '2023-12-20', 'description': 'Oil change'}
+2025-10-10 22:43:41,724 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,724 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 150.3, 'date': '2023-12-19', 'description': 'Heating bill'}
+2025-10-10 22:43:41,725 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,725 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 29.99, 'date': '2023-12-18', 'description': 'Phone case'}
+2025-10-10 22:43:41,728 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,728 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 15.25, 'date': '2023-12-17', 'description': 'Brunch'}
+2025-10-10 22:43:41,729 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,729 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 42.8, 'date': '2023-12-16', 'description': 'Supermarket run'}
+2025-10-10 22:43:41,731 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,731 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 12.0, 'date': '2023-12-15', 'description': 'Subway fare'}
+2025-10-10 22:43:41,732 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,732 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 8.99, 'date': '2023-12-14', 'description': 'Spotify premium'}
+2025-10-10 22:43:41,733 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,734 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 65.0, 'date': '2023-12-13', 'description': 'Doctor visit'}
+2025-10-10 22:43:41,736 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,736 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 120.0, 'date': '2023-12-12', 'description': 'Winter jacket'}
+2025-10-10 22:43:41,737 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,738 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 9.99, 'date': '2023-12-11', 'description': 'Food truck lunch'}
+2025-10-10 22:43:41,739 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,739 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 55.75, 'date': '2023-12-10', 'description': 'Phone bill'}
+2025-10-10 22:43:41,740 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,740 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 18.5, 'date': '2023-12-09', 'description': 'Parking fee'}
+2025-10-10 22:43:41,742 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,742 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 28.45, 'date': '2023-12-08', 'description': 'Chinese takeout'}
+2025-10-10 22:43:41,744 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,744 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 35.0, 'date': '2023-12-07', 'description': 'Museum tickets'}
+2025-10-10 22:43:41,745 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,745 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 15.25, 'date': '2023-12-06', 'description': 'Office supplies'}
+2025-10-10 22:43:41,747 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,747 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 6.5, 'date': '2023-12-05', 'description': 'Breakfast sandwich'}
+2025-10-10 22:43:41,748 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,748 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 45.0, 'date': '2023-12-04', 'description': 'Prescription'}
+2025-10-10 22:43:41,750 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,750 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 75.0, 'date': '2023-12-03', 'description': 'Car insurance'}
+2025-10-10 22:43:41,751 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,751 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 95.2, 'date': '2023-12-02', 'description': 'Gas bill'}
+2025-10-10 22:43:41,752 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,753 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 23.6, 'date': '2023-12-01', 'description': 'Family dinner'}
+2025-10-10 22:43:41,754 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,754 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 89.99, 'date': '2023-11-30', 'description': 'New shoes'}
+2025-10-10 22:43:41,756 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,756 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 11.25, 'date': '2023-11-29', 'description': 'Cafe meeting'}
+2025-10-10 22:43:41,758 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,758 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 22.5, 'date': '2023-11-28', 'description': 'Video game'}
+2025-10-10 22:43:41,760 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,760 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 14.0, 'date': '2023-11-27', 'description': 'Bus tickets'}
+2025-10-10 22:43:41,761 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,761 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 85.0, 'date': '2023-11-26', 'description': 'Therapy session'}
+2025-10-10 22:43:41,763 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,763 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 110.45, 'date': '2023-11-25', 'description': 'Electric bill'}
+2025-10-10 22:43:41,765 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,766 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 19.75, 'date': '2023-11-24', 'description': 'Thanksgiving supplies'}
+2025-10-10 22:43:41,767 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,767 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 45.6, 'date': '2023-11-23', 'description': 'Kitchen utensils'}
+2025-10-10 22:43:41,769 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,769 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 8.25, 'date': '2023-11-22', 'description': 'Starbucks coffee'}
+2025-10-10 22:43:41,771 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,771 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 32.0, 'date': '2023-11-21', 'description': 'Car maintenance'}
+2025-10-10 22:43:41,772 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,772 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 15.0, 'date': '2023-11-20', 'description': 'Book purchase'}
+2025-10-10 22:43:41,774 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,774 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 67.8, 'date': '2023-11-19', 'description': 'Weekly shopping'}
+2025-10-10 22:43:41,776 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,776 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 25.0, 'date': '2023-11-18', 'description': 'First aid kit'}
+2025-10-10 22:43:41,778 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,778 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 78.9, 'date': '2023-11-17', 'description': 'Internet bill'}
+2025-10-10 22:43:41,780 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,780 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 199.0, 'date': '2023-11-16', 'description': 'Smartwatch'}
+2025-10-10 22:43:41,781 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,781 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 14.5, 'date': '2023-11-15', 'description': 'Lunch meeting'}
+2025-10-10 22:43:41,783 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,784 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 20.0, 'date': '2023-11-14', 'description': 'Ride sharing'}
+2025-10-10 22:43:41,785 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,785 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 12.0, 'date': '2023-11-13', 'description': 'Magazine subscription'}
+2025-10-10 22:43:41,787 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,787 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 9.99, 'date': '2023-11-12', 'description': 'Fast food'}
+2025-10-10 22:43:41,789 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,789 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 150.0, 'date': '2023-11-11', 'description': 'Specialist visit'}
+2025-10-10 22:43:41,791 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,791 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 135.75, 'date': '2023-11-10', 'description': 'Water and sewage'}
+2025-10-10 22:43:41,793 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,793 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 34.99, 'date': '2023-11-09', 'description': 'Home decor'}
+2025-10-10 22:43:41,794 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,795 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 28.3, 'date': '2023-11-08', 'description': 'Italian restaurant'}
+2025-10-10 22:43:41,796 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,797 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 50.0, 'date': '2023-11-07', 'description': 'Gas fill-up'}
+2025-10-10 22:43:41,799 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,799 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 40.0, 'date': '2023-11-06', 'description': 'Theater tickets'}
+2025-10-10 22:43:41,800 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,801 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 6.75, 'date': '2023-11-05', 'description': 'Donuts and coffee'}
+2025-10-10 22:43:41,802 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,802 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 35.5, 'date': '2023-11-04', 'description': 'Over-the-counter meds'}
+2025-10-10 22:43:41,804 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,804 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 79.99, 'date': '2023-11-03', 'description': 'Winter boots'}
+2025-10-10 22:43:41,807 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,807 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 88.25, 'date': '2023-11-02', 'description': 'Electricity'}
+2025-10-10 22:43:41,808 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,809 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 16.45, 'date': '2023-11-01', 'description': 'Sandwiches for picnic'}
+2025-10-10 22:43:41,810 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,811 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 22.0, 'date': '2023-10-31', 'description': 'Train ticket'}
+2025-10-10 22:43:41,812 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,813 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 18.99, 'date': '2023-10-30', 'description': 'Music album'}
+2025-10-10 22:43:41,814 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,815 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 42.15, 'date': '2023-10-29', 'description': 'Grocery shopping'}
+2025-10-10 22:43:41,816 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,816 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 65.0, 'date': '2023-10-28', 'description': 'Dental cleaning'}
+2025-10-10 22:43:41,818 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,818 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 25.5, 'date': '2023-10-27', 'description': 'Gift for friend'}
+2025-10-10 22:43:41,820 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,820 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 13.25, 'date': '2023-10-26', 'description': 'Lunch buffet'}
+2025-10-10 22:43:41,822 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,822 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 35.0, 'date': '2023-10-25', 'description': 'Car registration'}
+2025-10-10 22:43:41,823 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,824 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 102.4, 'date': '2023-10-24', 'description': 'Heating oil'}
+2025-10-10 22:43:41,826 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,826 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 29.99, 'date': '2023-10-23', 'description': 'Board game'}
+2025-10-10 22:43:41,828 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,828 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 7.5, 'date': '2023-10-22', 'description': 'Morning coffee'}
+2025-10-10 22:43:41,829 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,830 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 149.99, 'date': '2023-10-21', 'description': 'New backpack'}
+2025-10-10 22:43:41,831 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,831 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 45.0, 'date': '2023-10-20', 'description': 'Chiropractor'}
+2025-10-10 22:43:41,833 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,833 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 18.75, 'date': '2023-10-19', 'description': 'Car wash and vacuum'}
+2025-10-10 22:43:41,835 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,835 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 21.8, 'date': '2023-10-18', 'description': 'Sushi dinner'}
+2025-10-10 22:43:41,837 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,837 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 67.85, 'date': '2023-10-17', 'description': 'Phone bill'}
+2025-10-10 22:43:41,840 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,840 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 55.0, 'date': '2023-10-16', 'description': 'Sports event'}
+2025-10-10 22:43:41,842 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,842 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 11.99, 'date': '2023-10-15', 'description': 'Pizza slice'}
+2025-10-10 22:43:41,844 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,844 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 34.25, 'date': '2023-10-14', 'description': 'Cooking ingredients'}
+2025-10-10 22:43:41,846 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,846 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 28.0, 'date': '2023-10-13', 'description': 'Bike repair'}
+2025-10-10 22:43:41,848 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,848 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 95.0, 'date': '2023-10-12', 'description': 'Lab tests'}
+2025-10-10 22:43:41,850 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,850 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 38.7, 'date': '2023-10-11', 'description': 'Organic groceries'}
+2025-10-10 22:43:41,852 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,853 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 115.6, 'date': '2023-10-10', 'description': 'Electric bill'}
+2025-10-10 22:43:41,855 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,855 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 12.5, 'date': '2023-10-09', 'description': 'Arcade games'}
+2025-10-10 22:43:41,859 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,860 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 89.0, 'date': '2023-10-08', 'description': 'New headphones'}
+2025-10-10 22:43:41,864 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,865 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 9.25, 'date': '2023-10-07', 'description': 'Bagel breakfast'}
+2025-10-10 22:43:41,868 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,868 [INFO] expense_tracker_app.data_manager: Added expense in transportation: {'id': 1, 'amount': 42.0, 'date': '2023-10-06', 'description': 'Gas station'}
+2025-10-10 22:43:41,871 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,871 [INFO] expense_tracker_app.data_manager: Added expense in healthcare: {'id': 1, 'amount': 25.0, 'date': '2023-10-05', 'description': 'Vitamin supplements'}
+2025-10-10 22:43:41,875 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,875 [INFO] expense_tracker_app.data_manager: Added expense in food: {'id': 1, 'amount': 27.45, 'date': '2023-10-04', 'description': 'Mexican restaurant'}
+2025-10-10 22:43:41,879 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,879 [INFO] expense_tracker_app.data_manager: Added expense in utilities: {'id': 1, 'amount': 79.35, 'date': '2023-10-03', 'description': 'Internet service'}
+2025-10-10 22:43:41,882 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,883 [INFO] expense_tracker_app.data_manager: Added expense in entertainment: {'id': 1, 'amount': 35.0, 'date': '2023-10-02', 'description': 'Comedy show'}
+2025-10-10 22:43:41,886 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:43:41,886 [INFO] expense_tracker_app.data_manager: Added expense in shopping: {'id': 1, 'amount': 15.99, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-10 22:43:41,902 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:43:41,903 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-10 22:43:43,231 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:43:43,231 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:43:43,237 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:43:43,308 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:43:43,391 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:43:43,393 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:43:43,401 [DEBUG] __main__: All components refreshed after data import
+2025-10-10 22:44:27,756 [DEBUG] expense_tracker_app.data_manager: Search for keyword='egg' returned 0 results
+2025-10-10 22:44:27,756 [DEBUG] expense_tracker_app.widgets: Search executed for keyword='egg', 0 results found
+2025-10-10 22:44:30,712 [DEBUG] expense_tracker_app.data_manager: Search for keyword='piz' returned 2 results
+2025-10-10 22:44:30,712 [DEBUG] expense_tracker_app.widgets: Search executed for keyword='piz', 2 results found
+2025-10-10 22:44:33,596 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-10 22:44:37,480 [DEBUG] expense_tracker_app.data_manager: Calculated grand total: 5138.95
+2025-10-10 22:44:38,674 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:44:38,674 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:44:38,674 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:44:38,674 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:44:38,790 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:44:38,840 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:46:06,963 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:46:10,605 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:46:10,606 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:46:10,606 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:46:10,606 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:46:10,700 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:46:10,752 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:46:21,840 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:48:27,398 [DEBUG] __main__: Application started with logging configured
+2025-10-10 22:48:27,444 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:48:27,446 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:48:27,789 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-10 22:48:28,200 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:48:28,200 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:48:28,202 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:48:28,321 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:48:28,377 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:48:29,823 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:48:29,824 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:48:29,824 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:48:29,824 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:48:29,919 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:48:29,970 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:48:31,493 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:48:31,493 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:48:31,494 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:48:31,494 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:48:31,588 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:48:31,640 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:49:08,311 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:49:56,303 [DEBUG] __main__: Application started with logging configured
+2025-10-10 22:49:56,359 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:49:56,362 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:49:56,700 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-10 22:49:57,100 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:49:57,101 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:49:57,102 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:49:57,219 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:49:57,277 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:49:58,646 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:49:58,647 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:49:58,647 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:49:58,647 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:49:58,738 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:49:58,787 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:50:34,669 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:50:36,438 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:53:13,714 [DEBUG] __main__: Application started with logging configured
+2025-10-10 22:53:13,775 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:53:13,777 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:53:14,113 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-10 22:53:14,517 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:53:14,519 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:53:14,520 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:53:14,637 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:53:14,691 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:53:18,020 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:53:18,020 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:53:18,020 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:53:18,021 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:53:18,110 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:53:18,159 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:53:39,657 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-10 22:54:13,262 [DEBUG] __main__: Application started with logging configured
+2025-10-10 22:54:13,314 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:54:13,316 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:54:13,653 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-10 22:54:14,069 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:54:14,070 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:54:14,072 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:54:14,193 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:54:14,249 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:54:15,647 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:54:15,647 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:54:15,647 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:54:15,647 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:54:15,739 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:54:15,789 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:54:38,136 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-10 22:54:49,040 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:54:49,040 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:54:49,040 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:54:49,041 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:54:49,129 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:54:49,180 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:54:54,536 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-10 22:54:54,537 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-10 22:54:54,537 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:54:54,537 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-10 22:54:54,627 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-10 22:54:54,676 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-10 22:55:08,264 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
