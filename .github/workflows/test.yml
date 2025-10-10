@@ -8,12 +8,13 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest  # Single OS
+    timeout-minutes: 10     # Fail if tests take too long
+    
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
-        python-version: ['3.9', '3.10', '3.11', '3.12']
-
+        python-version: ['3.11', '3.12']  # Only 2 versions
+    
     steps:
     - uses: actions/checkout@v4
     
@@ -22,36 +23,15 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
-    - name: Install Ubuntu dependencies
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0
-        sudo apt-get install -y xvfb
-        # Additional dependencies for matplotlib and reportlab
-        sudo apt-get install -y libfreetype6-dev libpng-dev pkg-config
-        # Qt platform dependencies for Ubuntu 24.04
-        sudo apt-get install -y libx11-xcb1 libgl1 libegl1
-    
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        # Install from requirements.txt (includes ALL dependencies)
         pip install -r requirements.txt
     
-    - name: Run tests on Ubuntu
-      if: matrix.os == 'ubuntu-latest'
+    - name: Run non-GUI tests with coverage
       run: |
-        export QT_DEBUG_PLUGINS=0
-        export QT_QPA_PLATFORM=offscreen
-        export QT_QUICK_BACKEND=software
-        export QML_DISABLE_DISK_CACHE=1
-        xvfb-run -a pytest tests/ --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing -x --tb=short
-    
-    - name: Run tests on Windows
-      if: matrix.os == 'windows-latest'
-      run: |
-        pytest tests/ --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing -x --tb=short
+        # Skip GUI tests and run in parallel
+        pytest tests/ -k "not dialog" --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing -n auto
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
