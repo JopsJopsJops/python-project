@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: expense-tracker-app
+Version: 0.1.0
+Requires-Dist: PyQt5>=5.15
+Requires-Dist: pandas>=1.5
+Requires-Dist: openpyxl>=3.0
+Requires-Dist: fpdf>=1.7
+Requires-Dist: reportlab>=4.0
+Requires-Dist: matplotlib>=3.5
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-qt>=4.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.0; extra == "dev"
+Requires-Dist: pytest-xdist>=3.0; extra == "dev"
+Dynamic: provides-extra
+Dynamic: requires-dist
