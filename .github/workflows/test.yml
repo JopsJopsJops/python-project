@@ -30,29 +30,28 @@ jobs:
         sudo apt-get install -y xvfb
         # Additional dependencies for matplotlib and reportlab
         sudo apt-get install -y libfreetype6-dev libpng-dev pkg-config
-        # Qt platform dependencies for Ubuntu 24.04 (FIXED)
+        # Qt platform dependencies for Ubuntu 24.04
         sudo apt-get install -y libx11-xcb1 libgl1 libegl1
-        
+    
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         # Install from requirements.txt (includes ALL dependencies)
         pip install -r requirements.txt
     
-    - name: Run tests with coverage
+    - name: Run tests on Ubuntu
+      if: matrix.os == 'ubuntu-latest'
       run: |
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          # Set Qt environment variables for headless testing
-          export QT_DEBUG_PLUGINS=0
-          export QT_QPA_PLATFORM=offscreen
-          export QT_QUICK_BACKEND=software
-          export QML_DISABLE_DISK_CACHE=1
-          # Run tests with xvfb
-          xvfb-run -a pytest tests/ --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing -x --tb=short
-        else
-          # Windows
-          pytest tests/ --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing -x --tb=short
-        fi
+        export QT_DEBUG_PLUGINS=0
+        export QT_QPA_PLATFORM=offscreen
+        export QT_QUICK_BACKEND=software
+        export QML_DISABLE_DISK_CACHE=1
+        xvfb-run -a pytest tests/ --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing -x --tb=short
+    
+    - name: Run tests on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        pytest tests/ --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing -x --tb=short
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -60,8 +59,3 @@ jobs:
         file: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
-
-    - name: Run tests with coverage
-      run: |
-        # Skip GUI tests in CI - run only non-GUI tests
-        pytest tests/ -k "not dialog" --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing
