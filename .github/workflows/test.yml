@@ -1,38 +1,61 @@
-﻿name: Python Tests
+﻿name: CI Pipeline
 
 on:
   push:
-    branches: [main, master, develop]
+    branches: [ master, main ]
   pull_request:
-    branches: [main, master, develop]
+    branches: [ master, main ]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    
+    name: Test on ${{ matrix.os }} - Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.11', '3.12']  # Only 2 versions for speed
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
     
     steps:
-    - uses: actions/checkout@v4
-    
+    - name: Checkout code
+      uses: actions/checkout@v4
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    
+        cache: 'pip'
+
+    - name: Install system dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0
+        sudo apt-get install -y xvfb
+
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    
-    - name: Run stable non-GUI tests only
+        pip install pytest pytest-qt coverage
+
+    - name: Run unit tests (non-GUI)
       run: |
-        # Run only the stable, non-GUI tests
-        pytest tests/ -k "not dialog and not main and not widgets" --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing
-    
+        python -m pytest tests/ -v -m "unit" --tb=short
+
+    - name: Run GUI tests with xvfb (Linux only)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        xvfb-run -a python -m pytest tests/ -v -m "gui" --tb=short
+
+    - name: Skip GUI tests on Windows/macOS
+      if: matrix.os != 'ubuntu-latest'
+      run: |
+        echo "GUI tests skipped on ${{ matrix.os }} - requires display server"
+
+    - name: Generate coverage report
+      run: |
+        python -m pytest tests/ -v -m "unit" --cov=expense_tracker_app --cov-report=xml
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
@@ -40,7 +63,49 @@ jobs:
         flags: unittests
         name: codecov-umbrella
 
-    - name: Run non-GUI tests with coverage
+  lint:
+    name: Lint and Code Quality
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+    
+    - name: Install linting tools
       run: |
-        # Skip ALL GUI tests (main, widgets, dialogs)
-        pytest tests/ -k "not dialog and not main and not widgets" --cov=expense_tracker_app --cov-report=xml --cov-report=term-missing   
+        pip install flake8 black isort mypy
+
+    - name: Check code formatting with black
+      run: |
+        black --check expense_tracker_app/ tests/
+
+    - name: Check import sorting with isort
+      run: |
+        isort --check-only expense_tracker_app/ tests/
+
+    - name: Run flake8
+      run: |
+        flake8 expense_tracker_app/ tests/ --max-line-length=88 --extend-ignore=E203,W503
+
+    - name: Run mypy type checking
+      run: |
+        mypy expense_tracker_app/
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run bandit security scanner
+      run: |
+        pip install bandit
+        bandit -r expense_tracker_app/ -f html -o security-report.html
+
+    - name: Upload security report
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-report
+        path: security-report.html
+        retention-days: 30

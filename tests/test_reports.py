@@ -7,12 +7,14 @@ from expense_tracker_app.reports import ReportService
 
 
 class TestReportService:
+    @pytest.mark.unit
     def test_init(self):
         """Test ReportService initialization"""
         mock_dm = Mock()
         service = ReportService(mock_dm)
         assert service.data_manager == mock_dm
 
+    @pytest.mark.unit
     def test_generate_summary_report(self):
         """Test summary report generation"""
         mock_dm = Mock()
@@ -39,6 +41,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_generate_monthly_report(self):
         """Test monthly report generation"""
         mock_dm = Mock()
@@ -68,6 +71,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_generate_category_report(self):
         """Test category report generation"""
         mock_dm = Mock()
@@ -94,6 +98,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_iter_rows_from_data_dict(self):
         """Test row iteration from dictionary data"""
         data = {
@@ -113,6 +118,7 @@ class TestReportService:
         assert rows[1]["category"] == "Travel"
         assert rows[1]["amount"] == 100.00
 
+    @pytest.mark.unit
     def test_iter_rows_from_data_list(self):
         """Test row iteration from list data"""
         data = [
@@ -128,6 +134,7 @@ class TestReportService:
         assert rows[0]["category"] == "Food"
         assert rows[1]["category"] == "Travel"
 
+    @pytest.mark.unit
     def test_iter_rows_from_data_empty(self):
         """Test row iteration with empty data"""
         rows = ReportService._iter_rows_from_data({})
@@ -139,11 +146,13 @@ class TestReportService:
         rows = ReportService._iter_rows_from_data(None)
         assert rows == []
 
+    @pytest.mark.unit
     def test_iter_rows_from_data_invalid(self):
         """Test row iteration with invalid data"""
         rows = ReportService._iter_rows_from_data("invalid")
         assert rows == []
 
+    @pytest.mark.unit
     def test_export_to_csv_success(self):
         """Test successful CSV export"""
         data = [
@@ -169,6 +178,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_export_to_csv_empty_data(self):
         """Test CSV export with empty data"""
         with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as f:
@@ -190,6 +200,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_export_to_csv_exception(self):
         """Test CSV export exception handling"""
         with patch('builtins.open', side_effect=Exception("File error")), \
@@ -200,6 +211,7 @@ class TestReportService:
             assert result is None
             mock_warning.assert_called_once()
 
+    @pytest.mark.unit
     def test_export_to_excel_success(self):
         """Test successful Excel export"""
         data = [
@@ -219,6 +231,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_export_to_excel_empty_data(self):
         """Test Excel export with empty data"""
         with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as f:
@@ -233,6 +246,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_export_to_excel_exception(self):
         """Test Excel export exception handling"""
         with patch('expense_tracker_app.reports.xlsxwriter.Workbook', side_effect=Exception("Excel error")), \
@@ -243,6 +257,7 @@ class TestReportService:
             assert result is None
             mock_warning.assert_called_once()
 
+    @pytest.mark.unit
     def test_export_to_pdf_success(self):
         """Test successful PDF export"""
         data = [
@@ -262,6 +277,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_export_to_pdf_empty_data(self):
         """Test PDF export with empty data"""
         with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as f:
@@ -276,6 +292,7 @@ class TestReportService:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_export_to_pdf_exception(self):
         """Test PDF export exception handling"""
         with patch('expense_tracker_app.reports.SimpleDocTemplate', side_effect=Exception("PDF error")), \
@@ -286,18 +303,21 @@ class TestReportService:
             assert result is None
             mock_warning.assert_called_once()
 
+    @pytest.mark.unit
     def test_generate_summary_report_no_data_manager(self):
         """Test summary report without data manager"""
         service = ReportService()
         result = service.generate_summary_report()
         assert result is None
 
+    @pytest.mark.unit
     def test_generate_monthly_report_no_data_manager(self):
         """Test monthly report without data manager"""
         service = ReportService()
         result = service.generate_monthly_report("2023-01")
         assert result is None
 
+    @pytest.mark.unit
     def test_generate_category_report_no_data_manager(self):
         """Test category report without data manager"""
         service = ReportService()

@@ -18,6 +18,7 @@ def qapp():
 
 
 class TestCategoryDialog:
+    @pytest.mark.unit
     def test_init_with_data_manager(self, qapp):
         mock_dm = Mock()
         mock_dm.categories = ["Food", "Travel"]
@@ -27,6 +28,7 @@ class TestCategoryDialog:
         assert dialog.list_widget.count() == 2
         assert dialog.list_widget.item(0).text() == "Food"
 
+    @pytest.mark.unit
     def test_init_with_list(self, qapp):
         categories = ["Food", "Travel"]
         dialog = CategoryDialog(categories)
@@ -34,6 +36,7 @@ class TestCategoryDialog:
         assert dialog.list_widget.count() == 2
         assert dialog.data_manager == categories
 
+    @pytest.mark.unit
     def test_add_category_new(self, qapp):
         mock_dm = Mock()
         mock_dm.categories = ["Food"]  # Use real list, not Mock
@@ -48,6 +51,7 @@ class TestCategoryDialog:
             assert "Travel" in mock_dm.categories
             mock_dm.save_data.assert_called_once()
 
+    @pytest.mark.unit
     def test_add_category_duplicate(self, qapp):
         mock_dm = Mock()
         mock_dm.categories = ["Food"]
@@ -59,6 +63,7 @@ class TestCategoryDialog:
                 dialog.add_category()
                 mock_warning.assert_called_once()
 
+    @pytest.mark.unit
     def test_add_category_cancelled(self, qapp):
         mock_dm = Mock()
         mock_dm.categories = ["Food"]
@@ -72,6 +77,7 @@ class TestCategoryDialog:
             # Should not add anything
             assert mock_dm.categories == initial_categories
 
+    @pytest.mark.unit
     def test_remove_category_success(self, qapp):
         mock_dm = Mock()
         mock_dm.categories = ["Food", "Travel", "Uncategorized"]
@@ -89,6 +95,7 @@ class TestCategoryDialog:
             assert "Travel" not in mock_dm.categories
             mock_dm.save_data.assert_called_once()
 
+    @pytest.mark.unit
     def test_remove_category_uncategorized(self, qapp):
         mock_dm = Mock()
         mock_dm.categories = ["Food", "Uncategorized"]
@@ -101,6 +108,7 @@ class TestCategoryDialog:
             dialog.remove_category()
             mock_warning.assert_called_once()
 
+    @pytest.mark.unit
     def test_remove_category_no_selection(self, qapp):
         mock_dm = Mock()
         mock_dm.categories = ["Food"]
@@ -111,6 +119,7 @@ class TestCategoryDialog:
             dialog.remove_category()
             mock_warning.assert_called_once()
 
+    @pytest.mark.unit
     def test_remove_category_cancelled(self, qapp):
         mock_dm = Mock()
         mock_dm.categories = ["Food", "Travel"]
@@ -130,6 +139,7 @@ class TestCategoryDialog:
 
 
 class TestAddExpenseDialog:
+    @pytest.mark.unit
     def test_init(self, qapp):
         categories = ["Food", "Travel"]
         dialog = AddExpenseDialog(categories)
@@ -137,6 +147,7 @@ class TestAddExpenseDialog:
         assert dialog.category_dropdown.count() == 2
         assert dialog.category_dropdown.itemText(0) == "Food"
 
+    @pytest.mark.unit
     def test_get_data_valid(self, qapp):
         categories = ["Food", "Travel"]
         dialog = AddExpenseDialog(categories)
@@ -152,6 +163,7 @@ class TestAddExpenseDialog:
         assert data["description"] == "Test expense"
         assert data["category"] in ["Food", "Travel"]
 
+    @pytest.mark.unit
     def test_get_data_invalid_amount(self, qapp):
         categories = ["Food"]
         dialog = AddExpenseDialog(categories)
@@ -164,6 +176,7 @@ class TestAddExpenseDialog:
             assert data is None
             mock_warning.assert_called_once()
 
+    @pytest.mark.unit
     def test_validate_inputs_valid(self, qapp):
         categories = ["Food"]
         dialog = AddExpenseDialog(categories)
@@ -173,6 +186,7 @@ class TestAddExpenseDialog:
 
         assert dialog.validate_inputs() is True
 
+    @pytest.mark.unit
     def test_validate_inputs_invalid_amount(self, qapp):
         categories = ["Food"]
         dialog = AddExpenseDialog(categories)
@@ -182,6 +196,7 @@ class TestAddExpenseDialog:
 
         assert dialog.validate_inputs() is False
 
+    @pytest.mark.unit
     def test_validate_inputs_negative_amount(self, qapp):
         categories = ["Food"]
         dialog = AddExpenseDialog(categories)
@@ -191,6 +206,7 @@ class TestAddExpenseDialog:
 
         assert dialog.validate_inputs() is False
 
+    @pytest.mark.unit
     def test_validate_inputs_empty_description(self, qapp):
         categories = ["Food"]
         dialog = AddExpenseDialog(categories)

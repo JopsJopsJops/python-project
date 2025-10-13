@@ -7,6 +7,17 @@ from PyQt5.QtWidgets import QApplication
 from unittest.mock import Mock
 from expense_tracker_app.data_manager import DataManager
 
+def pytest_configure(config):
+    """Register custom markers to avoid warnings."""
+    config.addinivalue_line(
+        "markers", "gui: marks tests as GUI tests (require display)"
+    )
+    config.addinivalue_line(
+        "markers", "unit: marks tests as unit tests (no GUI required)"
+    )
+    config.addinivalue_line(
+        "markers", "integration: marks tests as integration tests"
+    )
 
 @pytest.fixture(scope="session")
 def qapp():

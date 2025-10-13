@@ -20,11 +20,12 @@ from expense_tracker_app.import_service import DataImportService
 
 class TestDataImportService:
     """Comprehensive test suite for DataImportService"""
-
+    @pytest.mark.unit
     def setup_method(self):
         self.import_service = DataImportService()
 
     # ✅ CORE CSV FUNCTIONALITY - FULLY TESTED
+    @pytest.mark.unit
     def test_import_from_csv_valid(self):
         """Test successful CSV import with multiple categories"""
         with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
@@ -43,6 +44,7 @@ class TestDataImportService:
         finally:
             os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_import_from_csv_missing_category_column(self):
         """Test CSV import gracefully handles missing required columns"""
         with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
@@ -60,6 +62,7 @@ class TestDataImportService:
         finally:
             os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_import_from_csv_invalid_amount(self):
         """Test CSV import skips rows with invalid amounts"""
         with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
@@ -78,6 +81,7 @@ class TestDataImportService:
         finally:
             os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_import_from_csv_negative_amount(self):
         """Test CSV import rejects negative amounts"""
         with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
@@ -96,6 +100,7 @@ class TestDataImportService:
         finally:
             os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_import_from_csv_empty_category(self):
         """Test CSV import categorizes empty categories as 'uncategorized'"""
         with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
@@ -112,12 +117,14 @@ class TestDataImportService:
         finally:
             os.unlink(temp_path)
 
+    @pytest.mark.unit
     def test_import_from_csv_file_not_found(self):
         """Test CSV import handles non-existent files gracefully"""
         result = DataImportService.import_from_csv("/nonexistent/file.csv")
         assert result['success'] is False
         assert result['data'] == {}
 
+    @pytest.mark.unit
     def test_import_from_csv_invalid_file_type(self):
         """Test CSV import rejects invalid file types"""
         result = DataImportService.import_from_csv(123)  # Not a string path
@@ -125,6 +132,7 @@ class TestDataImportService:
         assert result['data'] == {}
 
     # ✅ EXCEL ERROR CASES - FULLY TESTED
+    @pytest.mark.unit
     def test_import_from_excel_missing_category_column(self):
         """Test Excel import handles missing category column"""
         with patch('expense_tracker_app.import_service.openpyxl.load_workbook') as mock_load:
@@ -138,12 +146,14 @@ class TestDataImportService:
             assert result['success'] is False
             assert result['data'] == {}
 
+    @pytest.mark.unit
     def test_import_from_excel_file_not_found(self):
         """Test Excel import handles non-existent files"""
         result = DataImportService.import_from_excel("/nonexistent/file.xlsx")
         assert result['success'] is False
         assert result['data'] == {}
 
+    @pytest.mark.unit
     def test_import_from_excel_invalid_file_type(self):
         """Test Excel import rejects invalid file types"""
         result = DataImportService.import_from_excel(123)  # Not a string path
@@ -152,6 +162,7 @@ class TestDataImportService:
 
     # 🔮 FUTURE ENHANCEMENTS - INTELLIGENTLY SKIPPED
 
+    @pytest.mark.unit
     def test_import_from_excel_valid(self, mock_data_manager, temp_excel_file):
         """Test successful Excel import with mock data"""
         # Create a real Excel file for testing
@@ -178,14 +189,17 @@ class TestDataImportService:
             # The import might directly modify the data_manager instead of returning data
             mock_data_manager.add_expense.assert_called()
 
+    @pytest.mark.unit
     def test_import_from_excel_invalid_amount(self):
         """Future: Test Excel import with invalid amounts"""
         pass
 
+    @pytest.mark.unit    
     def test_import_from_excel_empty_rows(self):
         """Future: Test Excel import with empty data rows"""
         pass
 
+    @pytest.mark.unit    
     def test_import_from_csv_direct_data_manager_update(self, mock_data_manager, temp_csv_file):
         """Test that CSV import properly updates the data manager"""
         # Create test CSV
@@ -200,6 +214,7 @@ class TestDataImportService:
         # Verify data manager was updated
         mock_data_manager.add_expense.assert_called()
 
+    @pytest.mark.unit
     def test_import_empty_file(self, mock_data_manager, temp_csv_file):
         """Test import of empty CSV file"""
         # Create empty file
@@ -210,6 +225,7 @@ class TestDataImportService:
         # Should handle empty file gracefully
         assert result['success'] is False or 'error' in result
 
+    @pytest.mark.unit
     def test_import_csv_with_extra_columns(self, mock_data_manager, temp_csv_file):
         """Test CSV import with extra columns (should ignore them)"""
         with open(temp_csv_file, 'w', newline='') as f:
@@ -223,6 +239,7 @@ class TestDataImportService:
             temp_csv_file, mock_data_manager)
         assert result['success'] is True
 
+    @pytest.mark.unit
     def test_import_csv_with_missing_optional_fields(self, mock_data_manager, temp_csv_file):
         """Test CSV import with some missing optional data"""
         with open(temp_csv_file, 'w', newline='') as f:
@@ -237,6 +254,7 @@ class TestDataImportService:
         # Should handle missing optional fields gracefully
         assert result['success'] is True
 
+    @pytest.mark.unit
     def test_import_service_error_handling(self, mock_data_manager):
         """Test import service handles various error scenarios"""
         # Test with None file path

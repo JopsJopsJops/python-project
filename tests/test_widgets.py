@@ -25,6 +25,7 @@ def qapp():
 
 
 class TestNumericTableWidgetItem:
+    @pytest.mark.gui
     def test_lt_comparison_numeric(self):
         """Test numeric comparison for NumericTableWidgetItem"""
         item1 = NumericTableWidgetItem("₱100.50")
@@ -33,6 +34,7 @@ class TestNumericTableWidgetItem:
         assert item1 < item2
         assert not (item2 < item1)
 
+    @pytest.mark.gui
     def test_lt_comparison_non_numeric(self):
         """Test non-numeric comparison falls back to string comparison"""
         item1 = NumericTableWidgetItem("Apple")
@@ -41,6 +43,7 @@ class TestNumericTableWidgetItem:
         # Should use string comparison
         assert item1 < item2
 
+    @pytest.mark.gui
     def test_lt_comparison_invalid_format(self):
         """Test comparison with invalid currency format"""
         item1 = NumericTableWidgetItem("100.50")  # No currency symbol
@@ -49,6 +52,7 @@ class TestNumericTableWidgetItem:
         # Should handle missing currency symbol
         assert item1 < item2
 
+    @pytest.mark.gui
     def test_lt_grand_total_handling(self):
         """Test grand total item handling in comparisons"""
         regular_item = NumericTableWidgetItem("₱100.50")
@@ -61,6 +65,7 @@ class TestNumericTableWidgetItem:
 
 
 class TestExpenseTracker:
+    @pytest.mark.gui
     @pytest.fixture
     def expense_tracker(self, qtbot):
         """Create ExpenseTracker instance for testing"""
@@ -91,6 +96,7 @@ class TestExpenseTracker:
             tracker.show = Mock()
             return tracker
 
+    @pytest.mark.gui
     def test_init(self, expense_tracker):
         """Test ExpenseTracker initialization"""
         assert expense_tracker is not None
@@ -98,18 +104,21 @@ class TestExpenseTracker:
         assert hasattr(expense_tracker, 'search_input')
         assert hasattr(expense_tracker, 'summary_label')
 
+    @pytest.mark.gui
     def test_is_dark_color_dark(self, expense_tracker):
         """Test dark color detection for dark colors"""
         assert expense_tracker.is_dark_color("#000000") is True  # Black
         assert expense_tracker.is_dark_color("#333333") is True  # Dark gray
         assert expense_tracker.is_dark_color("#ff0000") is True  # Dark red
 
+    @pytest.mark.gui
     def test_is_dark_color_light(self, expense_tracker):
         """Test dark color detection for light colors"""
         assert expense_tracker.is_dark_color("#ffffff") is False  # White
         assert expense_tracker.is_dark_color("#ffff00") is False  # Yellow
         assert expense_tracker.is_dark_color("#00ffff") is False  # Cyan
 
+    @pytest.mark.gui
     def test_darken_color_universal(self, expense_tracker):
         """Test color darkening"""
         original = "#ffffff"  # White
@@ -119,6 +128,7 @@ class TestExpenseTracker:
         assert darkened != original
         assert darkened.startswith("#")
 
+    @pytest.mark.gui
     def test_lighten_color_universal(self, expense_tracker):
         """Test color lightening"""
         original = "#000000"  # Black
@@ -128,6 +138,7 @@ class TestExpenseTracker:
         assert lightened != original
         assert lightened.startswith("#")
 
+    @pytest.mark.gui
     def test_show_expense_basic(self, qapp):
         """Basic test for show_expense method"""
         mock_dm = Mock()
@@ -148,6 +159,7 @@ class TestExpenseTracker:
 
                 mock_dm.get_sorted_expenses.assert_called_once()
 
+    @pytest.mark.gui
     def test_search_expenses_basic(self, qapp):
         """Basic test for search_expenses method"""
         mock_dm = Mock()
@@ -170,6 +182,7 @@ class TestExpenseTracker:
 
                 mock_dm.search_expenses.assert_called_once_with("Lunch")
 
+    @pytest.mark.gui
     def test_search_expenses_empty(self, expense_tracker):
         """Test expense search with empty query"""
         expense_tracker.search_input.setText("")
@@ -178,6 +191,7 @@ class TestExpenseTracker:
         # Should show all expenses
         assert expense_tracker.table.rowCount() > 0
 
+    @pytest.mark.gui
     def test_clear_search(self, expense_tracker):
         """Test search clearing"""
         expense_tracker.search_input.setText("test")
@@ -188,6 +202,7 @@ class TestExpenseTracker:
         assert "Total" in expense_tracker.summary_label.text(
         ) or "cleared" in expense_tracker.summary_label.text()
 
+    @pytest.mark.gui
     def test_show_total_expense(self, expense_tracker):
         """Test showing expense totals"""
         expense_tracker.show_total_expense()
@@ -198,6 +213,7 @@ class TestExpenseTracker:
         summary_text = expense_tracker.summary_label.text()
         assert "Total:" in summary_text
 
+    @pytest.mark.gui
     @patch('expense_tracker_app.widgets.AddExpenseDialog')
     def test_add_expense(self, mock_dialog_class, expense_tracker):
         """Test adding expense"""
@@ -223,6 +239,7 @@ class TestExpenseTracker:
             mock_render.assert_called_once()
             mock_refresh.assert_called_once()
 
+    @pytest.mark.gui
     @patch('expense_tracker_app.widgets.AddExpenseDialog')
     def test_add_expense_cancelled(self, mock_dialog_class, expense_tracker):
         """Test cancelled expense addition"""
@@ -236,6 +253,7 @@ class TestExpenseTracker:
             mock_dialog_class.assert_called_once()
             mock_render.assert_not_called()  # Should not render if cancelled
 
+    @pytest.mark.gui
     @patch('expense_tracker_app.widgets.AddExpenseDialog')
     def test_edit_expense(self, qtbot):
         """Test editing an expense successfully"""
@@ -306,6 +324,7 @@ class TestExpenseTracker:
                                 }
                             )
 
+    @pytest.mark.gui
     def test_delete_expense(self, expense_tracker):
         """Test deleting expense"""
         category = "Food"
@@ -327,6 +346,7 @@ class TestExpenseTracker:
             mock_refresh.assert_called_once()
             assert expense_tracker.undo_btn.isEnabled() is True
 
+    @pytest.mark.gui
     def test_undo_last_delete_success(self, expense_tracker):
         """Test successful undo delete"""
         expense_tracker.data_manager.undo_delete.return_value = True
@@ -343,6 +363,7 @@ class TestExpenseTracker:
             mock_refresh.assert_called_once()
             assert expense_tracker.undo_btn.isEnabled() is False
 
+    @pytest.mark.gui
     def test_undo_last_delete_failed(self, expense_tracker):
         """Test failed undo delete"""
         expense_tracker.data_manager.undo_delete.return_value = False
@@ -352,6 +373,7 @@ class TestExpenseTracker:
 
             mock_info.assert_called_once()
 
+    @pytest.mark.gui
     @patch('expense_tracker_app.widgets.CategoryDialog')
     def test_open_category_dialog(self, mock_dialog_class, expense_tracker):
         """Test opening category dialog"""
@@ -370,6 +392,7 @@ class TestExpenseTracker:
             mock_show.assert_called_once()
             mock_refresh_dash.assert_called_once()
 
+    @pytest.mark.gui
     def test_render_table_with_data(self, expense_tracker):
         """Test table rendering with data"""
         data = {
@@ -383,6 +406,7 @@ class TestExpenseTracker:
         assert expense_tracker.table.rowCount() > 0
         assert "Total:" in expense_tracker.summary_label.text()
 
+    @pytest.mark.gui
     def test_render_table_empty(self, expense_tracker):
         """Test table rendering with empty data"""
         expense_tracker.render_table({})
@@ -391,6 +415,7 @@ class TestExpenseTracker:
         assert expense_tracker.table.rowCount() == 1
         assert expense_tracker.table.item(0, 0).text() == "📊 No data available"
 
+    @pytest.mark.gui
     def test_render_table_with_totals(self, expense_tracker):
         """Test table rendering with totals"""
         data = {
@@ -404,6 +429,7 @@ class TestExpenseTracker:
         # Should include subtotal and grand total rows
         assert expense_tracker.table.rowCount() > 1
 
+    @pytest.mark.gui
     def test_refresh_category_dropdowns(self, qtbot):
         """Test refreshing category dropdowns"""
         from PyQt5.QtWidgets import QApplication
@@ -455,6 +481,7 @@ class TestExpenseTracker:
                 import traceback
                 traceback.print_exc()
 
+    @pytest.mark.gui
     @patch('expense_tracker_app.widgets.QMessageBox.question')
     def test_exit_mode_confirmed(self, qtbot):
         """Test exit mode when user confirms"""
@@ -487,6 +514,7 @@ class TestExpenseTracker:
                 # Verify QApplication.quit was called
                 mock_quit.assert_called_once()
 
+    @pytest.mark.gui
     def test_exit_mode_cancelled(self, qtbot):
         """Test exit mode when user cancels"""
         from PyQt5.QtWidgets import QApplication, QMessageBox
@@ -517,11 +545,13 @@ class TestExpenseTracker:
                 # Verify QApplication.quit was NOT called
                 mock_quit.assert_not_called()
 
+    @pytest.mark.gui
     def test_expense_tracker_basic_operations(self):
         """Test core expense tracker operations without UI complexity"""
         # Test data manipulation methods that don't require full UI rendering
         pass
 
+    @pytest.mark.gui
     def test_dashboard_data_processing(self):
         """Test dashboard data processing without UI updates"""
         # Test the data transformation logic separately from UI
