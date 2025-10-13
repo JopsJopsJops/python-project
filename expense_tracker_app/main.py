@@ -1,35 +1,25 @@
-import pandas as pd
-import openpyxl
 import csv
+import logging
 import os
+import sys
+from datetime import datetime
+
+import openpyxl
+import pandas as pd
 from fpdf import FPDF
+from PyQt5.QtCore import QDate
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import (QApplication, QComboBox, QDateEdit, QFileDialog,
+                             QHBoxLayout, QHeaderView, QLabel, QMainWindow,
+                             QMessageBox, QPushButton, QTableWidget,
+                             QTableWidgetItem, QTabWidget, QVBoxLayout,
+                             QWidget)
+
+from expense_tracker_app.data_manager import DataManager
+from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 from expense_tracker_app.import_service import DataImportService
 from expense_tracker_app.reports import ReportService
-from expense_tracker_app.dialogs import CategoryDialog, AddExpenseDialog
-from expense_tracker_app.widgets import ExpenseTracker, DashboardWidget
-from expense_tracker_app.data_manager import DataManager
-from PyQt5.QtCore import QDate
-from datetime import datetime
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QTabWidget,
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-    QHBoxLayout,
-    QPushButton,
-    QComboBox,
-    QDateEdit,
-    QTableWidget,
-    QTableWidgetItem,
-    QHeaderView,
-    QFileDialog,
-    QMessageBox,
-)
-import sys
-import logging
+from expense_tracker_app.widgets import DashboardWidget, ExpenseTracker
 
 # Configure logging
 logging.basicConfig(
@@ -53,7 +43,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.data_manager = DataManager()
-        self.setWindowTitle("Expense Tracker - Neon Dark")
+        self.setWindowTitle("Expense Tracker")
 
         # Set a proper default window size
         self.setGeometry(100, 100, 1200, 800)

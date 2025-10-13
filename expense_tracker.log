@@ -4727,3 +4727,342 @@
 2025-10-11 02:07:17,202 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
 2025-10-11 02:07:17,253 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
 2025-10-11 02:07:22,084 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 20:56:09,240 [DEBUG] __main__: Application started with logging configured
+2025-10-13 20:56:09,280 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 20:56:09,282 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 20:56:09,613 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-13 20:56:10,069 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-13 20:56:10,070 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 20:56:10,073 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-13 20:56:10,276 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 20:56:10,336 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-13 21:00:25,918 [DEBUG] __main__: Application started with logging configured
+2025-10-13 21:00:25,956 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 21:00:25,958 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 21:00:26,275 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-13 21:00:26,685 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-13 21:00:26,686 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:00:26,687 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-13 21:00:26,833 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:00:26,890 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-13 21:05:03,450 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:06:15,229 [DEBUG] __main__: Application started with logging configured
+2025-10-13 21:06:15,278 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 21:06:15,279 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 21:06:15,608 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-13 21:06:16,032 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-13 21:06:16,033 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:06:16,034 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-13 21:06:16,159 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:06:16,214 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-13 21:06:20,489 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:06:20,489 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-13 21:06:20,489 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:06:20,490 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-13 21:06:20,583 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:06:20,635 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-13 21:06:25,383 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:07:18,656 [DEBUG] __main__: Application started with logging configured
+2025-10-13 21:07:18,703 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 21:07:18,704 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 21:07:19,016 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-13 21:07:19,421 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-13 21:07:19,421 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:07:19,423 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-13 21:07:19,544 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:07:19,599 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-13 21:11:13,306 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:11:13,306 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-13 21:11:13,306 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:11:13,306 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-13 21:11:13,401 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:11:13,452 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-13 21:14:20,243 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:18:32,278 [DEBUG] __main__: Application started with logging configured
+2025-10-13 21:18:32,328 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 21:18:32,330 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 108 total expenses from expenses.json
+2025-10-13 21:18:32,657 [DEBUG] expense_tracker_app.widgets: Displaying 6 categories of expenses
+2025-10-13 21:18:33,070 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5}
+2025-10-13 21:18:33,071 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:18:33,073 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5138.95
+2025-10-13 21:18:33,194 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002}
+2025-10-13 21:18:33,251 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 4 months of data
+2025-10-13 21:20:54,744 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:21:24,274 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:21:32,511 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:21:32,511 [INFO] expense_tracker_app.data_manager: Added expense in Food: {'id': 1, 'amount': 20.0, 'date': '2025-10-13', 'description': 'Egg'}
+2025-10-13 21:21:32,511 [INFO] expense_tracker_app.widgets: Expense added via UI: {'category': 'Food', 'amount': 20.0, 'date': '2025-10-13', 'description': 'Egg'}
+2025-10-13 21:21:33,915 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1340.02, 'healthcare': 815.5, 'Food': 20.0}
+2025-10-13 21:21:33,915 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002, '2025-10': 20.0}
+2025-10-13 21:21:33,915 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5158.95
+2025-10-13 21:21:34,009 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1379.2500000000002, '2025-10': 20.0}
+2025-10-13 21:21:34,075 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:21:36,040 [DEBUG] expense_tracker_app.widgets: Opening EditExpenseDialog for record: {'id': 1, 'amount': 15.99, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:21:46,227 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:21:46,227 [INFO] expense_tracker_app.data_manager: Updated expense from {'id': 1, 'amount': 15.99, 'date': '2023-10-01', 'description': 'Phone charger'} → {'category': 'shopping', 'amount': 18.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:21:47,590 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0}
+2025-10-13 21:21:47,590 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 20.0}
+2025-10-13 21:21:47,591 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5160.96
+2025-10-13 21:21:47,689 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 20.0}
+2025-10-13 21:21:47,750 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:21:47,761 [INFO] expense_tracker_app.widgets: Edited expense from {'id': 1, 'amount': 15.99, 'date': '2023-10-01', 'description': 'Phone charger'} → {'category': 'shopping', 'amount': 18.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:21:54,626 [DEBUG] expense_tracker_app.data_manager: Search for keyword='pizza' returned 2 results
+2025-10-13 21:21:54,626 [DEBUG] expense_tracker_app.widgets: Search executed for keyword='pizza', 2 results found
+2025-10-13 21:21:56,192 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:21:56,193 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0}
+2025-10-13 21:21:56,193 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 20.0}
+2025-10-13 21:21:56,193 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5160.96
+2025-10-13 21:21:56,287 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 20.0}
+2025-10-13 21:21:56,344 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:22:10,544 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 109 total expenses from expenses.json
+2025-10-13 21:22:13,828 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:22:13,829 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0}
+2025-10-13 21:22:13,829 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 20.0}
+2025-10-13 21:22:13,829 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5160.96
+2025-10-13 21:22:13,923 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 20.0}
+2025-10-13 21:22:13,983 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:24:22,254 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:24:22,254 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0}
+2025-10-13 21:24:22,255 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 20.0}
+2025-10-13 21:24:22,255 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5160.96
+2025-10-13 21:24:22,344 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 20.0}
+2025-10-13 21:24:22,402 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:24:25,471 [DEBUG] expense_tracker_app.widgets: Displaying 7 categories of expenses
+2025-10-13 21:24:29,373 [DEBUG] expense_tracker_app.data_manager: Calculated grand total: 5160.96
+2025-10-13 21:24:51,289 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:25:02,902 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:25:02,902 [INFO] expense_tracker_app.data_manager: Added expense in Entertainment: {'id': 1, 'amount': 100.0, 'date': '2025-10-06', 'description': 'Movie'}
+2025-10-13 21:25:02,902 [INFO] expense_tracker_app.widgets: Expense added via UI: {'category': 'Entertainment', 'amount': 100.0, 'date': '2025-10-06', 'description': 'Movie'}
+2025-10-13 21:25:04,267 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1336.4, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 100.0}
+2025-10-13 21:25:04,268 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 120.0}
+2025-10-13 21:25:04,268 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5260.96
+2025-10-13 21:25:04,369 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.2600000000002, '2025-10': 120.0}
+2025-10-13 21:25:04,470 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:25:05,561 [DEBUG] expense_tracker_app.widgets: Opening EditExpenseDialog for record: {'id': 1, 'amount': 79.35, 'date': '2023-10-03', 'description': 'Internet service'}
+2025-10-13 21:25:10,006 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:25:10,006 [INFO] expense_tracker_app.data_manager: Updated expense from {'id': 1, 'amount': 79.35, 'date': '2023-10-03', 'description': 'Internet service'} → {'category': 'utilities', 'amount': 80.0, 'date': '2023-10-03', 'description': 'Internet service'}
+2025-10-13 21:25:11,406 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 100.0}
+2025-10-13 21:25:11,406 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 120.0}
+2025-10-13 21:25:11,406 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5261.61
+2025-10-13 21:25:11,502 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 120.0}
+2025-10-13 21:25:11,559 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:25:11,570 [INFO] expense_tracker_app.widgets: Edited expense from {'id': 1, 'amount': 79.35, 'date': '2023-10-03', 'description': 'Internet service'} → {'category': 'utilities', 'amount': 80.0, 'date': '2023-10-03', 'description': 'Internet service'}
+2025-10-13 21:25:12,919 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 100.0}
+2025-10-13 21:25:12,933 [DEBUG] expense_tracker_app.widgets: Displayed totals for 8 categories
+2025-10-13 21:25:16,944 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:25:18,321 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 100.0}
+2025-10-13 21:25:18,321 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 120.0}
+2025-10-13 21:25:18,321 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5261.61
+2025-10-13 21:25:18,419 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 120.0}
+2025-10-13 21:25:18,481 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:25:23,465 [DEBUG] expense_tracker_app.data_manager: Search for keyword='egg' returned 1 results
+2025-10-13 21:25:23,466 [DEBUG] expense_tracker_app.widgets: Search executed for keyword='egg', 1 results found
+2025-10-13 21:25:25,551 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:25:29,485 [DEBUG] expense_tracker_app.data_manager: Calculated grand total: 5261.61
+2025-10-13 21:25:30,459 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:25:30,459 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 100.0}
+2025-10-13 21:25:30,459 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 120.0}
+2025-10-13 21:25:30,460 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5261.61
+2025-10-13 21:25:30,557 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 120.0}
+2025-10-13 21:25:30,615 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:25:49,379 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 110 total expenses from expenses.json
+2025-10-13 21:25:50,671 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 110 total expenses from expenses.json
+2025-10-13 21:26:01,368 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:26:09,023 [DEBUG] __main__: Application started with logging configured
+2025-10-13 21:26:09,072 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 110 total expenses from expenses.json
+2025-10-13 21:26:09,074 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 110 total expenses from expenses.json
+2025-10-13 21:26:09,402 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:26:09,819 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 100.0}
+2025-10-13 21:26:09,819 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 120.0}
+2025-10-13 21:26:09,821 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5261.61
+2025-10-13 21:26:09,949 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 120.0}
+2025-10-13 21:26:10,014 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:26:25,831 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:26:35,961 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:26:35,961 [INFO] expense_tracker_app.data_manager: Added expense in Entertainment: {'id': 1, 'amount': 150.0, 'date': '2025-10-06', 'description': 'Movie'}
+2025-10-13 21:26:35,961 [INFO] expense_tracker_app.widgets: Expense added via UI: {'category': 'Entertainment', 'amount': 150.0, 'date': '2025-10-06', 'description': 'Movie'}
+2025-10-13 21:26:37,296 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1342.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 250.0}
+2025-10-13 21:26:37,297 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 270.0}
+2025-10-13 21:26:37,297 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5411.61
+2025-10-13 21:26:37,401 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1381.91, '2025-10': 270.0}
+2025-10-13 21:26:37,457 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:26:38,500 [DEBUG] expense_tracker_app.widgets: Opening EditExpenseDialog for record: {'amount': 18.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1}
+2025-10-13 21:26:42,443 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:26:42,443 [INFO] expense_tracker_app.data_manager: Updated expense from {'amount': 18.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1} → {'category': 'shopping', 'amount': 20.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:26:43,781 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1344.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 250.0}
+2025-10-13 21:26:43,781 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:26:43,781 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5413.61
+2025-10-13 21:26:43,881 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:26:43,937 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:26:43,949 [INFO] expense_tracker_app.widgets: Edited expense from {'amount': 18.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1} → {'category': 'shopping', 'amount': 20.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:26:46,895 [DEBUG] expense_tracker_app.data_manager: Search for keyword='egg' returned 1 results
+2025-10-13 21:26:46,895 [DEBUG] expense_tracker_app.widgets: Search executed for keyword='egg', 1 results found
+2025-10-13 21:26:48,336 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:26:50,697 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1344.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 250.0}
+2025-10-13 21:26:50,711 [DEBUG] expense_tracker_app.widgets: Displayed totals for 8 categories
+2025-10-13 21:26:52,260 [DEBUG] expense_tracker_app.data_manager: Calculated grand total: 5413.61
+2025-10-13 21:26:54,561 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:26:55,866 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1344.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 250.0}
+2025-10-13 21:26:55,866 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:26:55,867 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5413.61
+2025-10-13 21:26:55,965 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:26:56,019 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:26:56,069 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:26:56,069 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1344.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 250.0}
+2025-10-13 21:26:56,070 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:26:56,070 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5413.61
+2025-10-13 21:26:56,168 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:26:56,223 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:27:10,235 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 111 total expenses from expenses.json
+2025-10-13 21:27:12,507 [INFO] __main__: Starting Excel/CSV export (MainWindow) -> False
+2025-10-13 21:27:12,508 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 111 total expenses from expenses.json
+2025-10-13 21:27:15,710 [INFO] expense_tracker_app.reports: Starting Excel export -> C:/Users/jophe/python-project/expenses.xlsx
+2025-10-13 21:27:15,742 [INFO] expense_tracker_app.reports: Excel export successful: C:/Users/jophe/python-project/expenses.xlsx
+2025-10-13 21:27:17,960 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:27:17,960 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1344.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 250.0}
+2025-10-13 21:27:17,960 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:27:17,961 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5413.61
+2025-10-13 21:27:18,061 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:27:18,116 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:28:28,450 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:28:33,951 [DEBUG] __main__: Application started with logging configured
+2025-10-13 21:28:34,000 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 111 total expenses from expenses.json
+2025-10-13 21:28:34,002 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 111 total expenses from expenses.json
+2025-10-13 21:28:34,315 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:28:34,741 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1344.03, 'healthcare': 815.5, 'Food': 20.0, 'Entertainment': 250.0}
+2025-10-13 21:28:34,742 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:28:34,743 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5413.61
+2025-10-13 21:28:34,873 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 270.0}
+2025-10-13 21:28:34,935 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:28:50,055 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:29:25,279 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:29:37,680 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:29:37,680 [INFO] expense_tracker_app.data_manager: Added expense in Food: {'id': 1, 'amount': 35.0, 'date': '2025-10-06', 'description': 'Pizza'}
+2025-10-13 21:29:37,681 [INFO] expense_tracker_app.widgets: Expense added via UI: {'category': 'Food', 'amount': 35.0, 'date': '2025-10-06', 'description': 'Pizza'}
+2025-10-13 21:29:39,025 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1344.03, 'healthcare': 815.5, 'Food': 55.0, 'Entertainment': 250.0}
+2025-10-13 21:29:39,025 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 305.0}
+2025-10-13 21:29:39,026 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5448.61
+2025-10-13 21:29:39,127 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1383.91, '2025-10': 305.0}
+2025-10-13 21:29:39,182 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:29:40,739 [DEBUG] expense_tracker_app.widgets: Opening EditExpenseDialog for record: {'amount': 20.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1}
+2025-10-13 21:29:46,277 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:29:46,277 [INFO] expense_tracker_app.data_manager: Updated expense from {'amount': 20.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1} → {'category': 'shopping', 'amount': 25.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:29:47,616 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 55.0, 'Entertainment': 250.0}
+2025-10-13 21:29:47,616 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:29:47,616 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5453.61
+2025-10-13 21:29:47,716 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:29:47,772 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:29:47,783 [INFO] expense_tracker_app.widgets: Edited expense from {'amount': 20.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1} → {'category': 'shopping', 'amount': 25.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:29:51,705 [DEBUG] expense_tracker_app.data_manager: Search for keyword='pizza' returned 3 results
+2025-10-13 21:29:51,705 [DEBUG] expense_tracker_app.widgets: Search executed for keyword='pizza', 3 results found
+2025-10-13 21:29:54,649 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:29:58,564 [DEBUG] expense_tracker_app.data_manager: Calculated grand total: 5453.61
+2025-10-13 21:29:59,317 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 55.0, 'Entertainment': 250.0}
+2025-10-13 21:29:59,330 [DEBUG] expense_tracker_app.widgets: Displayed totals for 8 categories
+2025-10-13 21:30:01,878 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:30:03,206 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 55.0, 'Entertainment': 250.0}
+2025-10-13 21:30:03,206 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:30:03,207 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5453.61
+2025-10-13 21:30:03,304 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:30:03,359 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:30:03,415 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:30:03,415 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 55.0, 'Entertainment': 250.0}
+2025-10-13 21:30:03,416 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:30:03,416 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5453.61
+2025-10-13 21:30:03,513 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:30:03,569 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:30:20,410 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 112 total expenses from expenses.json
+2025-10-13 21:30:22,579 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:30:22,579 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 55.0, 'Entertainment': 250.0}
+2025-10-13 21:30:22,579 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:30:22,579 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5453.61
+2025-10-13 21:30:22,679 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:30:22,735 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:31:56,931 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:41:58,476 [DEBUG] __main__: Application started with logging configured
+2025-10-13 21:41:58,525 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 112 total expenses from expenses.json
+2025-10-13 21:41:58,527 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 112 total expenses from expenses.json
+2025-10-13 21:41:58,841 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:41:59,260 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 55.0, 'Entertainment': 250.0}
+2025-10-13 21:41:59,260 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:41:59,262 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5453.61
+2025-10-13 21:41:59,389 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 305.0}
+2025-10-13 21:41:59,450 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:42:23,237 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:42:41,298 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:42:47,671 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:42:47,671 [INFO] expense_tracker_app.data_manager: Added expense in Food: {'id': 1, 'amount': 20.0, 'date': '2025-10-05', 'description': 'egg'}
+2025-10-13 21:42:47,672 [INFO] expense_tracker_app.widgets: Expense added via UI: {'category': 'Food', 'amount': 20.0, 'date': '2025-10-05', 'description': 'egg'}
+2025-10-13 21:42:49,055 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0}
+2025-10-13 21:42:49,056 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 325.0}
+2025-10-13 21:42:49,056 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5473.61
+2025-10-13 21:42:49,156 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 325.0}
+2025-10-13 21:42:49,212 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:42:50,982 [DEBUG] expense_tracker_app.data_manager: Search for keyword='egg' returned 2 results
+2025-10-13 21:42:50,983 [DEBUG] expense_tracker_app.widgets: Search executed for keyword='egg', 2 results found
+2025-10-13 21:42:53,035 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:42:56,051 [DEBUG] expense_tracker_app.widgets: Opening EditExpenseDialog for record: {'amount': 25.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1}
+2025-10-13 21:42:57,027 [DEBUG] expense_tracker_app.data_manager: Calculated grand total: 5473.61
+2025-10-13 21:42:58,831 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:42:58,832 [INFO] expense_tracker_app.data_manager: Updated expense from {'amount': 25.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1} → {'category': 'shopping', 'amount': 30.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:43:00,208 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1354.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0}
+2025-10-13 21:43:00,209 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 325.0}
+2025-10-13 21:43:00,209 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5478.61
+2025-10-13 21:43:00,308 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 325.0}
+2025-10-13 21:43:00,362 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:43:00,374 [INFO] expense_tracker_app.widgets: Edited expense from {'amount': 25.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1} → {'category': 'shopping', 'amount': 30.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:43:00,839 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:43:00,839 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1354.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0}
+2025-10-13 21:43:00,840 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 325.0}
+2025-10-13 21:43:00,840 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5478.61
+2025-10-13 21:43:00,938 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 325.0}
+2025-10-13 21:43:00,992 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:43:04,651 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 113 total expenses from expenses.json
+2025-10-13 21:43:06,659 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:43:06,660 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1354.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0}
+2025-10-13 21:43:06,660 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 325.0}
+2025-10-13 21:43:06,661 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5478.61
+2025-10-13 21:43:06,760 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 325.0}
+2025-10-13 21:43:06,816 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:44:01,784 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:44:05,388 [DEBUG] __main__: Application started with logging configured
+2025-10-13 21:44:05,436 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 113 total expenses from expenses.json
+2025-10-13 21:44:05,438 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 113 total expenses from expenses.json
+2025-10-13 21:44:05,767 [DEBUG] expense_tracker_app.widgets: Displaying 8 categories of expenses
+2025-10-13 21:44:06,192 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1354.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0}
+2025-10-13 21:44:06,193 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 325.0}
+2025-10-13 21:44:06,194 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5478.61
+2025-10-13 21:44:06,322 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 325.0}
+2025-10-13 21:44:06,383 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:44:35,257 [DEBUG] expense_tracker_app.widgets: Opening AddExpenseDialog
+2025-10-13 21:44:42,623 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:44:42,624 [INFO] expense_tracker_app.data_manager: Added expense in Uncategorized: {'id': 1, 'amount': 22.0, 'date': '2025-10-06', 'description': 'pizza'}
+2025-10-13 21:44:42,624 [INFO] expense_tracker_app.widgets: Expense added via UI: {'category': 'Uncategorized', 'amount': 22.0, 'date': '2025-10-06', 'description': 'pizza'}
+2025-10-13 21:44:44,042 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1354.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0, 'Uncategorized': 22.0}
+2025-10-13 21:44:44,042 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 347.0}
+2025-10-13 21:44:44,042 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5500.61
+2025-10-13 21:44:44,151 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1393.91, '2025-10': 347.0}
+2025-10-13 21:44:44,206 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:44:46,799 [DEBUG] expense_tracker_app.data_manager: Search for keyword='pizza' returned 4 results
+2025-10-13 21:44:46,800 [DEBUG] expense_tracker_app.widgets: Search executed for keyword='pizza', 4 results found
+2025-10-13 21:44:48,258 [DEBUG] expense_tracker_app.widgets: Displaying 9 categories of expenses
+2025-10-13 21:44:50,843 [DEBUG] expense_tracker_app.widgets: Opening EditExpenseDialog for record: {'amount': 30.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1}
+2025-10-13 21:44:52,284 [DEBUG] expense_tracker_app.data_manager: Calculated grand total: 5500.61
+2025-10-13 21:44:55,160 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json
+2025-10-13 21:44:55,161 [INFO] expense_tracker_app.data_manager: Updated expense from {'amount': 30.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1} → {'category': 'shopping', 'amount': 25.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:44:56,577 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0, 'Uncategorized': 22.0}
+2025-10-13 21:44:56,578 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 347.0}
+2025-10-13 21:44:56,578 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5495.61
+2025-10-13 21:44:56,688 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 347.0}
+2025-10-13 21:44:56,743 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:44:56,754 [INFO] expense_tracker_app.widgets: Edited expense from {'amount': 30.0, 'date': '2023-10-01', 'description': 'Phone charger', 'id': 1} → {'category': 'shopping', 'amount': 25.0, 'date': '2023-10-01', 'description': 'Phone charger'}
+2025-10-13 21:44:56,851 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0, 'Uncategorized': 22.0}
+2025-10-13 21:44:56,864 [DEBUG] expense_tracker_app.widgets: Displayed totals for 9 categories
+2025-10-13 21:44:57,792 [DEBUG] __main__: Dashboard tab selected, updating dashboard
+2025-10-13 21:44:57,793 [DEBUG] expense_tracker_app.data_manager: Calculated category subtotals: {'food': 666.3199999999999, 'transportation': 552.75, 'utilities': 1337.05, 'entertainment': 427.96, 'shopping': 1349.03, 'healthcare': 815.5, 'Food': 75.0, 'Entertainment': 250.0, 'Uncategorized': 22.0}
+2025-10-13 21:44:57,793 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 347.0}
+2025-10-13 21:44:57,793 [DEBUG] expense_tracker_app.widgets: Updated dashboard summary with grand total ₱5495.61
+2025-10-13 21:44:57,894 [DEBUG] expense_tracker_app.data_manager: Calculated monthly totals: {'2024-01': 933.67, '2023-12': 1279.0700000000002, '2023-11': 1546.96, '2023-10': 1388.91, '2025-10': 347.0}
+2025-10-13 21:44:57,949 [DEBUG] expense_tracker_app.widgets: Updated trends chart with 5 months of data
+2025-10-13 21:45:04,945 [INFO] expense_tracker_app.data_manager: Loaded 11 categories and 114 total expenses from expenses.json
+2025-10-13 21:51:30,971 [INFO] expense_tracker_app.data_manager: Saved data to expenses.json

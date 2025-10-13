@@ -9,12 +9,14 @@ Test suite for DataImportService - ✅ 10/13 tests working
 - 81% overall test coverage achieved
 """
 
-import pytest
-import tempfile
-import os
 import csv
-import pandas as pd
+import os
+import tempfile
 from unittest.mock import Mock, patch
+
+import pandas as pd
+import pytest
+
 from expense_tracker_app.import_service import DataImportService
 
 

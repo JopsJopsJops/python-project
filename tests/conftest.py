@@ -1,10 +1,12 @@
 # conftest.py
-import pytest
-import tempfile
 import os
 import sys
-from PyQt5.QtWidgets import QApplication
+import tempfile
 from unittest.mock import Mock
+
+import pytest
+from PyQt5.QtWidgets import QApplication
+
 from expense_tracker_app.data_manager import DataManager
 
 

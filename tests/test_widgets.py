@@ -1,24 +1,16 @@
 # test_widgets.py
-import pytest
-import tempfile
 import os
 import sys
-from unittest.mock import Mock, patch, MagicMock, PropertyMock
-from PyQt5.QtWidgets import (
-    QApplication,
-    QTableWidgetItem,
-    QPushButton,
-    QMessageBox,
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-)
+import tempfile
+from unittest.mock import MagicMock, Mock, PropertyMock, patch
+
+import pytest
 from PyQt5.QtCore import Qt
-from expense_tracker_app.widgets import (
-    ExpenseTracker,
-    DashboardWidget,
-    NumericTableWidgetItem,
-)
+from PyQt5.QtWidgets import (QApplication, QLabel, QMessageBox, QPushButton,
+                             QTableWidgetItem, QVBoxLayout, QWidget)
+
+from expense_tracker_app.widgets import (DashboardWidget, ExpenseTracker,
+                                         NumericTableWidgetItem)
 
 try:
     from matplotlib.backends.backend_pdf import PdfPages
@@ -283,8 +275,9 @@ class TestExpenseTracker:
     def test_edit_expense(self, qtbot):
         """Test editing an expense successfully"""
         # Ensure QApplication exists
-        from PyQt5.QtWidgets import QApplication
         import sys
+
+        from PyQt5.QtWidgets import QApplication
 
         app = QApplication.instance()
         if app is None:
@@ -464,8 +457,9 @@ class TestExpenseTracker:
     @pytest.mark.gui
     def test_refresh_category_dropdowns(self, qtbot):
         """Test refreshing category dropdowns"""
-        from PyQt5.QtWidgets import QApplication
         import sys
+
+        from PyQt5.QtWidgets import QApplication
 
         app = QApplication.instance()
         if app is None:
@@ -519,8 +513,9 @@ class TestExpenseTracker:
     @patch("expense_tracker_app.widgets.QMessageBox.question")
     def test_exit_mode_confirmed(self, qtbot):
         """Test exit mode when user confirms"""
-        from PyQt5.QtWidgets import QApplication, QMessageBox
         import sys
+
+        from PyQt5.QtWidgets import QApplication, QMessageBox
 
         app = QApplication.instance()
         if app is None:
@@ -552,8 +547,9 @@ class TestExpenseTracker:
     @pytest.mark.gui
     def test_exit_mode_cancelled(self, qtbot):
         """Test exit mode when user cancels"""
-        from PyQt5.QtWidgets import QApplication, QMessageBox
         import sys
+
+        from PyQt5.QtWidgets import QApplication, QMessageBox
 
         app = QApplication.instance()
         if app is None:

@@ -1,10 +1,12 @@
 # test_data_manager.py
-import pytest
 import json
 import os
 import tempfile
 from datetime import datetime
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import MagicMock, Mock, patch
+
+import pytest
+
 from expense_tracker_app.data_manager import DataManager
 
 

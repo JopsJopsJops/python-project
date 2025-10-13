@@ -1,21 +1,12 @@
-from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QHBoxLayout,
-    QInputDialog,
-    QMessageBox,
-    QListWidget,
-    QPushButton,
-    QComboBox,
-    QLineEdit,
-    QLabel,
-    QDialogButtonBox,
-    QCalendarWidget,
-)
-from expense_tracker_app.data_manager import DataManager
-
 import logging
+
+from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import (QCalendarWidget, QComboBox, QDialog,
+                             QDialogButtonBox, QHBoxLayout, QInputDialog,
+                             QLabel, QLineEdit, QListWidget, QMessageBox,
+                             QPushButton, QVBoxLayout)
+
+from expense_tracker_app.data_manager import DataManager
 
 logger = logging.getLogger(__name__)
 

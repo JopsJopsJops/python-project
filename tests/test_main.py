@@ -1,14 +1,16 @@
 # test_main.py
-from expense_tracker_app.main import MainWindow
-from expense_tracker_app.data_manager import DataManager
-import pytest
-import tempfile
 import os
 import sys
-from unittest.mock import Mock, patch, MagicMock
-from PyQt5.QtWidgets import QApplication, QMessageBox, QFileDialog, QTabWidget
-from PyQt5.QtCore import QDate
+import tempfile
 from datetime import datetime
+from unittest.mock import MagicMock, Mock, patch
+
+import pytest
+from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QTabWidget
+
+from expense_tracker_app.data_manager import DataManager
+from expense_tracker_app.main import MainWindow
 
 # Add the project root to Python path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))

@@ -1,38 +1,23 @@
-from expense_tracker_app.table_helpers import (
-    calculate_subtotal,
-    format_expense_row,
-    format_total_row,
-    aggregate_category_totals,
-    prepare_chart_data,
-    prepare_trend_data,
-)
-from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
-from expense_tracker_app.data_manager import DataManager
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from PyQt5.QtGui import QFont, QKeySequence, QColor
-from PyQt5.QtCore import Qt, QTimer, QPropertyAnimation, QDate
-from PyQt5.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QTableWidget,
-    QTableWidgetItem,
-    QLabel,
-    QHeaderView,
-    QAbstractItemView,
-    QPushButton,
-    QLineEdit,
-    QShortcut,
-    QGraphicsOpacityEffect,
-    QTabWidget,
-    QMessageBox,
-    QSizePolicy,
-    QDateEdit,
-    QComboBox,
-    QDialog,
-    QFileDialog,
-)
+from matplotlib.backends.backend_qt5agg import \
+    FigureCanvasQTAgg as FigureCanvas
+from PyQt5.QtCore import QDate, QPropertyAnimation, Qt, QTimer
+from PyQt5.QtGui import QColor, QFont, QKeySequence
+from PyQt5.QtWidgets import (QAbstractItemView, QComboBox, QDateEdit, QDialog,
+                             QFileDialog, QGraphicsOpacityEffect, QHBoxLayout,
+                             QHeaderView, QLabel, QLineEdit, QMessageBox,
+                             QPushButton, QShortcut, QSizePolicy, QTableWidget,
+                             QTableWidgetItem, QTabWidget, QVBoxLayout,
+                             QWidget)
+
+from expense_tracker_app.data_manager import DataManager
+from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
+from expense_tracker_app.table_helpers import (aggregate_category_totals,
+                                               calculate_subtotal,
+                                               format_expense_row,
+                                               format_total_row,
+                                               prepare_chart_data,
+                                               prepare_trend_data)
 
 try:
     from matplotlib.backends.backend_pdf import PdfPages
@@ -42,8 +27,8 @@ except ImportError:
     PdfPages = None
     HAS_PDF = False
 
-from datetime import datetime
 import logging
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -1185,8 +1170,9 @@ class DashboardWidget(QWidget):
             if not file_path.lower().endswith(".pdf"):
                 file_path += ".pdf"
 
-            from matplotlib.backends.backend_pdf import PdfPages
             import datetime
+
+            from matplotlib.backends.backend_pdf import PdfPages
 
             # Get current filter settings for the report
             start_date = self.chart_start_date.date().toString("yyyy-MM-dd")
@@ -1606,7 +1592,7 @@ class ExpenseTracker(QWidget):
         self.safe_show_expense()
 
     def initUI(self):
-        self.setWindowTitle("Expense Tracker - Neon Dark")
+        self.setWindowTitle("Expense Tracker")
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)

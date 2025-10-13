@@ -1,10 +1,12 @@
 # test_dialogs.py
-from expense_tracker_app.dialogs import CategoryDialog, AddExpenseDialog
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-from PyQt5.QtWidgets import QApplication, QListWidgetItem, QMessageBox
-from PyQt5.QtCore import Qt
 import sys
+from unittest.mock import MagicMock, Mock, patch
+
+import pytest
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QListWidgetItem, QMessageBox
+
+from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 
 # Setup Qt application for testing
 

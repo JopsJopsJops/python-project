@@ -378,10 +378,10 @@
                 "description": "Electric bill"
             },
             {
-                "id": 1,
-                "amount": 79.35,
+                "amount": 80.0,
                 "date": "2023-10-03",
-                "description": "Internet service"
+                "description": "Internet service",
+                "id": 1
             }
         ],
         "entertainment": [
@@ -574,10 +574,10 @@
                 "description": "New headphones"
             },
             {
-                "id": 1,
-                "amount": 15.99,
+                "amount": 25.0,
                 "date": "2023-10-01",
-                "description": "Phone charger"
+                "description": "Phone charger",
+                "id": 1
             }
         ],
         "healthcare": [
@@ -658,6 +658,48 @@
                 "amount": 25.0,
                 "date": "2023-10-05",
                 "description": "Vitamin supplements"
+            }
+        ],
+        "Food": [
+            {
+                "id": 1,
+                "amount": 20.0,
+                "date": "2025-10-13",
+                "description": "Egg"
+            },
+            {
+                "id": 1,
+                "amount": 35.0,
+                "date": "2025-10-06",
+                "description": "Pizza"
+            },
+            {
+                "id": 1,
+                "amount": 20.0,
+                "date": "2025-10-05",
+                "description": "egg"
+            }
+        ],
+        "Entertainment": [
+            {
+                "id": 1,
+                "amount": 100.0,
+                "date": "2025-10-06",
+                "description": "Movie"
+            },
+            {
+                "id": 1,
+                "amount": 150.0,
+                "date": "2025-10-06",
+                "description": "Movie"
+            }
+        ],
+        "Uncategorized": [
+            {
+                "id": 1,
+                "amount": 22.0,
+                "date": "2025-10-06",
+                "description": "pizza"
             }
         ]
     },

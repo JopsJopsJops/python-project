@@ -1,11 +1,12 @@
-from PyQt5.QtWidgets import QMessageBox
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
-import xlsxwriter
 import csv
 import logging
+
+import xlsxwriter
+from PyQt5.QtWidgets import QMessageBox
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Table, TableStyle
 
 logger = logging.getLogger(__name__)
 

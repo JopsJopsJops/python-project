@@ -1,7 +1,8 @@
-import openpyxl
 import csv
-import os
 import logging
+import os
+
+import openpyxl
 
 logger = logging.getLogger(__name__)
 
@@ -70,8 +71,9 @@ class DataImportService:
     @staticmethod
     def import_from_excel(file_path, data_manager=None):
         """Import expenses from an Excel file into the DataManager."""
-        import openpyxl
         import os
+
+        import openpyxl
 
         logger.info("Importing from Excel: %s", file_path)
         data = {}
