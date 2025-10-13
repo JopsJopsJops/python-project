@@ -1,4 +1,4 @@
-name: CI Pipeline
+﻿name: CI Pipeline
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
 
     - name: Run unit tests (non-GUI)
       run: |
-        python -m pytest tests/ -v -m "unit" --tb=short
+        python -m pytest tests/ -v -m "unit" -k "not test_main_window" --tb=short
 
     - name: Run GUI tests with xvfb (Linux only)
       if: matrix.os == 'ubuntu-latest'
@@ -54,7 +54,7 @@ jobs:
 
     - name: Generate coverage report
       run: |
-        python -m pytest tests/ -v -m "unit" --cov=expense_tracker_app --cov-report=xml
+        python -m pytest tests/ -v -m "unit" -k "not test_main_window" --cov=expense_tracker_app --cov-report=xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -71,10 +71,10 @@ jobs:
     - uses: actions/setup-python@v4
       with:
         python-version: '3.12'
-    
+
     - name: Install linting tools
       run: |
-        pip install flake8 black isort mypy
+        pip install flake8 black isort mypy bandit
 
     - name: Check code formatting with black
       run: |
@@ -97,7 +97,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Run bandit security scanner
       run: |
         pip install bandit
@@ -109,7 +109,3 @@ jobs:
         name: security-report
         path: security-report.html
         retention-days: 30
-
-    - name: Run flake8
-      run: |
-        flake8 expense_tracker_app/ tests/ --max-line-length=88 --extend-ignore=E203,W503,F401,F811,F841,W293,F401,F811,F841,W293
