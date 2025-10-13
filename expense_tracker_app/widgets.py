@@ -1,5 +1,11 @@
-from expense_tracker_app.table_helpers import (calculate_subtotal, format_expense_row, format_total_row,
-                                               aggregate_category_totals, prepare_chart_data, prepare_trend_data)
+from expense_tracker_app.table_helpers import (
+    calculate_subtotal,
+    format_expense_row,
+    format_total_row,
+    aggregate_category_totals,
+    prepare_chart_data,
+    prepare_trend_data,
+)
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 from expense_tracker_app.data_manager import DataManager
 import matplotlib.pyplot as plt
@@ -7,13 +13,30 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtGui import QFont, QKeySequence, QColor
 from PyQt5.QtCore import Qt, QTimer, QPropertyAnimation, QDate
 from PyQt5.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem,
-    QLabel, QHeaderView, QAbstractItemView, QPushButton, QLineEdit,
-    QShortcut, QGraphicsOpacityEffect, QTabWidget, QMessageBox, QSizePolicy,
-    QDateEdit, QComboBox, QDialog, QFileDialog
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QTableWidget,
+    QTableWidgetItem,
+    QLabel,
+    QHeaderView,
+    QAbstractItemView,
+    QPushButton,
+    QLineEdit,
+    QShortcut,
+    QGraphicsOpacityEffect,
+    QTabWidget,
+    QMessageBox,
+    QSizePolicy,
+    QDateEdit,
+    QComboBox,
+    QDialog,
+    QFileDialog,
 )
+
 try:
     from matplotlib.backends.backend_pdf import PdfPages
+
     HAS_PDF = True
 except ImportError:
     PdfPages = None
@@ -21,6 +44,7 @@ except ImportError:
 
 from datetime import datetime
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -59,7 +83,10 @@ class DashboardWidget(QWidget):
 
         # FIX: Only initialize UI if we're not in a test environment
         # Check if data_manager is a Mock or has the expected structure
-        if not hasattr(data_manager, '__class__') or data_manager.__class__.__name__ != 'Mock':
+        if (
+            not hasattr(data_manager, "__class__")
+            or data_manager.__class__.__name__ != "Mock"
+        ):
 
             layout = QVBoxLayout(self)
             layout.setContentsMargins(16, 16, 16, 16)
@@ -86,7 +113,8 @@ class DashboardWidget(QWidget):
             self.apply_cross_platform_style()
 
     def apply_cross_platform_style(self):
-        self.tabs.setStyleSheet("""
+        self.tabs.setStyleSheet(
+            """
                 QTabWidget::pane {
                 border: 1px solid #404040;
                 background-color: #2d2d2d;
@@ -115,7 +143,8 @@ class DashboardWidget(QWidget):
             QTabBar::tab:hover:!selected {
                 background-color: #4a4a4a;
             }
-        """)
+        """
+        )
 
         # Add headers to each tab
         self.add_tab_header(self.summary_tab, "Spending Summary")
@@ -128,7 +157,8 @@ class DashboardWidget(QWidget):
 
         # Create header widget
         header_label = QLabel(header_text)
-        header_label.setStyleSheet("""
+        header_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-family: "Segoe UI";
@@ -140,7 +170,8 @@ class DashboardWidget(QWidget):
                 border-radius: 8px;
                 margin: 5px;
             }
-        """)
+        """
+        )
         header_label.setAlignment(Qt.AlignCenter)
 
         if existing_layout is None:
@@ -177,14 +208,18 @@ class DashboardWidget(QWidget):
         self.summary_table.setHorizontalHeaderLabels(["Category", "Amount"])
 
         # Table settings and styling
-        self.summary_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.summary_table.horizontalHeader().setSectionResizeMode(
-            1, QHeaderView.ResizeToContents)
+            0, QHeaderView.Stretch
+        )
+        self.summary_table.horizontalHeader().setSectionResizeMode(
+            1, QHeaderView.ResizeToContents
+        )
         self.summary_table.verticalHeader().setVisible(False)
         self.summary_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # Dark neon table styling
-        self.summary_table.setStyleSheet("""
+        self.summary_table.setStyleSheet(
+            """
                 QTableWidget {
                 background-color: #252526;
                 color: #e0e0e0;
@@ -215,14 +250,16 @@ class DashboardWidget(QWidget):
                 font-family: "Segoe UI";
                 font-size: 12px;
             }
-        """)
+        """
+        )
 
         self.summary_table.setShowGrid(True)
         layout.addWidget(self.summary_table)
 
         # Total label
         self.total_label = QLabel("Grand Total: ₱0.00")
-        self.total_label.setStyleSheet("""
+        self.total_label.setStyleSheet(
+            """
             QLabel {
                 background-color: #007acc;
                 color: #ffffff;
@@ -233,13 +270,15 @@ class DashboardWidget(QWidget):
                 font-family: "Segoe UI";
                 border: 1px solid #005a9e;
             }
-        """)
+        """
+        )
         self.total_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.total_label)
 
         # NEW: Insights Section
         self.insights_label = QLabel("💡 Insights will appear here...")
-        self.insights_label.setStyleSheet("""
+        self.insights_label.setStyleSheet(
+            """
             QLabel {
                 background-color: #2d2d2d;
                 color: #b0b0b0;
@@ -250,22 +289,29 @@ class DashboardWidget(QWidget):
                 font-size: 13px;
                 line-height: 1.4;
             }
-        """)
+        """
+        )
         self.insights_label.setWordWrap(True)
         self.insights_label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         layout.addWidget(self.insights_label)
 
     def safe_update_dashboard(self):
         """Safe update method that handles test scenarios"""
-        if hasattr(self, 'update_summary_tab') and self.summary_table is not None:
+        if hasattr(self, "update_summary_tab") and self.summary_table is not None:
             self.update_summary_tab()
-        if hasattr(self, 'update_charts_tab') and self.pie_fig is not None:
+        if hasattr(self, "update_charts_tab") and self.pie_fig is not None:
             self.update_charts_tab()
-        if hasattr(self, 'update_trends_tab') and self.trend_fig is not None:
+        if hasattr(self, "update_trends_tab") and self.trend_fig is not None:
             self.update_trends_tab()
-        if hasattr(self, 'update_chart_filters') and self.chart_category_filter is not None:
+        if (
+            hasattr(self, "update_chart_filters")
+            and self.chart_category_filter is not None
+        ):
             self.update_chart_filters()
-        if hasattr(self, 'update_chart_date_ranges') and self.chart_start_date is not None:
+        if (
+            hasattr(self, "update_chart_date_ranges")
+            and self.chart_start_date is not None
+        ):
             self.update_chart_date_ranges()
 
     def safe_update_summary_tab(self):
@@ -275,7 +321,7 @@ class DashboardWidget(QWidget):
 
         subtotals = self.data_manager.get_category_subtotals()
         # FIX: Handle Mock objects
-        if hasattr(subtotals, '__class__') and subtotals.__class__.__name__ == 'Mock':
+        if hasattr(subtotals, "__class__") and subtotals.__class__.__name__ == "Mock":
             return
 
         self.summary_table.setRowCount(0)
@@ -300,7 +346,8 @@ class DashboardWidget(QWidget):
             self.summary_table.insertRow(row)
             self.summary_table.setItem(row, 0, QTableWidgetItem(category))
             self.summary_table.setItem(
-                row, 1, NumericTableWidgetItem(f"₱{subtotal:,.2f}"))
+                row, 1, NumericTableWidgetItem(f"₱{subtotal:,.2f}")
+            )
 
         # Grand total row
         row = self.summary_table.rowCount()
@@ -318,15 +365,15 @@ class DashboardWidget(QWidget):
         # Generate and display insights
         self.generate_insights(category_totals, total_all)
 
-        logger.debug(
-            "Updated dashboard summary with grand total ₱%.2f", total_all)
+        logger.debug("Updated dashboard summary with grand total ₱%.2f", total_all)
 
     def generate_insights(self, category_totals, total_all):
         """Generate meaningful and actionable insights from spending data - FIXED"""
         if not category_totals or total_all == 0:
-            if hasattr(self, 'insights_label') and self.insights_label:
+            if hasattr(self, "insights_label") and self.insights_label:
                 self.insights_label.setText(
-                    "💡 Add some expenses to see insights here!")
+                    "💡 Add some expenses to see insights here!"
+                )
             return
 
         # FIX: Handle both list and dict formats for category_totals
@@ -335,12 +382,13 @@ class DashboardWidget(QWidget):
             sorted_categories = sorted(
                 [(cat, amt) for cat, amt in category_totals.items()],
                 key=lambda x: x[1],
-                reverse=True
+                reverse=True,
             )
         else:
             # category_totals is already a list of tuples
             sorted_categories = sorted(
-                category_totals, key=lambda x: x[1], reverse=True)
+                category_totals, key=lambda x: x[1], reverse=True
+            )
 
         insights = []
         warnings = []
@@ -353,17 +401,21 @@ class DashboardWidget(QWidget):
                 top_percentage = (top_amount / total_all) * 100
 
                 insights.append(
-                    f"📈 <b>Top Category:</b> {top_category} ({top_percentage:.1f}% of total)")
+                    f"📈 <b>Top Category:</b> {top_category} ({top_percentage:.1f}% of total)"
+                )
 
                 # Spending concentration analysis
                 if top_percentage > 50:
                     warnings.append(
-                        "⚠️ <b>High Concentration:</b> Over half of spending in one category")
+                        "⚠️ <b>High Concentration:</b> Over half of spending in one category"
+                    )
                     recommendations.append(
-                        "Consider diversifying expenses across more categories")
+                        "Consider diversifying expenses across more categories"
+                    )
                 elif top_percentage > 30:
                     insights.append(
-                        "💡 Spending is somewhat concentrated in main categories")
+                        "💡 Spending is somewhat concentrated in main categories"
+                    )
 
                 # Monthly trend analysis
                 monthly_totals = self.data_manager.get_monthly_totals()
@@ -372,49 +424,67 @@ class DashboardWidget(QWidget):
                     avg_monthly = sum(recent_months) / len(recent_months)
                     latest_month = recent_months[-1] if recent_months else 0
 
-                    insights.append(
-                        f"📅 <b>Monthly Average:</b> ₱{avg_monthly:,.2f}")
+                    insights.append(f"📅 <b>Monthly Average:</b> ₱{avg_monthly:,.2f}")
 
                     # Trend analysis
                     if len(recent_months) >= 2:
                         trend = (
-                            (latest_month - recent_months[-2]) / recent_months[-2]) * 100 if recent_months[-2] > 0 else 0
+                            ((latest_month - recent_months[-2]) / recent_months[-2])
+                            * 100
+                            if recent_months[-2] > 0
+                            else 0
+                        )
                         if trend > 20:
                             warnings.append(
-                                f"📈 <b>Spending Spike:</b> Last month increased by {trend:+.1f}%")
+                                f"📈 <b>Spending Spike:</b> Last month increased by {trend:+.1f}%"
+                            )
                         elif trend < -20:
                             insights.append(
-                                f"📉 <b>Spending Drop:</b> Last month decreased by {abs(trend):.1f}%")
+                                f"📉 <b>Spending Drop:</b> Last month decreased by {abs(trend):.1f}%"
+                            )
 
                 # Category distribution insights
                 if len(sorted_categories) >= 3:
-                    top3_total = sum(
-                        amount for _, amount in sorted_categories[:3])
+                    top3_total = sum(amount for _, amount in sorted_categories[:3])
                     top3_percentage = (top3_total / total_all) * 100
                     insights.append(
-                        f"🏆 <b>Top 3 Categories:</b> {top3_percentage:.1f}% of total spending")
+                        f"🏆 <b>Top 3 Categories:</b> {top3_percentage:.1f}% of total spending"
+                    )
 
                     # List top 3 categories
                     top3_names = [cat for cat, _ in sorted_categories[:3]]
                     insights.append(f"   • {', '.join(top3_names)}")
 
                 # Essential vs Discretionary spending analysis
-                essential_categories = ['Food', 'Utilities',
-                                        'Transportation', 'Medical', 'Housing', 'Bills']
+                essential_categories = [
+                    "Food",
+                    "Utilities",
+                    "Transportation",
+                    "Medical",
+                    "Housing",
+                    "Bills",
+                ]
                 essential_total = sum(
-                    amount for cat, amount in sorted_categories if cat in essential_categories)
+                    amount
+                    for cat, amount in sorted_categories
+                    if cat in essential_categories
+                )
                 essential_percentage = (
-                    essential_total / total_all) * 100 if total_all > 0 else 0
+                    (essential_total / total_all) * 100 if total_all > 0 else 0
+                )
 
                 insights.append(
-                    f"🏠 <b>Essential Spending:</b> {essential_percentage:.1f}% of total")
+                    f"🏠 <b>Essential Spending:</b> {essential_percentage:.1f}% of total"
+                )
 
                 if essential_percentage > 70:
                     recommendations.append(
-                        "High essential costs - review discretionary spending")
+                        "High essential costs - review discretionary spending"
+                    )
                 elif essential_percentage < 40:
                     insights.append(
-                        "Good balance between essential and discretionary spending")
+                        "Good balance between essential and discretionary spending"
+                    )
 
                 # Daily spending rate
                 if total_all > 0:
@@ -422,24 +492,24 @@ class DashboardWidget(QWidget):
                     weekly_avg = daily_avg * 7
 
                     insights.append(
-                        f"💰 <b>Daily Average:</b> ₱{daily_avg:,.0f} (₱{weekly_avg:,.0f}/week)")
+                        f"💰 <b>Daily Average:</b> ₱{daily_avg:,.0f} (₱{weekly_avg:,.0f}/week)"
+                    )
 
                 # Spending diversity score
                 diversity_score = len(sorted_categories)
                 if diversity_score >= 6:
-                    insights.append(
-                        "🌱 <b>Spreading:</b> Good category diversity")
+                    insights.append("🌱 <b>Spreading:</b> Good category diversity")
                 elif diversity_score <= 3:
                     recommendations.append(
-                        "Try categorizing expenses into more specific categories")
+                        "Try categorizing expenses into more specific categories"
+                    )
 
             except (ValueError, IndexError, TypeError) as e:
                 # Fallback in case of any unpacking or processing errors
                 logger.warning(f"Error generating insights: {e}")
                 insights.append("📊 Basic spending analysis available")
                 if sorted_categories:
-                    insights.append(
-                        f"Total categories: {len(sorted_categories)}")
+                    insights.append(f"Total categories: {len(sorted_categories)}")
         else:
             insights.append("📊 No category data available for analysis")
 
@@ -466,7 +536,7 @@ class DashboardWidget(QWidget):
         insights_text += f"<br><small><i>Analysis based on {len(sorted_categories)} categories</i></small>"
 
         # FIX: Only set text if insights_label exists
-        if hasattr(self, 'insights_label') and self.insights_label:
+        if hasattr(self, "insights_label") and self.insights_label:
             self.insights_label.setText(insights_text)
 
     def show_detailed_analysis(self, event):
@@ -476,7 +546,8 @@ class DashboardWidget(QWidget):
         msg = QMessageBox()
         msg.setWindowTitle("Detailed Spending Analysis")
         msg.setText(detailed_text)
-        msg.setStyleSheet("""
+        msg.setStyleSheet(
+            """
             QMessageBox {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
@@ -484,7 +555,8 @@ class DashboardWidget(QWidget):
             QMessageBox QLabel {
                 color: #e0e0e0;
             }
-        """)
+        """
+        )
         msg.exec_()
 
     # Charts
@@ -500,11 +572,11 @@ class DashboardWidget(QWidget):
         all_dates = []
         for category, expenses in self.data_manager.expenses.items():
             for expense in expenses:
-                date_str = expense.get('date', '')
+                date_str = expense.get("date", "")
                 if date_str:  # Only process valid dates
                     try:
                         # Validate the date format
-                        datetime.strptime(date_str, '%Y-%m-%d')
+                        datetime.strptime(date_str, "%Y-%m-%d")
                         all_dates.append(date_str)
                     except ValueError:
                         continue  # Skip invalid dates
@@ -522,7 +594,8 @@ class DashboardWidget(QWidget):
         self.chart_start_date = QDateEdit()
         self.chart_start_date.setCalendarPopup(True)
         self.chart_start_date.setDate(start_date)
-        self.chart_start_date.setStyleSheet("""
+        self.chart_start_date.setStyleSheet(
+            """
             QDateEdit {
                 background: #2d2d2d;
                 color: #e0e0e0;
@@ -532,7 +605,8 @@ class DashboardWidget(QWidget):
                 font-family: "Segoe UI";
                 min-width: 100px;
             }
-        """)
+        """
+        )
         filter_layout.addWidget(self.chart_start_date)
 
         filter_layout.addWidget(QLabel("To:"))
@@ -545,7 +619,8 @@ class DashboardWidget(QWidget):
         filter_layout.addWidget(QLabel("Category:"))
         self.chart_category_filter = QComboBox()
         self.chart_category_filter.addItem("All Categories")
-        self.chart_category_filter.setStyleSheet("""
+        self.chart_category_filter.setStyleSheet(
+            """
             QComboBox {
                 background: #2d2d2d;
                 color: #e0e0e0;
@@ -555,11 +630,13 @@ class DashboardWidget(QWidget):
                 font-family: "Segoe UI";
                 min-width: 120px;
             }
-        """)
+        """
+        )
         filter_layout.addWidget(self.chart_category_filter)
 
         apply_chart_filter_btn = QPushButton("Apply Filter")
-        apply_chart_filter_btn.setStyleSheet("""
+        apply_chart_filter_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #007acc;
                 color: white;
@@ -572,7 +649,8 @@ class DashboardWidget(QWidget):
             QPushButton:hover {
                 background-color: #005a9e;
             }
-        """)
+        """
+        )
         apply_chart_filter_btn.clicked.connect(self.update_charts_tab)
         filter_layout.addWidget(apply_chart_filter_btn)
 
@@ -584,15 +662,15 @@ class DashboardWidget(QWidget):
 
         # Pie chart
         self.pie_fig, self.pie_ax = plt.subplots(figsize=(6, 5))
-        self.pie_fig.patch.set_facecolor('#2d2d2d')
-        self.pie_ax.set_facecolor('#252526')
+        self.pie_fig.patch.set_facecolor("#2d2d2d")
+        self.pie_ax.set_facecolor("#252526")
         self.pie_canvas = FigureCanvas(self.pie_fig)
         charts_layout.addWidget(self.pie_canvas)
 
         # Bar chart
         self.bar_fig, self.bar_ax = plt.subplots(figsize=(6, 5))
-        self.bar_fig.patch.set_facecolor('#2d2d2d')
-        self.bar_ax.set_facecolor('#252526')
+        self.bar_fig.patch.set_facecolor("#2d2d2d")
+        self.bar_ax.set_facecolor("#252526")
         self.bar_canvas = FigureCanvas(self.bar_fig)
         charts_layout.addWidget(self.bar_canvas)
 
@@ -642,16 +720,16 @@ class DashboardWidget(QWidget):
 
     def update_chart_date_ranges(self):
         """Update the chart date ranges when new data is loaded"""
-        if not hasattr(self, 'chart_start_date') or not self.chart_start_date:
+        if not hasattr(self, "chart_start_date") or not self.chart_start_date:
             return
 
         all_dates = []
         for category, expenses in self.data_manager.expenses.items():
             for expense in expenses:
-                date_str = expense.get('date', '')
+                date_str = expense.get("date", "")
                 if date_str:
                     try:
-                        datetime.strptime(date_str, '%Y-%m-%d')
+                        datetime.strptime(date_str, "%Y-%m-%d")
                         all_dates.append(date_str)
                     except ValueError:
                         continue
@@ -677,23 +755,31 @@ class DashboardWidget(QWidget):
         categories, amounts = aggregate_category_totals(filtered_data)
 
         # Professional color palette
-        colors = ['#4e79a7', '#f28e2c', '#e15759', '#76b7b2',
-                  '#59a14f', '#edc949', '#af7aa1', '#ff9da7']
+        colors = [
+            "#4e79a7",
+            "#f28e2c",
+            "#e15759",
+            "#76b7b2",
+            "#59a14f",
+            "#edc949",
+            "#af7aa1",
+            "#ff9da7",
+        ]
 
         # Store the chart data for click handlers
         self.current_chart_data = {
-            'categories': categories,
-            'amounts': amounts,
-            'filtered_data': filtered_data
+            "categories": categories,
+            "amounts": amounts,
+            "filtered_data": filtered_data,
         }
 
         # Update Pie Chart
         self.pie_ax.clear()
         if amounts:
-            top_categories, top_amounts = prepare_chart_data(
-                categories, amounts)
-            explode = [0.05 if a < (sum(top_amounts) * 0.01)
-                       else 0 for a in top_amounts]
+            top_categories, top_amounts = prepare_chart_data(categories, amounts)
+            explode = [
+                0.05 if a < (sum(top_amounts) * 0.01) else 0 for a in top_amounts
+            ]
 
             wedges, texts, autotexts = self.pie_ax.pie(
                 top_amounts,
@@ -701,26 +787,27 @@ class DashboardWidget(QWidget):
                 autopct="%1.1f%%",
                 startangle=90,
                 explode=explode,
-                colors=colors[:len(top_amounts)]
+                colors=colors[: len(top_amounts)],
             )
 
             # Make pie chart interactive too
             for wedge in wedges:
                 wedge.set_picker(True)
-            self.pie_canvas.mpl_connect('pick_event', self.on_pie_click)
+            self.pie_canvas.mpl_connect("pick_event", self.on_pie_click)
 
             # Set text colors for better contrast
             for text in texts:
-                text.set_color('#e0e0e0')
+                text.set_color("#e0e0e0")
                 text.set_fontsize(11)
 
             for autotext in autotexts:
-                autotext.set_color('#ffffff')
-                autotext.set_fontweight('bold')
+                autotext.set_color("#ffffff")
+                autotext.set_fontweight("bold")
                 autotext.set_fontsize(10)
 
             self.pie_ax.set_title(
-                "Spending Distribution", color='#e0e0e0', fontsize=14, fontweight='bold')
+                "Spending Distribution", color="#e0e0e0", fontsize=14, fontweight="bold"
+            )
             self.pie_ax.axis("equal")
 
         self.pie_canvas.draw()
@@ -728,12 +815,13 @@ class DashboardWidget(QWidget):
         # Update Bar Chart
         self.bar_ax.clear()
         if amounts:
-            sorted_data = sorted(zip(categories, amounts),
-                                 key=lambda x: x[1], reverse=True)
+            sorted_data = sorted(
+                zip(categories, amounts), key=lambda x: x[1], reverse=True
+            )
             if sorted_data:
                 cats, amts = zip(*sorted_data)
 
-                bars = self.bar_ax.bar(cats, amts, color=colors[:len(cats)])
+                bars = self.bar_ax.bar(cats, amts, color=colors[: len(cats)])
 
                 # Store bar references with their categories
                 self.bar_references = {}
@@ -741,49 +829,68 @@ class DashboardWidget(QWidget):
                     self.bar_references[bar] = cat
                     bar.set_picker(True)
 
-                self.bar_canvas.mpl_connect('pick_event', self.on_bar_click)
+                self.bar_canvas.mpl_connect("pick_event", self.on_bar_click)
 
                 # Set professional styling
                 self.bar_ax.set_ylabel(
-                    "Amount (₱)", color='#e0e0e0', fontweight='bold', fontsize=12)
+                    "Amount (₱)", color="#e0e0e0", fontweight="bold", fontsize=12
+                )
                 self.bar_ax.set_title(
-                    "Spending by Category", color='#e0e0e0', fontweight='bold', fontsize=14)
+                    "Spending by Category",
+                    color="#e0e0e0",
+                    fontweight="bold",
+                    fontsize=14,
+                )
 
                 # X-axis labels with better readability
                 self.bar_ax.tick_params(
-                    axis='x', rotation=30, colors='#e0e0e0', labelsize=10)
-                self.bar_ax.tick_params(
-                    axis='y', colors='#e0e0e0', labelsize=10)
+                    axis="x", rotation=30, colors="#e0e0e0", labelsize=10
+                )
+                self.bar_ax.tick_params(axis="y", colors="#e0e0e0", labelsize=10)
 
                 # Axis spines
-                self.bar_ax.spines['bottom'].set_color('#404040')
-                self.bar_ax.spines['left'].set_color('#404040')
-                self.bar_ax.spines['top'].set_visible(False)
-                self.bar_ax.spines['right'].set_visible(False)
+                self.bar_ax.spines["bottom"].set_color("#404040")
+                self.bar_ax.spines["left"].set_color("#404040")
+                self.bar_ax.spines["top"].set_visible(False)
+                self.bar_ax.spines["right"].set_visible(False)
 
                 # Grid for better readability
-                self.bar_ax.grid(
-                    True, alpha=0.2, color='#404040', linestyle='--')
+                self.bar_ax.grid(True, alpha=0.2, color="#404040", linestyle="--")
 
                 # Add value labels on bars with contrast
                 for bar in bars:
                     height = bar.get_height()
-                    text_color = '#000000' if bar.get_facecolor(
-                    )[-1] > 0.6 else '#ffffff'
-                    self.bar_ax.text(bar.get_x() + bar.get_width()/2., height + max(amts)*0.01,
-                                     f'₱{height:.0f}', ha='center', va='bottom',
-                                     color=text_color, fontweight='bold', fontsize=9)
+                    text_color = (
+                        "#000000" if bar.get_facecolor()[-1] > 0.6 else "#ffffff"
+                    )
+                    self.bar_ax.text(
+                        bar.get_x() + bar.get_width() / 2.0,
+                        height + max(amts) * 0.01,
+                        f"₱{height:.0f}",
+                        ha="center",
+                        va="bottom",
+                        color=text_color,
+                        fontweight="bold",
+                        fontsize=9,
+                    )
             else:
                 # Show message when no data
-                self.bar_ax.text(0.5, 0.5, 'No data for selected filters',
-                                 horizontalalignment='center', verticalalignment='center',
-                                 transform=self.bar_ax.transAxes, color='#e0e0e0', fontsize=12)
+                self.bar_ax.text(
+                    0.5,
+                    0.5,
+                    "No data for selected filters",
+                    horizontalalignment="center",
+                    verticalalignment="center",
+                    transform=self.bar_ax.transAxes,
+                    color="#e0e0e0",
+                    fontsize=12,
+                )
 
         self.bar_canvas.draw()
 
     def on_pie_click(self, event):
         """Handle pie chart clicks to show category details"""
-        if not hasattr(event, 'artist'):
+        if not hasattr(event, "artist"):
             return
 
         wedge = event.artist
@@ -800,46 +907,46 @@ class DashboardWidget(QWidget):
             all_categories = list(filtered_data.keys())
 
             # Get the top categories that are shown individually (not in "Others")
-            categories_list, amounts_list = aggregate_category_totals(
-                filtered_data)
+            categories_list, amounts_list = aggregate_category_totals(filtered_data)
             top_categories, top_amounts = prepare_chart_data(
-                categories_list, amounts_list)
+                categories_list, amounts_list
+            )
 
             # Find which categories are in "Others" (all categories minus top categories)
             other_categories = [
-                cat for cat in all_categories if cat not in top_categories]
+                cat for cat in all_categories if cat not in top_categories
+            ]
 
             # Get all expenses from the "Other" categories
             other_expenses = []
             for other_cat in other_categories:
                 other_expenses.extend(filtered_data.get(other_cat, []))
 
-            total_amount = sum(float(exp.get('amount', 0))
-                               for exp in other_expenses)
+            total_amount = sum(float(exp.get("amount", 0)) for exp in other_expenses)
 
             print(f"DEBUG: Others category contains: {other_categories}")
             print(f"DEBUG: Others total amount: {total_amount}")
 
             # Show combined details for all "Other" categories
             self.show_other_categories_details(
-                other_categories, total_amount, other_expenses)
+                other_categories, total_amount, other_expenses
+            )
         else:
             # Regular category
             filtered_data = self.get_filtered_chart_data()
             category_expenses = filtered_data.get(category, [])
-            total_amount = sum(float(exp.get('amount', 0))
-                               for exp in category_expenses)
+            total_amount = sum(float(exp.get("amount", 0)) for exp in category_expenses)
 
             print(
-                f"DEBUG: Regular category - Amount: {total_amount}, Expenses: {len(category_expenses)}")
+                f"DEBUG: Regular category - Amount: {total_amount}, Expenses: {len(category_expenses)}"
+            )
 
             # Show details in a popup
-            self.show_category_details(
-                category, total_amount, category_expenses)
+            self.show_category_details(category, total_amount, category_expenses)
 
     def on_bar_click(self, event):
         """Handle bar chart clicks to show category details"""
-        if not hasattr(event, 'artist'):
+        if not hasattr(event, "artist"):
             return
 
         bar = event.artist
@@ -851,23 +958,23 @@ class DashboardWidget(QWidget):
 
             # Get all x-tick positions and labels
             tick_positions = self.bar_ax.get_xticks()
-            tick_labels = [tick.get_text()
-                           for tick in self.bar_ax.get_xticklabels()]
+            tick_labels = [tick.get_text() for tick in self.bar_ax.get_xticklabels()]
 
             print(f"DEBUG: Bar center: {bar_center}")
             print(f"DEBUG: Tick positions: {tick_positions}")
             print(f"DEBUG: Tick labels: {tick_labels}")
 
             # Find the closest tick position to the bar center
-            closest_index = min(range(len(tick_positions)),
-                                key=lambda i: abs(tick_positions[i] - bar_center))
+            closest_index = min(
+                range(len(tick_positions)),
+                key=lambda i: abs(tick_positions[i] - bar_center),
+            )
 
             if closest_index < len(tick_labels):
                 category = tick_labels[closest_index]
                 amount = bar.get_height()
 
-                print(
-                    f"DEBUG: Selected category: {category}, amount: {amount}")
+                print(f"DEBUG: Selected category: {category}, amount: {amount}")
 
                 # Get detailed expenses for this category
                 category_expenses = self.get_category_expenses(category)
@@ -876,19 +983,20 @@ class DashboardWidget(QWidget):
                 self.show_category_details(category, amount, category_expenses)
             else:
                 QMessageBox.warning(
-                    self, "Error", "Could not find category for clicked bar")
+                    self, "Error", "Could not find category for clicked bar"
+                )
 
         except Exception as e:
             print(f"DEBUG: Error in bar click: {e}")
-            QMessageBox.warning(
-                self, "Error", f"Could not get category details: {e}")
+            QMessageBox.warning(self, "Error", f"Could not get category details: {e}")
 
     def show_other_categories_details(self, categories, total_amount, expenses):
         """Show details for the combined 'Others' category"""
         dialog = QDialog(self)
         dialog.setWindowTitle("📊 Other Categories - Combined Details")
         dialog.setMinimumWidth(600)
-        dialog.setStyleSheet("""
+        dialog.setStyleSheet(
+            """
             QDialog {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
@@ -907,14 +1015,15 @@ class DashboardWidget(QWidget):
                 background-color: #333333;
                 color: #ffffff;
             }
-        """)
+        """
+        )
 
         layout = QVBoxLayout(dialog)
 
         # Header with total and categories list
-        header_label = QLabel(
-            f"💎 Other Categories - Total: ₱{total_amount:,.2f}")
-        header_label.setStyleSheet("""
+        header_label = QLabel(f"💎 Other Categories - Total: ₱{total_amount:,.2f}")
+        header_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-size: 16px;
@@ -924,13 +1033,15 @@ class DashboardWidget(QWidget):
                     stop:0 #0f3460, stop:0.5 #533483, stop:1 #e94560);
                 border-radius: 8px;
             }
-        """)
+        """
+        )
         layout.addWidget(header_label)
 
         # Show which categories are included
         categories_label = QLabel(f"📋 Includes: {', '.join(categories)}")
         categories_label.setStyleSheet(
-            "color: #ffff00; font-weight: bold; padding: 5px;")
+            "color: #ffff00; font-weight: bold; padding: 5px;"
+        )
         layout.addWidget(categories_label)
 
         if expenses:
@@ -938,7 +1049,8 @@ class DashboardWidget(QWidget):
             table = QTableWidget()
             table.setColumnCount(4)
             table.setHorizontalHeaderLabels(
-                ["Category", "Date", "Amount", "Description"])
+                ["Category", "Date", "Amount", "Description"]
+            )
             table.setRowCount(len(expenses))
 
             for row, expense in enumerate(expenses):
@@ -951,12 +1063,11 @@ class DashboardWidget(QWidget):
                             break
 
                 table.setItem(row, 0, QTableWidgetItem(expense_category))
-                table.setItem(row, 1, QTableWidgetItem(
-                    expense.get('date', '')))
-                table.setItem(row, 2, QTableWidgetItem(
-                    f"₱{float(expense.get('amount', 0)):,.2f}"))
-                table.setItem(row, 3, QTableWidgetItem(
-                    expense.get('description', '')))
+                table.setItem(row, 1, QTableWidgetItem(expense.get("date", "")))
+                table.setItem(
+                    row, 2, QTableWidgetItem(f"₱{float(expense.get('amount', 0)):,.2f}")
+                )
+                table.setItem(row, 3, QTableWidgetItem(expense.get("description", "")))
 
             table.resizeColumnsToContents()
             table.horizontalHeader().setStretchLastSection(True)
@@ -968,7 +1079,8 @@ class DashboardWidget(QWidget):
 
         # Close button
         close_btn = QPushButton("Close")
-        close_btn.setStyleSheet("""
+        close_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #007acc;
                 color: white;
@@ -980,7 +1092,8 @@ class DashboardWidget(QWidget):
             QPushButton:hover {
                 background-color: #005a9e;
             }
-        """)
+        """
+        )
         close_btn.clicked.connect(dialog.close)
         layout.addWidget(close_btn)
 
@@ -998,21 +1111,31 @@ class DashboardWidget(QWidget):
                 return  # User cancelled
 
             # Ensure .png extension
-            if not file_path.lower().endswith('.png'):
-                file_path += '.png'
+            if not file_path.lower().endswith(".png"):
+                file_path += ".png"
 
             # Generate base filename without extension
             base_path = file_path[:-4]  # Remove .png
 
             # Save pie chart
             pie_path = f"{base_path}_pie.png"
-            self.pie_fig.savefig(pie_path, dpi=300, bbox_inches='tight',
-                                 facecolor='#2d2d2d', transparent=False)
+            self.pie_fig.savefig(
+                pie_path,
+                dpi=300,
+                bbox_inches="tight",
+                facecolor="#2d2d2d",
+                transparent=False,
+            )
 
             # Save bar chart
             bar_path = f"{base_path}_bar.png"
-            self.bar_fig.savefig(bar_path, dpi=300, bbox_inches='tight',
-                                 facecolor='#2d2d2d', transparent=False)
+            self.bar_fig.savefig(
+                bar_path,
+                dpi=300,
+                bbox_inches="tight",
+                facecolor="#2d2d2d",
+                transparent=False,
+            )
 
             # Show success message with file paths
             success_msg = f"""
@@ -1026,7 +1149,8 @@ class DashboardWidget(QWidget):
             msg.setWindowTitle("Export Successful")
             msg.setTextFormat(Qt.RichText)
             msg.setText(success_msg)
-            msg.setStyleSheet("""
+            msg.setStyleSheet(
+                """
                 QMessageBox {
                     background-color: #2d2d2d;
                     color: #e0e0e0;
@@ -1034,27 +1158,32 @@ class DashboardWidget(QWidget):
                 QMessageBox QLabel {
                     color: #e0e0e0;
                 }
-            """)
+            """
+            )
             msg.exec_()
 
         except Exception as e:
-            QMessageBox.warning(self, "Export Failed",
-                                f"Error exporting charts:\n{str(e)}")
+            QMessageBox.warning(
+                self, "Export Failed", f"Error exporting charts:\n{str(e)}"
+            )
 
     def export_charts_pdf(self):
         """Export charts as a professional PDF report"""
         try:
             # Get save location
             file_path, _ = QFileDialog.getSaveFileName(
-                self, "Save Charts as PDF Report", "expense_analysis_report.pdf", "PDF Files (*.pdf)"
+                self,
+                "Save Charts as PDF Report",
+                "expense_analysis_report.pdf",
+                "PDF Files (*.pdf)",
             )
 
             if not file_path:
                 return  # User cancelled
 
             # Ensure .pdf extension
-            if not file_path.lower().endswith('.pdf'):
-                file_path += '.pdf'
+            if not file_path.lower().endswith(".pdf"):
+                file_path += ".pdf"
 
             from matplotlib.backends.backend_pdf import PdfPages
             import datetime
@@ -1067,56 +1196,99 @@ class DashboardWidget(QWidget):
             with PdfPages(file_path) as pdf:
                 # Page 1: Cover page
                 fig_cover, ax_cover = plt.subplots(
-                    figsize=(8.5, 11), facecolor='#2d2d2d')
-                ax_cover.set_facecolor('#2d2d2d')
-                ax_cover.axis('off')
+                    figsize=(8.5, 11), facecolor="#2d2d2d"
+                )
+                ax_cover.set_facecolor("#2d2d2d")
+                ax_cover.axis("off")
 
                 # Title
-                ax_cover.text(0.5, 0.7, 'Expense Analysis Report',
-                              ha='center', va='center', fontsize=24, color='#00ffff', fontweight='bold')
+                ax_cover.text(
+                    0.5,
+                    0.7,
+                    "Expense Analysis Report",
+                    ha="center",
+                    va="center",
+                    fontsize=24,
+                    color="#00ffff",
+                    fontweight="bold",
+                )
 
                 # Subtitle
-                ax_cover.text(0.5, 0.6, 'Spending Charts & Analysis',
-                              ha='center', va='center', fontsize=16, color='#e0e0e0')
+                ax_cover.text(
+                    0.5,
+                    0.6,
+                    "Spending Charts & Analysis",
+                    ha="center",
+                    va="center",
+                    fontsize=16,
+                    color="#e0e0e0",
+                )
 
                 # Date range
-                ax_cover.text(0.5, 0.5, f'Date Range: {start_date} to {end_date}',
-                              ha='center', va='center', fontsize=12, color='#e0e0e0')
+                ax_cover.text(
+                    0.5,
+                    0.5,
+                    f"Date Range: {start_date} to {end_date}",
+                    ha="center",
+                    va="center",
+                    fontsize=12,
+                    color="#e0e0e0",
+                )
 
                 # Category filter
                 if category_filter != "All Categories":
-                    ax_cover.text(0.5, 0.45, f'Category: {category_filter}',
-                                  ha='center', va='center', fontsize=12, color='#e0e0e0')
+                    ax_cover.text(
+                        0.5,
+                        0.45,
+                        f"Category: {category_filter}",
+                        ha="center",
+                        va="center",
+                        fontsize=12,
+                        color="#e0e0e0",
+                    )
 
                 # Generated date
-                ax_cover.text(0.5, 0.3, f'Generated: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M")}',
-                              ha='center', va='center', fontsize=10, color='#b0b0b0')
+                ax_cover.text(
+                    0.5,
+                    0.3,
+                    f'Generated: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M")}',
+                    ha="center",
+                    va="center",
+                    fontsize=10,
+                    color="#b0b0b0",
+                )
 
-                pdf.savefig(fig_cover, bbox_inches='tight')
+                pdf.savefig(fig_cover, bbox_inches="tight")
                 plt.close(fig_cover)
 
                 # Page 2: Pie Chart - FIX: Don't add extra title, use existing chart
                 # Clear any existing suptitle first
-                if hasattr(self.pie_fig, '_suptitle') and self.pie_fig._suptitle is not None:
+                if (
+                    hasattr(self.pie_fig, "_suptitle")
+                    and self.pie_fig._suptitle is not None
+                ):
                     self.pie_fig._suptitle.remove()
 
-                pdf.savefig(self.pie_fig, bbox_inches='tight')
+                pdf.savefig(self.pie_fig, bbox_inches="tight")
 
                 # Page 3: Bar Chart - FIX: Don't add extra title, use existing chart
                 # Clear any existing suptitle first
-                if hasattr(self.bar_fig, '_suptitle') and self.bar_fig._suptitle is not None:
+                if (
+                    hasattr(self.bar_fig, "_suptitle")
+                    and self.bar_fig._suptitle is not None
+                ):
                     self.bar_fig._suptitle.remove()
 
-                pdf.savefig(self.bar_fig, bbox_inches='tight')
+                pdf.savefig(self.bar_fig, bbox_inches="tight")
 
                 # Add PDF metadata
                 pdf_info = pdf.infodict()
-                pdf_info['Title'] = 'Expense Analysis Report'
-                pdf_info['Author'] = 'Expense Tracker App'
-                pdf_info['Subject'] = 'Spending analysis and charts'
-                pdf_info['Keywords'] = 'expense, spending, analysis, charts'
-                pdf_info['CreationDate'] = datetime.datetime.now()
-                pdf_info['ModDate'] = datetime.datetime.now()
+                pdf_info["Title"] = "Expense Analysis Report"
+                pdf_info["Author"] = "Expense Tracker App"
+                pdf_info["Subject"] = "Spending analysis and charts"
+                pdf_info["Keywords"] = "expense, spending, analysis, charts"
+                pdf_info["CreationDate"] = datetime.datetime.now()
+                pdf_info["ModDate"] = datetime.datetime.now()
 
             # Show success message
             success_msg = f"""
@@ -1131,7 +1303,8 @@ class DashboardWidget(QWidget):
             msg.setWindowTitle("Export Successful")
             msg.setTextFormat(Qt.RichText)
             msg.setText(success_msg)
-            msg.setStyleSheet("""
+            msg.setStyleSheet(
+                """
                 QMessageBox {
                     background-color: #2d2d2d;
                     color: #e0e0e0;
@@ -1139,15 +1312,20 @@ class DashboardWidget(QWidget):
                 QMessageBox QLabel {
                     color: #e0e0e0;
                 }
-            """)
+            """
+            )
             msg.exec_()
 
         except ImportError:
-            QMessageBox.warning(self, "Export Failed",
-                                "PDF export requires matplotlib. Please install it.")
+            QMessageBox.warning(
+                self,
+                "Export Failed",
+                "PDF export requires matplotlib. Please install it.",
+            )
         except Exception as e:
-            QMessageBox.warning(self, "Export Failed",
-                                f"Error exporting PDF:\n{str(e)}")
+            QMessageBox.warning(
+                self, "Export Failed", f"Error exporting PDF:\n{str(e)}"
+            )
 
     def get_category_expenses(self, category):
         """Get all expenses for a specific category"""
@@ -1162,12 +1340,11 @@ class DashboardWidget(QWidget):
             expenses = self.data_manager.expenses.get(category, [])
 
         # Sort by date (newest first) and get top 20
-        sorted_expenses = sorted(expenses,
-                                 key=lambda x: x.get('date', ''),
-                                 reverse=True)[:20]
+        sorted_expenses = sorted(
+            expenses, key=lambda x: x.get("date", ""), reverse=True
+        )[:20]
 
-        print(
-            f"DEBUG: Found {len(sorted_expenses)} expenses for category: {category}")
+        print(f"DEBUG: Found {len(sorted_expenses)} expenses for category: {category}")
         for exp in sorted_expenses[:3]:  # Print first 3 for debugging
             print(f"DEBUG: Expense: {exp}")
 
@@ -1179,7 +1356,8 @@ class DashboardWidget(QWidget):
         dialog = QDialog(self)
         dialog.setWindowTitle(f"📊 {category} - Details")
         dialog.setMinimumWidth(500)
-        dialog.setStyleSheet("""
+        dialog.setStyleSheet(
+            """
             QDialog {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
@@ -1198,13 +1376,15 @@ class DashboardWidget(QWidget):
                 background-color: #333333;
                 color: #ffffff;
             }
-        """)
+        """
+        )
 
         layout = QVBoxLayout(dialog)
 
         # Header with total
         header_label = QLabel(f"💎 {category} - Total: ₱{total_amount:,.2f}")
-        header_label.setStyleSheet("""
+        header_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-size: 16px;
@@ -1214,7 +1394,8 @@ class DashboardWidget(QWidget):
                     stop:0 #0f3460, stop:0.5 #533483, stop:1 #e94560);
                 border-radius: 8px;
             }
-        """)
+        """
+        )
         layout.addWidget(header_label)
 
         if expenses:
@@ -1225,12 +1406,11 @@ class DashboardWidget(QWidget):
             table.setRowCount(len(expenses))
 
             for row, expense in enumerate(expenses):
-                table.setItem(row, 0, QTableWidgetItem(
-                    expense.get('date', '')))
-                table.setItem(row, 1, QTableWidgetItem(
-                    f"₱{float(expense.get('amount', 0)):,.2f}"))
-                table.setItem(row, 2, QTableWidgetItem(
-                    expense.get('description', '')))
+                table.setItem(row, 0, QTableWidgetItem(expense.get("date", "")))
+                table.setItem(
+                    row, 1, QTableWidgetItem(f"₱{float(expense.get('amount', 0)):,.2f}")
+                )
+                table.setItem(row, 2, QTableWidgetItem(expense.get("description", "")))
 
             table.resizeColumnsToContents()
             table.horizontalHeader().setStretchLastSection(True)
@@ -1240,9 +1420,9 @@ class DashboardWidget(QWidget):
             if len(expenses) > 1:
                 avg_amount = total_amount / len(expenses)
                 summary_label = QLabel(
-                    f"📈 Average per expense: ₱{avg_amount:,.2f} ({len(expenses)} transactions)")
-                summary_label.setStyleSheet(
-                    "color: #ffff00; font-weight: bold;")
+                    f"📈 Average per expense: ₱{avg_amount:,.2f} ({len(expenses)} transactions)"
+                )
+                summary_label.setStyleSheet("color: #ffff00; font-weight: bold;")
                 layout.addWidget(summary_label)
         else:
             no_data_label = QLabel("No expenses found for this category")
@@ -1251,7 +1431,8 @@ class DashboardWidget(QWidget):
 
         # Close button
         close_btn = QPushButton("Close")
-        close_btn.setStyleSheet("""
+        close_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #007acc;
                 color: white;
@@ -1263,7 +1444,8 @@ class DashboardWidget(QWidget):
             QPushButton:hover {
                 background-color: #005a9e;
             }
-        """)
+        """
+        )
         close_btn.clicked.connect(dialog.close)
         layout.addWidget(close_btn)
 
@@ -1271,7 +1453,7 @@ class DashboardWidget(QWidget):
 
     def get_filtered_chart_data(self):
         """Get data filtered by date range and category for charts"""
-        if not hasattr(self, 'chart_start_date') or not self.chart_start_date:
+        if not hasattr(self, "chart_start_date") or not self.chart_start_date:
             # Return all data if date filters aren't set up yet
             return self.data_manager.expenses
 
@@ -1287,10 +1469,13 @@ class DashboardWidget(QWidget):
                 for expense in expenses:
                     try:
                         expense_date = datetime.strptime(
-                            expense.get('date', ''), '%Y-%m-%d').date()
+                            expense.get("date", ""), "%Y-%m-%d"
+                        ).date()
                         date_match = start_date <= expense_date <= end_date
-                        category_match = (category_filter == "All Categories" or
-                                          category == category_filter)
+                        category_match = (
+                            category_filter == "All Categories"
+                            or category == category_filter
+                        )
 
                         if date_match and category_match:
                             filtered_expenses.append(expense)
@@ -1304,53 +1489,69 @@ class DashboardWidget(QWidget):
         except Exception:
             # Fallback to all data if there's any error
             return self.data_manager.expenses
-     # Trends
+
+    # Trends
 
     def init_trends_tab(self):
         layout = QVBoxLayout()
         self.trends_tab.setLayout(layout)
 
         self.trend_fig, self.trend_ax = plt.subplots(
-            figsize=(8, 6), facecolor='#2d2d2d')
-        self.trend_fig.patch.set_facecolor('#2d2d2d')
-        self.trend_ax.set_facecolor('#252526')
+            figsize=(8, 6), facecolor="#2d2d2d"
+        )
+        self.trend_fig.patch.set_facecolor("#2d2d2d")
+        self.trend_ax.set_facecolor("#252526")
         plt.close(self.trend_fig)
         self.trend_canvas = FigureCanvas(self.trend_fig)
         layout.addWidget(self.trend_canvas)
 
     def update_trends_tab(self):
-        months, totals = prepare_trend_data(
-            self.data_manager.get_monthly_totals())
+        months, totals = prepare_trend_data(self.data_manager.get_monthly_totals())
 
         self.trend_ax.clear()
         if months:
             # Professional line plot
-            self.trend_ax.plot(months, totals, marker="o", color='#4e79a7',
-                               linewidth=2.5, markersize=6, markerfacecolor='#ffffff',
-                               markeredgecolor='#4e79a7', markeredgewidth=1)
+            self.trend_ax.plot(
+                months,
+                totals,
+                marker="o",
+                color="#4e79a7",
+                linewidth=2.5,
+                markersize=6,
+                markerfacecolor="#ffffff",
+                markeredgecolor="#4e79a7",
+                markeredgewidth=1,
+            )
 
             # Professional titles and labels
-            self.trend_ax.set_title("Expense Trend Over Time", color='#e0e0e0',
-                                    fontsize=14, fontweight='bold', pad=20)
+            self.trend_ax.set_title(
+                "Expense Trend Over Time",
+                color="#e0e0e0",
+                fontsize=14,
+                fontweight="bold",
+                pad=20,
+            )
             self.trend_ax.set_xlabel(
-                "Month", color='#e0e0e0', fontweight='bold', fontsize=12)
+                "Month", color="#e0e0e0", fontweight="bold", fontsize=12
+            )
             self.trend_ax.set_ylabel(
-                "Total Expenses (₱)", color='#e0e0e0', fontweight='bold', fontsize=12)
+                "Total Expenses (₱)", color="#e0e0e0", fontweight="bold", fontsize=12
+            )
 
             # Professional tick styling
             self.trend_ax.tick_params(
-                axis='x', rotation=45, colors='#e0e0e0', labelsize=10)
-            self.trend_ax.tick_params(axis='y', colors='#e0e0e0', labelsize=10)
+                axis="x", rotation=45, colors="#e0e0e0", labelsize=10
+            )
+            self.trend_ax.tick_params(axis="y", colors="#e0e0e0", labelsize=10)
 
             # Professional axis styling
-            self.trend_ax.spines['bottom'].set_color('#404040')
-            self.trend_ax.spines['left'].set_color('#404040')
-            self.trend_ax.spines['top'].set_visible(False)
-            self.trend_ax.spines['right'].set_visible(False)
+            self.trend_ax.spines["bottom"].set_color("#404040")
+            self.trend_ax.spines["left"].set_color("#404040")
+            self.trend_ax.spines["top"].set_visible(False)
+            self.trend_ax.spines["right"].set_visible(False)
 
             # Professional grid
-            self.trend_ax.grid(
-                True, alpha=0.2, color='#404040', linestyle='--')
+            self.trend_ax.grid(True, alpha=0.2, color="#404040", linestyle="--")
 
             # Add value annotations for important points
             if len(totals) > 0:
@@ -1358,26 +1559,27 @@ class DashboardWidget(QWidget):
                 min_idx = totals.index(min(totals))
 
                 # Highlight maximum point
-                self.trend_ax.annotate(f'₱{totals[max_idx]:.0f}',
-                                       xy=(months[max_idx], totals[max_idx]),
-                                       xytext=(10, 10), textcoords='offset points',
-                                       bbox=dict(boxstyle='round,pad=0.3',
-                                                 facecolor='#e15759', alpha=0.8),
-                                       arrowprops=dict(
-                                           arrowstyle='->', color='white'),
-                                       fontsize=9, fontweight='bold', color='white')
+                self.trend_ax.annotate(
+                    f"₱{totals[max_idx]:.0f}",
+                    xy=(months[max_idx], totals[max_idx]),
+                    xytext=(10, 10),
+                    textcoords="offset points",
+                    bbox=dict(boxstyle="round,pad=0.3", facecolor="#e15759", alpha=0.8),
+                    arrowprops=dict(arrowstyle="->", color="white"),
+                    fontsize=9,
+                    fontweight="bold",
+                    color="white",
+                )
 
         self.trend_canvas.draw()
-        logger.debug(
-            "Updated trends chart with %d months of data", len(months))
+        logger.debug("Updated trends chart with %d months of data", len(months))
 
     def update_chart_filters(self):
         """Update chart filter dropdowns with current categories"""
         current_categories = self.chart_category_filter.currentText()
         self.chart_category_filter.clear()
         self.chart_category_filter.addItem("All Categories")
-        self.chart_category_filter.addItems(
-            self.data_manager.get_all_categories())
+        self.chart_category_filter.addItems(self.data_manager.get_all_categories())
 
         # Restore previous selection if possible
         index = self.chart_category_filter.findText(current_categories)
@@ -1412,12 +1614,14 @@ class ExpenseTracker(QWidget):
 
         self.table = QTableWidget(0, 5)
         self.table.setHorizontalHeaderLabels(
-            ["Category", "Amount", "Date", "Description", "Actions"])
+            ["Category", "Amount", "Date", "Description", "Actions"]
+        )
         self.table.setSortingEnabled(True)
 
         # HEADER
         title_label = QLabel("Expense Tracker")
-        title_label.setStyleSheet("""
+        title_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-family: "Segoe UI";
@@ -1429,12 +1633,14 @@ class ExpenseTracker(QWidget):
                 border-radius: 8px;
                 margin: 5px;
             }
-        """)
+        """
+        )
         title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(title_label)
 
         # Professional table styling
-        self.table.setStyleSheet("""
+        self.table.setStyleSheet(
+            """
             QTableWidget {
                 background-color: #252526;
                 color: #e0e0e0;
@@ -1479,21 +1685,26 @@ class ExpenseTracker(QWidget):
                 font-family: "Segoe UI";
                 font-size: 11px;
             }
-        """)
+        """
+        )
 
         self.table.setShowGrid(True)
         self.table.verticalHeader().setVisible(True)
 
         # Set better column resize policies
         self.table.horizontalHeader().setSectionResizeMode(
-            0, QHeaderView.ResizeToContents)
+            0, QHeaderView.ResizeToContents
+        )
         self.table.horizontalHeader().setSectionResizeMode(
-            1, QHeaderView.ResizeToContents)
+            1, QHeaderView.ResizeToContents
+        )
         self.table.horizontalHeader().setSectionResizeMode(
-            2, QHeaderView.ResizeToContents)
+            2, QHeaderView.ResizeToContents
+        )
         self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
         self.table.horizontalHeader().setSectionResizeMode(
-            4, QHeaderView.ResizeToContents)
+            4, QHeaderView.ResizeToContents
+        )
 
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.horizontalHeader().sectionClicked.connect(self.on_table_sorted)
@@ -1506,7 +1717,7 @@ class ExpenseTracker(QWidget):
             ("↶ Undo", "#ff6600"),
             ("📁 Categories", "#00ff00"),
             ("📈 Dashboard", "#ff3399"),
-            ("🚪 Exit", "#e94560")
+            ("🚪 Exit", "#e94560"),
         ]
 
         btn_layout = QHBoxLayout()
@@ -1517,7 +1728,8 @@ class ExpenseTracker(QWidget):
             btn.setFixedHeight(36)
             btn.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
 
-            btn.setStyleSheet(f"""
+            btn.setStyleSheet(
+                f"""
                 QPushButton {{
                 background-color: {color};
                 color: {'#ffffff' if self.is_dark_color(color) else '#000000'};
@@ -1545,7 +1757,8 @@ class ExpenseTracker(QWidget):
                 background-color: #555555;
                 color: #888888;
             }}
-        """)
+        """
+            )
 
             # Connect signals
             if "Add" in text:
@@ -1630,7 +1843,8 @@ class ExpenseTracker(QWidget):
         # Neon summary label
         self.summary_label = QLabel("Total: ₱0.00")
         self.summary_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        self.summary_label.setStyleSheet("""
+        self.summary_label.setStyleSheet(
+            """
             QLabel {
                 color: #ffff00;
                 font-family: "Segoe UI";
@@ -1643,14 +1857,15 @@ class ExpenseTracker(QWidget):
                 border: 2px solid #ffff00;
                 margin: 5px;
             }
-        """)
+        """
+        )
         layout.addWidget(self.summary_label)
 
         self.setLayout(layout)
 
     def is_dark_color(self, hex_color):
         """Check if a color is dark (for text contrast)"""
-        hex_color = hex_color.lstrip('#')
+        hex_color = hex_color.lstrip("#")
         r = int(hex_color[0:2], 16)
         g = int(hex_color[2:4], 16)
         b = int(hex_color[4:6], 16)
@@ -1666,7 +1881,7 @@ class ExpenseTracker(QWidget):
 
     def darken_color_universal(self, hex_color, factor=0.3):
         """Darken color for universal hover effect"""
-        hex_color = hex_color.lstrip('#')
+        hex_color = hex_color.lstrip("#")
         r = int(hex_color[0:2], 16)
         g = int(hex_color[2:4], 16)
         b = int(hex_color[4:6], 16)
@@ -1679,7 +1894,7 @@ class ExpenseTracker(QWidget):
 
     def lighten_color_universal(self, hex_color, factor=0.3):
         """Lighten color for universal hover effect"""
-        hex_color = hex_color.lstrip('#')
+        hex_color = hex_color.lstrip("#")
         r = int(hex_color[0:2], 16)
         g = int(hex_color[2:4], 16)
         b = int(hex_color[4:6], 16)
@@ -1692,6 +1907,7 @@ class ExpenseTracker(QWidget):
 
     def go_to_dashboard(self):
         from PyQt5.QtWidgets import QApplication
+
         for w in QApplication.topLevelWidgets():
             if hasattr(w, "tabs") and hasattr(w, "dashboard_tab"):
                 try:
@@ -1715,7 +1931,8 @@ class ExpenseTracker(QWidget):
             data = dialog.get_data()
             if data:
                 self.data_manager.add_expense(
-                    data["category"], data["amount"], data["date"], data["description"])
+                    data["category"], data["amount"], data["date"], data["description"]
+                )
                 logger.info("Expense added via UI: %s", data)
                 self.render_table(self.data_manager.get_sorted_expenses())
                 self._refresh_dashboards()
@@ -1743,8 +1960,7 @@ class ExpenseTracker(QWidget):
 
     def delete_expense(self, category, record):
         if self.data_manager.delete_expense(category, record):
-            QMessageBox.information(
-                self, "Deleted", "Expense deleted successfully.")
+            QMessageBox.information(self, "Deleted", "Expense deleted successfully.")
             logger.warning("Expense deleted via UI: %s", record)
             self.render_table(self.data_manager.get_sorted_expenses())
             self.undo_btn.setEnabled(True)
@@ -1752,8 +1968,7 @@ class ExpenseTracker(QWidget):
 
     def undo_last_delete(self):
         if self.data_manager.undo_delete():
-            QMessageBox.information(
-                self, "Restored", "Last deleted expense restored.")
+            QMessageBox.information(self, "Restored", "Last deleted expense restored.")
             logger.info("Undo delete executed via UI")
             self.show_expense()
             self.undo_btn.setEnabled(False)
@@ -1769,14 +1984,15 @@ class ExpenseTracker(QWidget):
             return
         results = self.data_manager.search_expenses(keyword)
         logger.debug(
-            "Search executed for keyword='%s', %d results found", keyword, len(results))
+            "Search executed for keyword='%s', %d results found", keyword, len(results)
+        )
         self.render_table(results, is_search=True)
 
     def show_expense(self):
         expenses = self.data_manager.get_sorted_expenses()
 
         # FIX: Check if expenses is a Mock object before calling len()
-        if hasattr(expenses, '__class__') and expenses.__class__.__name__ == 'Mock':
+        if hasattr(expenses, "__class__") and expenses.__class__.__name__ == "Mock":
             # In test mode, don't try to log the length
             logger.debug("Displaying expenses (test mode)")
         else:
@@ -1784,8 +2000,10 @@ class ExpenseTracker(QWidget):
 
         if not expenses:
             from PyQt5.QtWidgets import QMessageBox
+
             QMessageBox.information(
-                self, "No Data", "There are no expenses to display.")
+                self, "No Data", "There are no expenses to display."
+            )
         self.render_table(expenses)
         self.table.sortItems(2)
 
@@ -1802,8 +2020,7 @@ class ExpenseTracker(QWidget):
 
     def show_total_expense(self):
         subtotals = self.data_manager.get_category_subtotals()
-        self.render_table(
-            self.data_manager.get_sorted_expenses(), show_totals=True)
+        self.render_table(self.data_manager.get_sorted_expenses(), show_totals=True)
         self.table.sortItems(1, Qt.AscendingOrder)
         self.pin_grand_total_row()
         logger.debug("Displayed totals for %d categories", len(subtotals))
@@ -1826,11 +2043,9 @@ class ExpenseTracker(QWidget):
             formatted = format_expense_row(category, record)
 
             self.table.setItem(row, 0, QTableWidgetItem(formatted["category"]))
-            self.table.setItem(
-                row, 1, NumericTableWidgetItem(formatted["amount"]))
+            self.table.setItem(row, 1, NumericTableWidgetItem(formatted["amount"]))
             self.table.setItem(row, 2, QTableWidgetItem(formatted["date"]))
-            self.table.setItem(row, 3, QTableWidgetItem(
-                formatted["description"]))
+            self.table.setItem(row, 3, QTableWidgetItem(formatted["description"]))
 
             action_widget = QWidget()
             layout = QHBoxLayout(action_widget)
@@ -1876,9 +2091,11 @@ class ExpenseTracker(QWidget):
             delete_btn.setStyleSheet(action_button_style)
 
             edit_btn.clicked.connect(
-                lambda _, c=category, r=record: self.edit_expense(c, r))
+                lambda _, c=category, r=record: self.edit_expense(c, r)
+            )
             delete_btn.clicked.connect(
-                lambda _, c=category, r=record: self.delete_expense(c, r))
+                lambda _, c=category, r=record: self.delete_expense(c, r)
+            )
 
             layout.addWidget(edit_btn)
             layout.addWidget(delete_btn)
@@ -1898,8 +2115,11 @@ class ExpenseTracker(QWidget):
             item_desc = QTableWidgetItem(formatted["description"])
             item_action = QTableWidgetItem("")
 
-            font = QFont("Segoe UI", 12, QFont.Bold) if is_grand else QFont(
-                "Segoe UI", 11, QFont.Bold)
+            font = (
+                QFont("Segoe UI", 12, QFont.Bold)
+                if is_grand
+                else QFont("Segoe UI", 11, QFont.Bold)
+            )
             bg_color = QColor("#ffff00") if is_grand else QColor("#00ffff")
             text_color = QColor("#0f3460") if is_grand else QColor("#0f3460")
 
@@ -1955,13 +2175,16 @@ class ExpenseTracker(QWidget):
             self.pin_grand_total_row()
 
     def refresh_category_dropdowns(self):
-        for widget in __import__("PyQt5.QtWidgets", fromlist=["QApplication"]).QApplication.topLevelWidgets():
+        for widget in __import__(
+            "PyQt5.QtWidgets", fromlist=["QApplication"]
+        ).QApplication.topLevelWidgets():
             for dlg in widget.findChildren(AddExpenseDialog):
                 dlg.category_dropdown.clear()
                 dlg.category_dropdown.addItems(self.data_manager.categories)
 
     def _refresh_dashboards(self):
         from PyQt5.QtWidgets import QApplication, QWidget
+
         for w in QApplication.topLevelWidgets():
             for child in w.findChildren(QWidget):
                 if hasattr(child, "update_dashboard"):
@@ -1975,7 +2198,8 @@ class ExpenseTracker(QWidget):
         self.show_expense()
 
         self.summary_label.setText("✅ Search cleared - Showing all expenses")
-        self.summary_label.setStyleSheet("""
+        self.summary_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ff00;
                 font-family: "Segoe UI";
@@ -1987,7 +2211,8 @@ class ExpenseTracker(QWidget):
                 border-radius: 8px;
                 margin: 5px;
             }
-        """)
+        """
+        )
         QTimer.singleShot(2000, self.fade_label)
 
     def update_summary_label(self):
@@ -2005,7 +2230,8 @@ class ExpenseTracker(QWidget):
 
         def on_fade_out_finished():
             self.update_summary_label()
-            self.summary_label.setStyleSheet("""
+            self.summary_label.setStyleSheet(
+                """
                 QLabel {
                     color: #ffff00;
                     font-family: "Segoe UI";
@@ -2018,7 +2244,8 @@ class ExpenseTracker(QWidget):
                     border: 2px solid #ffff00;
                     margin: 5px;
                 }
-            """)
+            """
+            )
             fade_in = QPropertyAnimation(effect, b"opacity")
             fade_in.setDuration(fade_in_duration)
             fade_in.setStartValue(0)
@@ -2035,16 +2262,24 @@ class ExpenseTracker(QWidget):
 
     def pin_grand_total_row(self):
         rows = self.table.rowCount()
-        grand_rows = [r for r in range(rows)
-                      if self.table.item(r, 0) and self.table.item(r, 0).data(Qt.UserRole) == "grand_total"]
+        grand_rows = [
+            r
+            for r in range(rows)
+            if self.table.item(r, 0)
+            and self.table.item(r, 0).data(Qt.UserRole) == "grand_total"
+        ]
         if not grand_rows:
             return
         grand_row = grand_rows[0]
         if grand_row != rows - 1:
-            items = [self.table.takeItem(grand_row, c)
-                     for c in range(self.table.columnCount())]
-            widgets = [self.table.cellWidget(
-                grand_row, c) for c in range(self.table.columnCount())]
+            items = [
+                self.table.takeItem(grand_row, c)
+                for c in range(self.table.columnCount())
+            ]
+            widgets = [
+                self.table.cellWidget(grand_row, c)
+                for c in range(self.table.columnCount())
+            ]
             self.table.removeRow(grand_row)
             new_row = self.table.rowCount()
             self.table.insertRow(new_row)
@@ -2066,11 +2301,16 @@ class ExpenseTracker(QWidget):
 
     def exit_mode(self):
         from PyQt5.QtWidgets import QMessageBox
+
         reply = QMessageBox.question(
-            self, "Confirm", "Are you sure you want to save and exit?", QMessageBox.Yes | QMessageBox.No)
+            self,
+            "Confirm",
+            "Are you sure you want to save and exit?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
         if reply == QMessageBox.Yes:
             self.data_manager.save_data()
             QMessageBox.information(
-                self, "Save successful", "Thank you for using Expense Tracker.")
-            __import__("PyQt5.QtWidgets", fromlist=[
-                       "QApplication"]).QApplication.quit()
+                self, "Save successful", "Thank you for using Expense Tracker."
+            )
+            __import__("PyQt5.QtWidgets", fromlist=["QApplication"]).QApplication.quit()

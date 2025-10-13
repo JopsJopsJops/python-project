@@ -1,11 +1,22 @@
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox,
-    QListWidget, QPushButton, QComboBox, QLineEdit, QLabel,
-    QDialogButtonBox, QCalendarWidget)
+    QDialog,
+    QVBoxLayout,
+    QHBoxLayout,
+    QInputDialog,
+    QMessageBox,
+    QListWidget,
+    QPushButton,
+    QComboBox,
+    QLineEdit,
+    QLabel,
+    QDialogButtonBox,
+    QCalendarWidget,
+)
 from expense_tracker_app.data_manager import DataManager
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -64,15 +75,17 @@ class CategoryDialog(QDialog):
                         try:
                             self.parent.refresh_category_dropdowns()
                             self.parent.render_table(
-                                self.data_manager.get_sorted_expenses())
+                                self.data_manager.get_sorted_expenses()
+                            )
                         except Exception:
                             pass
                         self._refresh_dashboards()
             # Show duplicate warning if needed
-            if (isinstance(self.data_manager, list) and name in self.data_manager) or \
-               (not isinstance(self.data_manager, list) and name in self.data_manager.categories):
-                QMessageBox.warning(self, 'Duplicate',
-                                    f"'{name}' already exists.")
+            if (isinstance(self.data_manager, list) and name in self.data_manager) or (
+                not isinstance(self.data_manager, list)
+                and name in self.data_manager.categories
+            ):
+                QMessageBox.warning(self, "Duplicate", f"'{name}' already exists.")
 
     def remove_category(self):
         selected = self.list_widget.currentItem()
@@ -82,20 +95,22 @@ class CategoryDialog(QDialog):
 
         category = selected.text()
         if category == "Uncategorized":
-            QMessageBox.warning(self, "Not Allowed",
-                                "'Uncategorized' cannot be removed.")
+            QMessageBox.warning(
+                self, "Not Allowed", "'Uncategorized' cannot be removed."
+            )
             return
 
         if category not in self.data_manager.categories:
             QMessageBox.warning(
-                self, "Error", f"'{category}' is not in the category list.")
+                self, "Error", f"'{category}' is not in the category list."
+            )
             return
 
         reply = QMessageBox.question(
             self,
             "Confirm Delete",
             f"Deleting '{category}' will move all its expenses into 'Uncategorized'. Continue?",
-            QMessageBox.Yes | QMessageBox.No
+            QMessageBox.Yes | QMessageBox.No,
         )
         if reply == QMessageBox.No:
             return
@@ -105,9 +120,7 @@ class CategoryDialog(QDialog):
             self.data_manager.categories.append("Uncategorized")
 
         if category in self.data_manager.expenses:
-            uncategorized = self.data_manager.expenses.setdefault(
-                "Uncategorized", []
-            )
+            uncategorized = self.data_manager.expenses.setdefault("Uncategorized", [])
             uncategorized.extend(self.data_manager.expenses.pop(category))
 
         try:
@@ -119,8 +132,7 @@ class CategoryDialog(QDialog):
         if self.parent:
             try:
                 self.parent.refresh_category_dropdowns()
-                self.parent.render_table(
-                    self.data_manager.get_sorted_expenses())
+                self.parent.render_table(self.data_manager.get_sorted_expenses())
             except Exception:
                 pass
         self._refresh_dashboards()
@@ -129,6 +141,7 @@ class CategoryDialog(QDialog):
         # avoid importing DashboardWidget to prevent circular import;
         # instead search for widgets with update_dashboard method
         from PyQt5.QtWidgets import QApplication, QWidget
+
         for w in QApplication.topLevelWidgets():
             for child in w.findChildren(QWidget):
                 if hasattr(child, "update_dashboard"):
@@ -159,8 +172,7 @@ class AddExpenseDialog(QDialog):
         self.desc_input = QLineEdit()
         self.desc_input.setPlaceholderText("Enter description")
 
-        button_box = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
 
@@ -180,11 +192,10 @@ class AddExpenseDialog(QDialog):
                 "category": self.category_dropdown.currentText(),
                 "amount": float(self.amount_input.text()),
                 "date": self.calendar_widget.selectedDate().toString("yyyy-MM-dd"),
-                "description": self.desc_input.text()
+                "description": self.desc_input.text(),
             }
         except ValueError:
-            QMessageBox.warning(self, "Invalid Input",
-                                "Please enter a valid amount.")
+            QMessageBox.warning(self, "Invalid Input", "Please enter a valid amount.")
             return None
 
     def validate_inputs(self):

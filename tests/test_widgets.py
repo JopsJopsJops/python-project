@@ -4,12 +4,25 @@ import tempfile
 import os
 import sys
 from unittest.mock import Mock, patch, MagicMock, PropertyMock
-from PyQt5.QtWidgets import (QApplication, QTableWidgetItem, QPushButton,
-                             QMessageBox, QWidget, QVBoxLayout, QLabel)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QTableWidgetItem,
+    QPushButton,
+    QMessageBox,
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+)
 from PyQt5.QtCore import Qt
-from expense_tracker_app.widgets import ExpenseTracker, DashboardWidget, NumericTableWidgetItem
+from expense_tracker_app.widgets import (
+    ExpenseTracker,
+    DashboardWidget,
+    NumericTableWidgetItem,
+)
+
 try:
     from matplotlib.backends.backend_pdf import PdfPages
+
     HAS_PDF = True
 except ImportError:
     PdfPages = None
@@ -69,25 +82,29 @@ class TestExpenseTracker:
     @pytest.fixture
     def expense_tracker(self, qtbot):
         """Create ExpenseTracker instance for testing"""
-        with patch('expense_tracker_app.widgets.DataManager') as mock_dm_class:
+        with patch("expense_tracker_app.widgets.DataManager") as mock_dm_class:
             mock_dm = Mock()
             mock_dm.categories = ["Food", "Travel", "Utilities"]
             mock_dm.expenses = {
                 "Food": [
                     {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"},
-                    {"amount": 15.75, "date": "2023-01-02", "description": "Coffee"}
+                    {"amount": 15.75, "date": "2023-01-02", "description": "Coffee"},
                 ],
                 "Travel": [
                     {"amount": 100.00, "date": "2023-01-03", "description": "Bus"}
-                ]
+                ],
             }
             mock_dm.get_sorted_expenses.return_value = mock_dm.expenses
             mock_dm.get_category_subtotals.return_value = {
-                "Food": 41.25, "Travel": 100.00}
+                "Food": 41.25,
+                "Travel": 100.00,
+            }
             mock_dm.get_grand_total.return_value = 141.25
             mock_dm.search_expenses.return_value = [
-                ("Food", {"amount": 25.50,
-                 "date": "2023-01-01", "description": "Lunch"})
+                (
+                    "Food",
+                    {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"},
+                )
             ]
             mock_dm_class.return_value = mock_dm
 
@@ -100,9 +117,9 @@ class TestExpenseTracker:
     def test_init(self, expense_tracker):
         """Test ExpenseTracker initialization"""
         assert expense_tracker is not None
-        assert hasattr(expense_tracker, 'table')
-        assert hasattr(expense_tracker, 'search_input')
-        assert hasattr(expense_tracker, 'summary_label')
+        assert hasattr(expense_tracker, "table")
+        assert hasattr(expense_tracker, "search_input")
+        assert hasattr(expense_tracker, "summary_label")
 
     @pytest.mark.gui
     def test_is_dark_color_dark(self, expense_tracker):
@@ -146,15 +163,18 @@ class TestExpenseTracker:
             "Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}]
         }
 
-        with patch('expense_tracker_app.widgets.ExpenseTracker.__init__', return_value=None):
+        with patch(
+            "expense_tracker_app.widgets.ExpenseTracker.__init__", return_value=None
+        ):
             from expense_tracker_app.widgets import ExpenseTracker
+
             tracker = ExpenseTracker()
             tracker.data_manager = mock_dm
             tracker.table = Mock()
             tracker.summary_label = Mock()
 
             # Mock the render_table method to avoid UI complexity
-            with patch.object(tracker, 'render_table'):
+            with patch.object(tracker, "render_table"):
                 tracker.show_expense()
 
                 mock_dm.get_sorted_expenses.assert_called_once()
@@ -164,12 +184,14 @@ class TestExpenseTracker:
         """Basic test for search_expenses method"""
         mock_dm = Mock()
         mock_dm.search_expenses.return_value = [
-            ("Food", {"amount": 25.50,
-             "date": "2023-01-01", "description": "Lunch"})
+            ("Food", {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"})
         ]
 
-        with patch('expense_tracker_app.widgets.ExpenseTracker.__init__', return_value=None):
+        with patch(
+            "expense_tracker_app.widgets.ExpenseTracker.__init__", return_value=None
+        ):
             from expense_tracker_app.widgets import ExpenseTracker
+
             tracker = ExpenseTracker()
             tracker.data_manager = mock_dm
             tracker.table = Mock()
@@ -177,7 +199,7 @@ class TestExpenseTracker:
             tracker.search_input.text.return_value = "Lunch"
             tracker.summary_label = Mock()
 
-            with patch.object(tracker, 'render_table'):
+            with patch.object(tracker, "render_table"):
                 tracker.search_expenses()
 
                 mock_dm.search_expenses.assert_called_once_with("Lunch")
@@ -199,8 +221,10 @@ class TestExpenseTracker:
 
         assert expense_tracker.search_input.text() == ""
         # The label text might be different, so check if it contains "Total" or just verify it changed
-        assert "Total" in expense_tracker.summary_label.text(
-        ) or "cleared" in expense_tracker.summary_label.text()
+        assert (
+            "Total" in expense_tracker.summary_label.text()
+            or "cleared" in expense_tracker.summary_label.text()
+        )
 
     @pytest.mark.gui
     def test_show_total_expense(self, expense_tracker):
@@ -214,7 +238,7 @@ class TestExpenseTracker:
         assert "Total:" in summary_text
 
     @pytest.mark.gui
-    @patch('expense_tracker_app.widgets.AddExpenseDialog')
+    @patch("expense_tracker_app.widgets.AddExpenseDialog")
     def test_add_expense(self, mock_dialog_class, expense_tracker):
         """Test adding expense"""
         mock_dialog = Mock()
@@ -223,12 +247,13 @@ class TestExpenseTracker:
             "category": "Food",
             "amount": 30.0,
             "date": "2023-01-04",
-            "description": "Dinner"
+            "description": "Dinner",
         }
         mock_dialog_class.return_value = mock_dialog
 
-        with patch.object(expense_tracker, 'render_table') as mock_render, \
-                patch.object(expense_tracker, '_refresh_dashboards') as mock_refresh:
+        with patch.object(expense_tracker, "render_table") as mock_render, patch.object(
+            expense_tracker, "_refresh_dashboards"
+        ) as mock_refresh:
 
             expense_tracker.add_expense()
 
@@ -240,26 +265,27 @@ class TestExpenseTracker:
             mock_refresh.assert_called_once()
 
     @pytest.mark.gui
-    @patch('expense_tracker_app.widgets.AddExpenseDialog')
+    @patch("expense_tracker_app.widgets.AddExpenseDialog")
     def test_add_expense_cancelled(self, mock_dialog_class, expense_tracker):
         """Test cancelled expense addition"""
         mock_dialog = Mock()
         mock_dialog.exec_.return_value = False  # User cancelled
         mock_dialog_class.return_value = mock_dialog
 
-        with patch.object(expense_tracker, 'render_table') as mock_render:
+        with patch.object(expense_tracker, "render_table") as mock_render:
             expense_tracker.add_expense()
 
             mock_dialog_class.assert_called_once()
             mock_render.assert_not_called()  # Should not render if cancelled
 
     @pytest.mark.gui
-    @patch('expense_tracker_app.widgets.AddExpenseDialog')
+    @patch("expense_tracker_app.widgets.AddExpenseDialog")
     def test_edit_expense(self, qtbot):
         """Test editing an expense successfully"""
         # Ensure QApplication exists
         from PyQt5.QtWidgets import QApplication
         import sys
+
         app = QApplication.instance()
         if app is None:
             app = QApplication(sys.argv)
@@ -271,25 +297,24 @@ class TestExpenseTracker:
         # Import and create ExpenseTracker with mocked initialization
         from expense_tracker_app.widgets import ExpenseTracker
 
-        with patch.object(ExpenseTracker, 'show_expense'):
-            with patch.object(ExpenseTracker, 'show_total_expense'):
-                with patch.object(ExpenseTracker, 'refresh_category_dropdowns'):
+        with patch.object(ExpenseTracker, "show_expense"):
+            with patch.object(ExpenseTracker, "show_total_expense"):
+                with patch.object(ExpenseTracker, "refresh_category_dropdowns"):
                     expense_tracker = ExpenseTracker(mock_dm)
                     qtbot.addWidget(expense_tracker)
 
         category = "Food"
-        original_record = {"date": "2023-01-01",
-                           "amount": 25.0, "description": "Lunch"}
+        original_record = {"date": "2023-01-01", "amount": 25.0, "description": "Lunch"}
 
         # Mock the dialog and dependencies
-        with patch('expense_tracker_app.widgets.AddExpenseDialog') as MockDialog:
+        with patch("expense_tracker_app.widgets.AddExpenseDialog") as MockDialog:
             mock_dialog = Mock()
             mock_dialog.exec_.return_value = 1  # Dialog accepted
             mock_dialog.get_data.return_value = {
                 "date": "2023-01-01",
                 "amount": 30.0,
                 "description": "Updated Lunch",
-                "category": "Food"
+                "category": "Food",
             }
             # Mock UI elements accessed in edit_expense
             mock_dialog.amount_input = Mock()
@@ -299,18 +324,17 @@ class TestExpenseTracker:
             mock_dialog.category_dropdown.findText.return_value = 0
             MockDialog.return_value = mock_dialog
 
-            with patch('expense_tracker_app.widgets.QDate') as MockQDate:
+            with patch("expense_tracker_app.widgets.QDate") as MockQDate:
                 mock_date = Mock()
                 mock_date.isValid.return_value = True
                 MockQDate.fromString.return_value = mock_date
 
-                with patch.object(mock_dm, 'update_expense') as mock_update:
-                    with patch.object(expense_tracker, 'render_table'):
-                        with patch.object(expense_tracker, '_refresh_dashboards'):
+                with patch.object(mock_dm, "update_expense") as mock_update:
+                    with patch.object(expense_tracker, "render_table"):
+                        with patch.object(expense_tracker, "_refresh_dashboards"):
 
                             # Call the method
-                            expense_tracker.edit_expense(
-                                category, original_record)
+                            expense_tracker.edit_expense(category, original_record)
 
                             # Verify update_expense was called with correct arguments
                             mock_update.assert_called_once_with(
@@ -320,27 +344,31 @@ class TestExpenseTracker:
                                     "date": "2023-01-01",
                                     "amount": 30.0,
                                     "description": "Updated Lunch",
-                                    "category": "Food"
-                                }
+                                    "category": "Food",
+                                },
                             )
 
     @pytest.mark.gui
     def test_delete_expense(self, expense_tracker):
         """Test deleting expense"""
         category = "Food"
-        record = {"amount": 25.50, "date": "2023-01-01",
-                  "description": "Lunch"}
+        record = {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}
 
         expense_tracker.data_manager.delete_expense.return_value = True
 
-        with patch('expense_tracker_app.widgets.QMessageBox.information') as mock_info, \
-                patch.object(expense_tracker, 'render_table') as mock_render, \
-                patch.object(expense_tracker, '_refresh_dashboards') as mock_refresh:
+        with patch(
+            "expense_tracker_app.widgets.QMessageBox.information"
+        ) as mock_info, patch.object(
+            expense_tracker, "render_table"
+        ) as mock_render, patch.object(
+            expense_tracker, "_refresh_dashboards"
+        ) as mock_refresh:
 
             expense_tracker.delete_expense(category, record)
 
             expense_tracker.data_manager.delete_expense.assert_called_once_with(
-                category, record)
+                category, record
+            )
             mock_info.assert_called_once()
             mock_render.assert_called_once()
             mock_refresh.assert_called_once()
@@ -351,9 +379,13 @@ class TestExpenseTracker:
         """Test successful undo delete"""
         expense_tracker.data_manager.undo_delete.return_value = True
 
-        with patch('expense_tracker_app.widgets.QMessageBox.information') as mock_info, \
-                patch.object(expense_tracker, 'show_expense') as mock_show, \
-                patch.object(expense_tracker, '_refresh_dashboards') as mock_refresh:
+        with patch(
+            "expense_tracker_app.widgets.QMessageBox.information"
+        ) as mock_info, patch.object(
+            expense_tracker, "show_expense"
+        ) as mock_show, patch.object(
+            expense_tracker, "_refresh_dashboards"
+        ) as mock_refresh:
 
             expense_tracker.undo_last_delete()
 
@@ -368,21 +400,25 @@ class TestExpenseTracker:
         """Test failed undo delete"""
         expense_tracker.data_manager.undo_delete.return_value = False
 
-        with patch('expense_tracker_app.widgets.QMessageBox.information') as mock_info:
+        with patch("expense_tracker_app.widgets.QMessageBox.information") as mock_info:
             expense_tracker.undo_last_delete()
 
             mock_info.assert_called_once()
 
     @pytest.mark.gui
-    @patch('expense_tracker_app.widgets.CategoryDialog')
+    @patch("expense_tracker_app.widgets.CategoryDialog")
     def test_open_category_dialog(self, mock_dialog_class, expense_tracker):
         """Test opening category dialog"""
         mock_dialog = Mock()
         mock_dialog_class.return_value = mock_dialog
 
-        with patch.object(expense_tracker, 'refresh_category_dropdowns') as mock_refresh, \
-                patch.object(expense_tracker, 'show_expense') as mock_show, \
-                patch.object(expense_tracker, '_refresh_dashboards') as mock_refresh_dash:
+        with patch.object(
+            expense_tracker, "refresh_category_dropdowns"
+        ) as mock_refresh, patch.object(
+            expense_tracker, "show_expense"
+        ) as mock_show, patch.object(
+            expense_tracker, "_refresh_dashboards"
+        ) as mock_refresh_dash:
 
             expense_tracker.open_category_dialog()
 
@@ -396,9 +432,7 @@ class TestExpenseTracker:
     def test_render_table_with_data(self, expense_tracker):
         """Test table rendering with data"""
         data = {
-            "Food": [
-                {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}
-            ]
+            "Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}]
         }
 
         expense_tracker.render_table(data)
@@ -419,9 +453,7 @@ class TestExpenseTracker:
     def test_render_table_with_totals(self, expense_tracker):
         """Test table rendering with totals"""
         data = {
-            "Food": [
-                {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}
-            ]
+            "Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}]
         }
 
         expense_tracker.render_table(data, show_totals=True)
@@ -434,6 +466,7 @@ class TestExpenseTracker:
         """Test refreshing category dropdowns"""
         from PyQt5.QtWidgets import QApplication
         import sys
+
         app = QApplication.instance()
         if app is None:
             app = QApplication(sys.argv)
@@ -445,8 +478,8 @@ class TestExpenseTracker:
         # Import and create ExpenseTracker with mocked initialization
         from expense_tracker_app.widgets import ExpenseTracker
 
-        with patch.object(ExpenseTracker, 'show_expense'):
-            with patch.object(ExpenseTracker, 'show_total_expense'):
+        with patch.object(ExpenseTracker, "show_expense"):
+            with patch.object(ExpenseTracker, "show_total_expense"):
                 expense_tracker = ExpenseTracker(mock_dm)
                 qtbot.addWidget(expense_tracker)
 
@@ -458,14 +491,14 @@ class TestExpenseTracker:
                 break
             attr_value = getattr(expense_tracker, attr)
             # Skip built-in methods to focus on widget attributes
-            if not attr.startswith('_') and not callable(attr_value):
+            if not attr.startswith("_") and not callable(attr_value):
                 print(f"  {attr}: {type(attr_value)}")
 
         # Since we can't find the specific dropdowns, let's test the method more simply
         print("\nTesting refresh_category_dropdowns method...")
 
         # Mock the data manager categories
-        with patch.object(mock_dm, 'categories', ['Food', 'Travel', 'Utilities']):
+        with patch.object(mock_dm, "categories", ["Food", "Travel", "Utilities"]):
             try:
                 # Call the method and see what happens
                 expense_tracker.refresh_category_dropdowns()
@@ -479,14 +512,16 @@ class TestExpenseTracker:
                 print(f"✗ Method failed: {e}")
                 # If the method fails, we need to know why
                 import traceback
+
                 traceback.print_exc()
 
     @pytest.mark.gui
-    @patch('expense_tracker_app.widgets.QMessageBox.question')
+    @patch("expense_tracker_app.widgets.QMessageBox.question")
     def test_exit_mode_confirmed(self, qtbot):
         """Test exit mode when user confirms"""
         from PyQt5.QtWidgets import QApplication, QMessageBox
         import sys
+
         app = QApplication.instance()
         if app is None:
             app = QApplication(sys.argv)
@@ -498,14 +533,14 @@ class TestExpenseTracker:
         # Import and create ExpenseTracker
         from expense_tracker_app.widgets import ExpenseTracker
 
-        with patch.object(ExpenseTracker, 'show_expense'):
-            with patch.object(ExpenseTracker, 'show_total_expense'):
+        with patch.object(ExpenseTracker, "show_expense"):
+            with patch.object(ExpenseTracker, "show_total_expense"):
                 expense_tracker = ExpenseTracker(mock_dm)
                 qtbot.addWidget(expense_tracker)
 
         # Patch the correct module and use the correct method name
-        with patch('PyQt5.QtWidgets.QApplication.quit') as mock_quit:
-            with patch('PyQt5.QtWidgets.QMessageBox.question') as mock_question:
+        with patch("PyQt5.QtWidgets.QApplication.quit") as mock_quit:
+            with patch("PyQt5.QtWidgets.QMessageBox.question") as mock_question:
                 mock_question.return_value = QMessageBox.Yes  # User confirms
 
                 # Call the correct method name: exit_mode
@@ -519,6 +554,7 @@ class TestExpenseTracker:
         """Test exit mode when user cancels"""
         from PyQt5.QtWidgets import QApplication, QMessageBox
         import sys
+
         app = QApplication.instance()
         if app is None:
             app = QApplication(sys.argv)
@@ -530,13 +566,13 @@ class TestExpenseTracker:
         # Import and create ExpenseTracker
         from expense_tracker_app.widgets import ExpenseTracker
 
-        with patch.object(ExpenseTracker, 'show_expense'):
-            with patch.object(ExpenseTracker, 'show_total_expense'):
+        with patch.object(ExpenseTracker, "show_expense"):
+            with patch.object(ExpenseTracker, "show_total_expense"):
                 expense_tracker = ExpenseTracker(mock_dm)
                 qtbot.addWidget(expense_tracker)
 
-        with patch('PyQt5.QtWidgets.QApplication.quit') as mock_quit:
-            with patch('PyQt5.QtWidgets.QMessageBox.question') as mock_question:
+        with patch("PyQt5.QtWidgets.QApplication.quit") as mock_quit:
+            with patch("PyQt5.QtWidgets.QMessageBox.question") as mock_question:
                 mock_question.return_value = QMessageBox.No  # User cancels
 
                 # Call the correct method name: exit_mode
@@ -565,7 +601,8 @@ class TestDashboardWidget:
         """Create DashboardWidget with proper mocking"""
         mock_dm = Mock()
         mock_dm.expenses = {
-            "Food": [{"amount": 25.0, "date": "2023-01-01", "description": "Lunch"}]}
+            "Food": [{"amount": 25.0, "date": "2023-01-01", "description": "Lunch"}]
+        }
         mock_dm.get_category_subtotals.return_value = {"Food": 25.0}
         mock_dm.get_grand_total.return_value = 25.0
         mock_dm.get_monthly_totals.return_value = {"2023-01": 25.0}
@@ -573,10 +610,15 @@ class TestDashboardWidget:
         from expense_tracker_app.widgets import DashboardWidget
 
         # Mock ALL initialization methods
-        with patch.object(DashboardWidget, 'init_summary_tab') as mock_summary, \
-                patch.object(DashboardWidget, 'init_charts_tab') as mock_charts, \
-                patch.object(DashboardWidget, 'init_trends_tab') as mock_trends, \
-                patch.object(DashboardWidget, 'update_dashboard') as mock_update:
+        with patch.object(
+            DashboardWidget, "init_summary_tab"
+        ) as mock_summary, patch.object(
+            DashboardWidget, "init_charts_tab"
+        ) as mock_charts, patch.object(
+            DashboardWidget, "init_trends_tab"
+        ) as mock_trends, patch.object(
+            DashboardWidget, "update_dashboard"
+        ) as mock_update:
 
             dashboard = DashboardWidget(mock_dm)
             qtbot.addWidget(dashboard)  # This was missing!
@@ -609,9 +651,9 @@ class TestDashboardWidget:
 
         from expense_tracker_app.widgets import DashboardWidget
 
-        with patch.object(DashboardWidget, 'init_summary_tab'), \
-                patch.object(DashboardWidget, 'init_charts_tab'), \
-                patch.object(DashboardWidget, 'init_trends_tab'):
+        with patch.object(DashboardWidget, "init_summary_tab"), patch.object(
+            DashboardWidget, "init_charts_tab"
+        ), patch.object(DashboardWidget, "init_trends_tab"):
 
             dashboard = DashboardWidget(mock_dm)
             qtbot.addWidget(dashboard)  # Now qtbot is available

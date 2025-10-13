@@ -11,7 +11,23 @@ from expense_tracker_app.data_manager import DataManager
 from PyQt5.QtCore import QDate
 from datetime import datetime
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTabWidget, QWidget, QVBoxLayout, QLabel, QHBoxLayout, QPushButton, QComboBox, QDateEdit, QTableWidget, QTableWidgetItem, QHeaderView, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QTabWidget,
+    QWidget,
+    QVBoxLayout,
+    QLabel,
+    QHBoxLayout,
+    QPushButton,
+    QComboBox,
+    QDateEdit,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView,
+    QFileDialog,
+    QMessageBox,
+)
 import sys
 import logging
 
@@ -21,8 +37,8 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         logging.FileHandler("expense_tracker.log", encoding="utf-8"),
-        logging.StreamHandler()
-    ]
+        logging.StreamHandler(),
+    ],
 )
 
 # Quiet down noisy libraries
@@ -44,16 +60,21 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(1000, 600)
 
         # Only initialize UI if not in test mode
-        if not hasattr(self.data_manager, '__class__') or self.data_manager.__class__.__name__ != 'Mock':
+        if (
+            not hasattr(self.data_manager, "__class__")
+            or self.data_manager.__class__.__name__ != "Mock"
+        ):
 
             # Apply dark theme to the main window
-            self.setStyleSheet("""
+            self.setStyleSheet(
+                """
                 QMainWindow {
                     background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
                         stop:0 #1a1a2e, stop:1 #16213e);
                     color: #e2e2e2;
                 }
-            """)
+            """
+            )
 
             # Tabs widget as central
             self.tabs = QTabWidget()
@@ -86,7 +107,8 @@ class MainWindow(QMainWindow):
 
     def create_menus(self):
         menubar = self.menuBar()
-        menubar.setStyleSheet("""
+        menubar.setStyleSheet(
+            """
             QMenuBar {
             background-color: #2d2d2d;
             color: #e0e0e0;
@@ -112,7 +134,8 @@ class MainWindow(QMainWindow):
         QMenu::item:selected {
             background-color: #007acc;
         }
-    """)
+    """
+        )
 
         # ---- File Menu ----
         file_menu = menubar.addMenu("File")
@@ -137,11 +160,14 @@ class MainWindow(QMainWindow):
         # View menu
         view_menu = menubar.addMenu("View")
         view_menu.addAction(
-            "Show Expenses", lambda: self.tabs.setCurrentWidget(self.expenses_tab))
+            "Show Expenses", lambda: self.tabs.setCurrentWidget(self.expenses_tab)
+        )
         view_menu.addAction(
-            "Show Dashboard", lambda: self.tabs.setCurrentWidget(self.dashboard_tab))
+            "Show Dashboard", lambda: self.tabs.setCurrentWidget(self.dashboard_tab)
+        )
         view_menu.addAction(
-            "Show Reports", lambda: self.tabs.setCurrentWidget(self.reports_tab))
+            "Show Reports", lambda: self.tabs.setCurrentWidget(self.reports_tab)
+        )
 
         # Help
         help_menu = menubar.addMenu("Help")
@@ -152,7 +178,8 @@ class MainWindow(QMainWindow):
         reports_layout = QVBoxLayout(self.reports_tab)
 
         title = QLabel("Reports & Exports")
-        title.setStyleSheet("""
+        title.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-family: "Segoe UI";
@@ -164,7 +191,8 @@ class MainWindow(QMainWindow):
                 border-radius: 8px;
                 margin: 5px;
             }
-        """)
+        """
+        )
         reports_layout.addWidget(title)
 
         filter_layout = QHBoxLayout()
@@ -184,7 +212,8 @@ class MainWindow(QMainWindow):
         self.start_date = QDateEdit()
         self.start_date.setCalendarPopup(True)
         self.start_date.setDate(start_date)  # Use dynamic start date
-        self.start_date.setStyleSheet("""
+        self.start_date.setStyleSheet(
+            """
             QDateEdit {
                 background: #2d2d2d;
                 color: #e0e0e0;
@@ -194,7 +223,8 @@ class MainWindow(QMainWindow):
                 font-family: "Segoe UI";
                 min-width: 100px;
             }
-        """)
+        """
+        )
         filter_layout.addWidget(self.start_date)
 
         filter_layout.addWidget(QLabel("To:"))
@@ -208,8 +238,10 @@ class MainWindow(QMainWindow):
         self.category_filter = QComboBox()
         self.category_filter.addItem("All")
         self.category_filter.addItems(
-            self.expense_tracker.data_manager.get_all_categories())
-        self.category_filter.setStyleSheet("""
+            self.expense_tracker.data_manager.get_all_categories()
+        )
+        self.category_filter.setStyleSheet(
+            """
             QComboBox {
                 background: #2d2d2d;
                 color: #e0e0e0;
@@ -219,11 +251,13 @@ class MainWindow(QMainWindow):
                 font-family: "Segoe UI";
                 min-width: 120px;
             }
-        """)
+        """
+        )
         filter_layout.addWidget(self.category_filter)
 
         apply_filter_btn = QPushButton("Apply Filter")
-        apply_filter_btn.setStyleSheet("""
+        apply_filter_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #007acc;
                 color: white;
@@ -236,14 +270,16 @@ class MainWindow(QMainWindow):
             QPushButton:hover {
                 background-color: #005a9e;
             }
-        """)
+        """
+        )
         apply_filter_btn.clicked.connect(self.update_report_view)
         filter_layout.addWidget(apply_filter_btn)
 
         reports_layout.addLayout(filter_layout)
 
         self.summary_label = QLabel("Summary: No data")
-        self.summary_label.setStyleSheet("""
+        self.summary_label.setStyleSheet(
+            """
             QLabel {
                 color: #ffff00;
                 font-family: "Segoe UI";
@@ -255,18 +291,21 @@ class MainWindow(QMainWindow):
                 border-radius: 6px;
                 margin: 5px;
             }
-        """)
+        """
+        )
         reports_layout.addWidget(self.summary_label)
 
         self.report_table = QTableWidget()
         self.report_table.setColumnCount(4)
         self.report_table.setHorizontalHeaderLabels(
-            ["Category", "Amount", "Date", "Description"])
+            ["Category", "Amount", "Date", "Description"]
+        )
         self.report_table.horizontalHeader().setStretchLastSection(True)
         self.report_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         # Dark neon table styling
-        self.report_table.setStyleSheet("""
+        self.report_table.setStyleSheet(
+            """
             QTableWidget {
             background-color: #252526;
             color: #e0e0e0;
@@ -300,12 +339,12 @@ class MainWindow(QMainWindow):
             font-family: "Segoe UI";
             font-size: 12px;
         }
-    """)
+    """
+        )
 
         self.report_table.setShowGrid(True)
         self.report_table.setAlternatingRowColors(True)
-        self.report_table.setAlternatingRowColors(
-            False)
+        self.report_table.setAlternatingRowColors(False)
 
         reports_layout.addWidget(self.report_table)
 
@@ -361,7 +400,7 @@ class MainWindow(QMainWindow):
                 exp.get("category", ""),
                 str(exp.get("amount", "")),
                 exp.get("date", ""),
-                exp.get("description", "")
+                exp.get("description", ""),
             ]
 
             # accumulate
@@ -406,30 +445,35 @@ class MainWindow(QMainWindow):
 
         for cat, items in self.data_manager.expenses.items():
             for e in items:
-                entry_category = e.get("category") if isinstance(
-                    e, dict) and e.get("category") else cat
+                entry_category = (
+                    e.get("category")
+                    if isinstance(e, dict) and e.get("category")
+                    else cat
+                )
                 if entry_category is None:
                     entry_category = "Uncategorized"
 
                 exp_date = None
                 try:
-                    exp_date = datetime.strptime(
-                        e.get("date", ""), "%Y-%m-%d").date()
+                    exp_date = datetime.strptime(e.get("date", ""), "%Y-%m-%d").date()
                 except Exception:
                     exp_date = None
 
                 match_category = (category_filter == "all") or (
-                    str(entry_category).strip().lower() == category_filter)
+                    str(entry_category).strip().lower() == category_filter
+                )
 
                 match_date = not exp_date or (start <= exp_date <= end)
 
                 if match_category and match_date:
-                    expenses.append({
-                        "category": entry_category,
-                        "amount": e.get("amount", 0),
-                        "date": e.get("date", ""),
-                        "description": e.get("description", "")
-                    })
+                    expenses.append(
+                        {
+                            "category": entry_category,
+                            "amount": e.get("amount", 0),
+                            "date": e.get("date", ""),
+                            "description": e.get("description", ""),
+                        }
+                    )
 
         return expenses
 
@@ -438,11 +482,11 @@ class MainWindow(QMainWindow):
         all_dates = []
         for category, expenses in self.data_manager.expenses.items():
             for expense in expenses:
-                date_str = expense.get('date', '')
+                date_str = expense.get("date", "")
                 if date_str:
                     try:
                         # Validate the date format
-                        datetime.strptime(date_str, '%Y-%m-%d')
+                        datetime.strptime(date_str, "%Y-%m-%d")
                         all_dates.append(date_str)
                     except ValueError:
                         continue  # Skip invalid dates
@@ -488,10 +532,12 @@ class MainWindow(QMainWindow):
                     self,
                     "Save File",
                     "expenses.xlsx",
-                    "Excel Files (*.xlsx);;CSV Files (*.csv)"
+                    "Excel Files (*.xlsx);;CSV Files (*.csv)",
                 )
                 if file_path:
-                    if selected_filter.startswith("Excel") or file_path.lower().endswith(".xlsx"):
+                    if selected_filter.startswith(
+                        "Excel"
+                    ) or file_path.lower().endswith(".xlsx"):
                         if not file_path.lower().endswith(".xlsx"):
                             file_path += ".xlsx"
                         ReportService.export_to_excel(data, file_path)
@@ -499,8 +545,7 @@ class MainWindow(QMainWindow):
                         if not file_path.lower().endswith(".csv"):
                             file_path += ".csv"
                         ReportService.export_to_csv(data, file_path)
-                    QMessageBox.information(
-                        self, "Export", f"Exported to {file_path}")
+                    QMessageBox.information(self, "Export", f"Exported to {file_path}")
                     return True
         except Exception as e:
             logger.exception("Excel/CSV export failed (MainWindow): %s", e)
@@ -526,11 +571,11 @@ class MainWindow(QMainWindow):
                 return True
             else:
                 file_path, _ = QFileDialog.getSaveFileName(
-                    self, "Save PDF File", "expenses.pdf", "PDF Files (*.pdf)")
+                    self, "Save PDF File", "expenses.pdf", "PDF Files (*.pdf)"
+                )
                 if file_path:
                     ReportService.export_to_pdf(data, file_path)
-                    QMessageBox.information(
-                        self, "Export", f"Exported to {file_path}")
+                    QMessageBox.information(self, "Export", f"Exported to {file_path}")
                     return True
         except Exception as e:
             logger.exception("PDF export failed (MainWindow): %s", e)
@@ -550,7 +595,10 @@ class MainWindow(QMainWindow):
                 self.refresh_all_components()
 
                 QMessageBox.information(
-                    self, "Import Successful", "Expenses imported successfully!\n\nAll views have been refreshed.")
+                    self,
+                    "Import Successful",
+                    "Expenses imported successfully!\n\nAll views have been refreshed.",
+                )
             except Exception as e:
                 QMessageBox.warning(self, "Import Failed", f"Error: {e}")
 
@@ -560,15 +608,17 @@ class MainWindow(QMainWindow):
         )
         if file_name:
             try:
-                DataImportService.import_from_excel(
-                    file_name, self.data_manager)
+                DataImportService.import_from_excel(file_name, self.data_manager)
                 self.data_manager.load_expense()
 
                 # AUTO-REFRESH ALL COMPONENTS
                 self.refresh_all_components()
 
                 QMessageBox.information(
-                    self, "Import Successful", "Expenses imported successfully!\n\nAll views have been refreshed.")
+                    self,
+                    "Import Successful",
+                    "Expenses imported successfully!\n\nAll views have been refreshed.",
+                )
             except Exception as e:
                 QMessageBox.warning(self, "Import Failed", f"Error: {e}")
 
@@ -595,10 +645,11 @@ class MainWindow(QMainWindow):
         """Exit the application with save confirmation - matches dashboard exit behavior"""
 
         reply = QMessageBox.question(
-            self, "Confirm Exit",
+            self,
+            "Confirm Exit",
             "Are you sure you want to save and exit?",
             QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No
+            QMessageBox.No,
         )
 
         if reply == QMessageBox.Yes:
@@ -609,7 +660,7 @@ class MainWindow(QMainWindow):
             QMessageBox.information(
                 self,
                 "Save Successful",
-                "Thank you for using Expense Tracker.\nYour data has been saved successfully."
+                "Thank you for using Expense Tracker.\nYour data has been saved successfully.",
             )
 
             # Close the application
@@ -620,10 +671,11 @@ class MainWindow(QMainWindow):
         """Handle window close (X button) - same behavior as exit menu"""
 
         reply = QMessageBox.question(
-            self, "Confirm Exit",
+            self,
+            "Confirm Exit",
             "Are you sure you want to save and exit?",
             QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No
+            QMessageBox.No,
         )
 
         if reply == QMessageBox.Yes:
@@ -638,7 +690,8 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     # Professional Dark Theme
-    app.setStyleSheet("""
+    app.setStyleSheet(
+        """
         QMainWindow {
             background-color: #1e1e1e;
             color: #e0e0e0;
@@ -706,7 +759,8 @@ if __name__ == "__main__":
         QMessageBox QPushButton:pressed {
             background-color: #004578;
         }
-    """)
+    """
+    )
 
     main = MainWindow()
     main.show()

@@ -19,17 +19,21 @@ class TestReportService:
         """Test summary report generation"""
         mock_dm = Mock()
         mock_dm.list_all_expenses.return_value = [
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"}
+            {
+                "category": "Food",
+                "amount": 25.50,
+                "date": "2023-01-01",
+                "description": "Lunch",
+            }
         ]
 
         service = ReportService(mock_dm)
 
-        with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
             temp_path = f.name
 
         try:
-            with patch.object(ReportService, 'export_to_pdf') as mock_export:
+            with patch.object(ReportService, "export_to_pdf") as mock_export:
                 mock_export.return_value = temp_path
 
                 result = service.generate_summary_report(temp_path)
@@ -46,27 +50,43 @@ class TestReportService:
         """Test monthly report generation"""
         mock_dm = Mock()
         mock_dm.list_all_expenses.return_value = [
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"},
-            {"category": "Travel", "amount": 100.00,
-                "date": "2023-02-01", "description": "Bus"}
+            {
+                "category": "Food",
+                "amount": 25.50,
+                "date": "2023-01-01",
+                "description": "Lunch",
+            },
+            {
+                "category": "Travel",
+                "amount": 100.00,
+                "date": "2023-02-01",
+                "description": "Bus",
+            },
         ]
 
         service = ReportService(mock_dm)
 
-        with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
             temp_path = f.name
 
         try:
-            with patch.object(ReportService, 'export_to_pdf') as mock_export:
+            with patch.object(ReportService, "export_to_pdf") as mock_export:
                 mock_export.return_value = temp_path
 
                 result = service.generate_monthly_report("2023-01", temp_path)
 
                 assert result == temp_path
-                mock_export.assert_called_once_with([{
-                    "category": "Food", "amount": 25.50, "date": "2023-01-01", "description": "Lunch"
-                }], temp_path)
+                mock_export.assert_called_once_with(
+                    [
+                        {
+                            "category": "Food",
+                            "amount": 25.50,
+                            "date": "2023-01-01",
+                            "description": "Lunch",
+                        }
+                    ],
+                    temp_path,
+                )
         finally:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
@@ -81,19 +101,20 @@ class TestReportService:
 
         service = ReportService(mock_dm)
 
-        with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
             temp_path = f.name
 
         try:
-            with patch.object(ReportService, 'export_to_pdf') as mock_export:
+            with patch.object(ReportService, "export_to_pdf") as mock_export:
                 mock_export.return_value = temp_path
 
                 result = service.generate_category_report("Food", temp_path)
 
                 assert result == temp_path
-                mock_export.assert_called_once_with([{
-                    "amount": 25.50, "date": "2023-01-01", "description": "Lunch"
-                }], temp_path)
+                mock_export.assert_called_once_with(
+                    [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}],
+                    temp_path,
+                )
         finally:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
@@ -102,12 +123,8 @@ class TestReportService:
     def test_iter_rows_from_data_dict(self):
         """Test row iteration from dictionary data"""
         data = {
-            "Food": [
-                {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}
-            ],
-            "Travel": [
-                {"amount": 100.00, "date": "2023-01-02", "description": "Bus"}
-            ]
+            "Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}],
+            "Travel": [{"amount": 100.00, "date": "2023-01-02", "description": "Bus"}],
         }
 
         rows = ReportService._iter_rows_from_data(data)
@@ -122,10 +139,18 @@ class TestReportService:
     def test_iter_rows_from_data_list(self):
         """Test row iteration from list data"""
         data = [
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"},
-            {"category": "Travel", "amount": 100.00,
-                "date": "2023-01-02", "description": "Bus"}
+            {
+                "category": "Food",
+                "amount": 25.50,
+                "date": "2023-01-01",
+                "description": "Lunch",
+            },
+            {
+                "category": "Travel",
+                "amount": 100.00,
+                "date": "2023-01-02",
+                "description": "Bus",
+            },
         ]
 
         rows = ReportService._iter_rows_from_data(data)
@@ -156,11 +181,15 @@ class TestReportService:
     def test_export_to_csv_success(self):
         """Test successful CSV export"""
         data = [
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"}
+            {
+                "category": "Food",
+                "amount": 25.50,
+                "date": "2023-01-01",
+                "description": "Lunch",
+            }
         ]
 
-        with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as f:
             temp_path = f.name
 
         try:
@@ -170,7 +199,7 @@ class TestReportService:
             assert os.path.exists(temp_path)
 
             # Verify file content
-            with open(temp_path, 'r', encoding='utf-8') as f:
+            with open(temp_path, "r", encoding="utf-8") as f:
                 content = f.read()
                 assert "category,amount,date,description" in content
                 assert "Food,25.5,2023-01-01,Lunch" in content
@@ -181,7 +210,7 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_csv_empty_data(self):
         """Test CSV export with empty data"""
-        with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as f:
             temp_path = f.name
 
         try:
@@ -191,10 +220,10 @@ class TestReportService:
             assert os.path.exists(temp_path)
 
             # Verify file has only headers
-            with open(temp_path, 'r', encoding='utf-8') as f:
+            with open(temp_path, "r", encoding="utf-8") as f:
                 content = f.read()
                 assert "category,amount,date,description" in content
-                lines = content.strip().split('\n')
+                lines = content.strip().split("\n")
                 assert len(lines) == 1  # Only headers
         finally:
             if os.path.exists(temp_path):
@@ -203,8 +232,9 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_csv_exception(self):
         """Test CSV export exception handling"""
-        with patch('builtins.open', side_effect=Exception("File error")), \
-                patch('expense_tracker_app.reports.QMessageBox.warning') as mock_warning:
+        with patch("builtins.open", side_effect=Exception("File error")), patch(
+            "expense_tracker_app.reports.QMessageBox.warning"
+        ) as mock_warning:
 
             result = ReportService.export_to_csv([], "invalid/path.csv")
 
@@ -215,11 +245,15 @@ class TestReportService:
     def test_export_to_excel_success(self):
         """Test successful Excel export"""
         data = [
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"}
+            {
+                "category": "Food",
+                "amount": 25.50,
+                "date": "2023-01-01",
+                "description": "Lunch",
+            }
         ]
 
-        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as f:
             temp_path = f.name
 
         try:
@@ -234,7 +268,7 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_excel_empty_data(self):
         """Test Excel export with empty data"""
-        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as f:
             temp_path = f.name
 
         try:
@@ -249,8 +283,10 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_excel_exception(self):
         """Test Excel export exception handling"""
-        with patch('expense_tracker_app.reports.xlsxwriter.Workbook', side_effect=Exception("Excel error")), \
-                patch('expense_tracker_app.reports.QMessageBox.warning') as mock_warning:
+        with patch(
+            "expense_tracker_app.reports.xlsxwriter.Workbook",
+            side_effect=Exception("Excel error"),
+        ), patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning:
 
             result = ReportService.export_to_excel([], "test.xlsx")
 
@@ -261,11 +297,15 @@ class TestReportService:
     def test_export_to_pdf_success(self):
         """Test successful PDF export"""
         data = [
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"}
+            {
+                "category": "Food",
+                "amount": 25.50,
+                "date": "2023-01-01",
+                "description": "Lunch",
+            }
         ]
 
-        with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
             temp_path = f.name
 
         try:
@@ -280,7 +320,7 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_pdf_empty_data(self):
         """Test PDF export with empty data"""
-        with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as f:
             temp_path = f.name
 
         try:
@@ -295,8 +335,10 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_pdf_exception(self):
         """Test PDF export exception handling"""
-        with patch('expense_tracker_app.reports.SimpleDocTemplate', side_effect=Exception("PDF error")), \
-                patch('expense_tracker_app.reports.QMessageBox.warning') as mock_warning:
+        with patch(
+            "expense_tracker_app.reports.SimpleDocTemplate",
+            side_effect=Exception("PDF error"),
+        ), patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning:
 
             result = ReportService.export_to_pdf([], "test.pdf")
 

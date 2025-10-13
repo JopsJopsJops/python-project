@@ -9,7 +9,7 @@ def format_expense_row(category, record):
         "category": category,
         "amount": f"{record.get('amount', 0.0):.2f}",
         "date": record.get("date", ""),
-        "description": record.get("description", "")
+        "description": record.get("description", ""),
     }
 
 
@@ -20,21 +20,20 @@ def format_total_row(category_name, subtotal, is_grand=False):
             "category": "Grand Total",
             "amount": f"₱{subtotal:,.2f}",
             "description": "",
-            "is_grand_total": True
+            "is_grand_total": True,
         }
     else:
         return {
             "category": category_name,
             "amount": f"₱{subtotal:,.2f}",
             "description": "Subtotal",
-            "is_grand_total": False
+            "is_grand_total": False,
         }
 
 
 def prepare_chart_data(categories, amounts, top_n=5):
     """Sort categories+amounts and combine small ones into 'Others'."""
-    sorted_data = sorted(zip(categories, amounts),
-                         key=lambda x: x[1], reverse=True)
+    sorted_data = sorted(zip(categories, amounts), key=lambda x: x[1], reverse=True)
     cats_sorted, amts_sorted = zip(*sorted_data)
     top_categories = list(cats_sorted[:top_n])
     top_amounts = list(amts_sorted[:top_n])

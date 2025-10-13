@@ -13,6 +13,7 @@ from datetime import datetime
 # Add the project root to Python path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
+
 @pytest.mark.unit
 @pytest.fixture
 def mock_data_manager():
@@ -21,7 +22,7 @@ def mock_data_manager():
     mock_dm.expenses = {
         "Food": [
             {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"},
-            {"amount": 15.75, "date": "2023-01-02", "description": "Coffee"}
+            {"amount": 15.75, "date": "2023-01-02", "description": "Coffee"},
         ]
     }
     mock_dm.categories = ["Food", "Travel", "Utilities"]
@@ -30,14 +31,23 @@ def mock_data_manager():
     mock_dm.get_grand_total.return_value = 41.25
     mock_dm.get_monthly_totals.return_value = {"2023-01": 41.25}
     mock_dm.list_all_expenses.return_value = [
-        {"category": "Food", "amount": 25.50,
-            "date": "2023-01-01", "description": "Lunch"},
-        {"category": "Food", "amount": 15.75,
-            "date": "2023-01-02", "description": "Coffee"}
+        {
+            "category": "Food",
+            "amount": 25.50,
+            "date": "2023-01-01",
+            "description": "Lunch",
+        },
+        {
+            "category": "Food",
+            "amount": 15.75,
+            "date": "2023-01-02",
+            "description": "Coffee",
+        },
     ]
     mock_dm.save_data = Mock()
     mock_dm.load_expense = Mock()
     return mock_dm
+
 
 @pytest.mark.unit
 @pytest.fixture
@@ -49,13 +59,16 @@ def app():
     yield app
     # Don't quit here - let pytest handle cleanup
 
+
 @pytest.mark.unit
 @pytest.fixture
 def main_window(mock_data_manager, qtbot):
     """Create main window for testing with proper mocking"""
-    with patch('expense_tracker_app.main.DataManager') as MockDataManager, \
-            patch('expense_tracker_app.main.ExpenseTracker') as MockExpenseTracker, \
-            patch('expense_tracker_app.main.DashboardWidget') as MockDashboardWidget:
+    with patch("expense_tracker_app.main.DataManager") as MockDataManager, patch(
+        "expense_tracker_app.main.ExpenseTracker"
+    ) as MockExpenseTracker, patch(
+        "expense_tracker_app.main.DashboardWidget"
+    ) as MockDashboardWidget:
 
         MockDataManager.return_value = mock_data_manager
 
@@ -66,6 +79,7 @@ def main_window(mock_data_manager, qtbot):
         MockDashboardWidget.return_value = mock_dashboard
 
         from expense_tracker_app.main import MainWindow
+
         window = MainWindow()
         qtbot.addWidget(window)
 
@@ -78,30 +92,36 @@ def main_window(mock_data_manager, qtbot):
 
 class TestMainWindow:
     """Comprehensive tests for MainWindow to achieve 100% coverage"""
+
     @pytest.mark.unit
     @pytest.fixture
     def main_window_with_ui(self, qtbot):
         """Create MainWindow with proper UI mocking"""
-        with patch('expense_tracker_app.main.DataManager') as MockDM, \
-                patch('expense_tracker_app.main.ExpenseTracker') as MockET, \
-                patch('expense_tracker_app.main.DashboardWidget') as MockDash:
+        with patch("expense_tracker_app.main.DataManager") as MockDM, patch(
+            "expense_tracker_app.main.ExpenseTracker"
+        ) as MockET, patch("expense_tracker_app.main.DashboardWidget") as MockDash:
 
             # Mock data manager with STRING dates (not datetime objects)
             mock_dm = Mock()
             mock_dm.expenses = {
                 "Food": [
-                    {"amount": 25.50, "date": "2023-01-01",
-                        "description": "Lunch"},  # STRING date
-                    {"amount": 15.75, "date": "2023-01-02",
-                        "description": "Coffee"}  # STRING date
+                    {
+                        "amount": 25.50,
+                        "date": "2023-01-01",
+                        "description": "Lunch",
+                    },  # STRING date
+                    {
+                        "amount": 15.75,
+                        "date": "2023-01-02",
+                        "description": "Coffee",
+                    },  # STRING date
                 ]
             }
             mock_dm.categories = ["Food", "Travel", "Utilities"]
             mock_dm.get_sorted_expenses.return_value = mock_dm.expenses
             mock_dm.get_category_subtotals.return_value = {"Food": 41.25}
             mock_dm.get_grand_total.return_value = 41.25
-            mock_dm.get_all_categories.return_value = [
-                "Food", "Travel", "Utilities"]
+            mock_dm.get_all_categories.return_value = ["Food", "Travel", "Utilities"]
             MockDM.return_value = mock_dm
 
             # Mock widgets
@@ -111,6 +131,7 @@ class TestMainWindow:
             MockDash.return_value = mock_dashboard
 
             from expense_tracker_app.main import MainWindow
+
             window = MainWindow()
             qtbot.addWidget(window)
 
@@ -137,10 +158,10 @@ class TestMainWindow:
         """Test MainWindow initializes correctly with all components"""
         window = main_window_with_ui
         assert window is not None
-        assert hasattr(window, 'data_manager')
-        assert hasattr(window, 'expense_tracker')
-        assert hasattr(window, 'dashboard')
-        assert hasattr(window, 'tabs')
+        assert hasattr(window, "data_manager")
+        assert hasattr(window, "expense_tracker")
+        assert hasattr(window, "dashboard")
+        assert hasattr(window, "tabs")
 
     @pytest.mark.unit
     def test_setup_ui_components(self, main_window_with_ui):
@@ -168,8 +189,7 @@ class TestMainWindow:
         window.end_date.date.return_value = QDate(2023, 12, 31)
 
         # FIX: Mock get_all_expense_dates to return string dates
-        window.get_all_expense_dates = Mock(
-            return_value=["2023-01-01", "2023-01-02"])
+        window.get_all_expense_dates = Mock(return_value=["2023-01-01", "2023-01-02"])
 
         # Test get_all_expense_dates
         dates = window.get_all_expense_dates()
@@ -184,10 +204,18 @@ class TestMainWindow:
 
             # Simulate date filtering logic
             all_expenses = [
-                {"category": "Food", "amount": 25.50,
-                    "date": "2023-01-01", "description": "Lunch"},
-                {"category": "Food", "amount": 15.75,
-                    "date": "2023-01-02", "description": "Coffee"}
+                {
+                    "category": "Food",
+                    "amount": 25.50,
+                    "date": "2023-01-01",
+                    "description": "Lunch",
+                },
+                {
+                    "category": "Food",
+                    "amount": 15.75,
+                    "date": "2023-01-02",
+                    "description": "Coffee",
+                },
             ]
 
             filtered = []
@@ -199,8 +227,7 @@ class TestMainWindow:
 
             return filtered
 
-        window.get_filtered_expenses = Mock(
-            side_effect=mock_get_filtered_expenses)
+        window.get_filtered_expenses = Mock(side_effect=mock_get_filtered_expenses)
 
         # Test get_filtered_expenses with default date range (should return both)
         expenses = window.get_filtered_expenses()
@@ -212,8 +239,7 @@ class TestMainWindow:
         assert len(filtered) == 2
 
         # Test with date filter - FIX: Set the date to only include one expense
-        window.start_date.date.return_value = QDate(
-            2023, 1, 2)  # Only include Jan 2nd
+        window.start_date.date.return_value = QDate(2023, 1, 2)  # Only include Jan 2nd
         date_filtered = window.get_filtered_expenses()
         assert len(date_filtered) == 1  # Should only return the Coffee expense
         assert date_filtered[0]["description"] == "Coffee"
@@ -229,14 +255,23 @@ class TestMainWindow:
         window.summary_label.setText = Mock()
 
         # FIX: Mock the date methods
-        window.get_all_expense_dates = Mock(
-            return_value=["2023-01-01", "2023-01-02"])
-        window.get_filtered_expenses = Mock(return_value=[
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"},
-            {"category": "Food", "amount": 15.75,
-                "date": "2023-01-02", "description": "Coffee"}
-        ])
+        window.get_all_expense_dates = Mock(return_value=["2023-01-01", "2023-01-02"])
+        window.get_filtered_expenses = Mock(
+            return_value=[
+                {
+                    "category": "Food",
+                    "amount": 25.50,
+                    "date": "2023-01-01",
+                    "description": "Lunch",
+                },
+                {
+                    "category": "Food",
+                    "amount": 15.75,
+                    "date": "2023-01-02",
+                    "description": "Coffee",
+                },
+            ]
+        )
 
         # Test update methods
         window.update_report_view()
@@ -252,15 +287,26 @@ class TestMainWindow:
         window = main_window_with_ui
 
         # FIX: Mock get_filtered_expenses to return data
-        window.get_filtered_expenses = Mock(return_value=[
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"}
-        ])
+        window.get_filtered_expenses = Mock(
+            return_value=[
+                {
+                    "category": "Food",
+                    "amount": 25.50,
+                    "date": "2023-01-01",
+                    "description": "Lunch",
+                }
+            ]
+        )
 
-        with patch('expense_tracker_app.main.ReportService.export_to_excel') as mock_excel, \
-                patch('expense_tracker_app.main.ReportService.export_to_csv') as mock_csv, \
-                patch('expense_tracker_app.main.ReportService.export_to_pdf') as mock_pdf, \
-                patch('expense_tracker_app.main.QFileDialog.getSaveFileName') as mock_dialog:
+        with patch(
+            "expense_tracker_app.main.ReportService.export_to_excel"
+        ) as mock_excel, patch(
+            "expense_tracker_app.main.ReportService.export_to_csv"
+        ) as mock_csv, patch(
+            "expense_tracker_app.main.ReportService.export_to_pdf"
+        ) as mock_pdf, patch(
+            "expense_tracker_app.main.QFileDialog.getSaveFileName"
+        ) as mock_dialog:
 
             mock_dialog.return_value = ("test.xlsx", "Excel Files (*.xlsx)")
             mock_excel.return_value = "test.xlsx"
@@ -289,13 +335,16 @@ class TestMainWindow:
         """Test import methods"""
         window = main_window_with_ui
 
-        with patch('expense_tracker_app.main.DataImportService.import_from_csv') as mock_csv_import, \
-                patch('expense_tracker_app.main.DataImportService.import_from_excel') as mock_excel_import, \
-                patch('expense_tracker_app.main.QFileDialog.getOpenFileName') as mock_dialog:
+        with patch(
+            "expense_tracker_app.main.DataImportService.import_from_csv"
+        ) as mock_csv_import, patch(
+            "expense_tracker_app.main.DataImportService.import_from_excel"
+        ) as mock_excel_import, patch(
+            "expense_tracker_app.main.QFileDialog.getOpenFileName"
+        ) as mock_dialog:
 
             mock_dialog.return_value = ("test.csv", "CSV Files (*.csv)")
-            mock_csv_import.return_value = {
-                'success': True, 'data': {'Food': []}}
+            mock_csv_import.return_value = {"success": True, "data": {"Food": []}}
 
             # Mock refresh method
             window.refresh_all_components = Mock()
@@ -306,8 +355,7 @@ class TestMainWindow:
 
             # Test Excel import
             mock_dialog.return_value = ("test.xlsx", "Excel Files (*.xlsx)")
-            mock_excel_import.return_value = {
-                'success': True, 'data': {'Travel': []}}
+            mock_excel_import.return_value = {"success": True, "data": {"Travel": []}}
             window.import_from_excel()
             mock_excel_import.assert_called_once()
 
@@ -316,8 +364,11 @@ class TestMainWindow:
         """Test application exit and close events"""
         window = main_window_with_ui
 
-        with patch('expense_tracker_app.main.QMessageBox.question') as mock_question, \
-                patch('expense_tracker_app.main.QApplication.quit') as mock_quit:
+        with patch(
+            "expense_tracker_app.main.QMessageBox.question"
+        ) as mock_question, patch(
+            "expense_tracker_app.main.QApplication.quit"
+        ) as mock_quit:
 
             # Test confirmed exit
             mock_question.return_value = QMessageBox.Yes
@@ -331,9 +382,10 @@ class TestMainWindow:
 
         # Test close event
         from PyQt5.QtGui import QCloseEvent
+
         mock_event = Mock(spec=QCloseEvent)
 
-        with patch('expense_tracker_app.main.QMessageBox.question') as mock_question:
+        with patch("expense_tracker_app.main.QMessageBox.question") as mock_question:
             mock_question.return_value = QMessageBox.Yes
             window.closeEvent(mock_event)
             mock_event.accept.assert_called_once()
@@ -372,20 +424,27 @@ class TestMainWindow:
         # Test export with no data
         window.get_filtered_expenses = Mock(return_value=[])  # Empty data
 
-        with patch('expense_tracker_app.main.QMessageBox.information') as mock_info:
+        with patch("expense_tracker_app.main.QMessageBox.information") as mock_info:
             result = window.export_to_excel_or_csv()
             assert result is False
             mock_info.assert_called_once()
 
         # Test export exception handling - FIX: Actually trigger the exception path
-        window.get_filtered_expenses = Mock(return_value=[
-            {"category": "Food", "amount": 25.0,
-                "date": "2023-01-01", "description": "Test"}
-        ])
+        window.get_filtered_expenses = Mock(
+            return_value=[
+                {
+                    "category": "Food",
+                    "amount": 25.0,
+                    "date": "2023-01-01",
+                    "description": "Test",
+                }
+            ]
+        )
 
-        with patch('expense_tracker_app.main.ReportService.export_to_excel',
-                   side_effect=Exception("Export failed")), \
-                patch('expense_tracker_app.main.QMessageBox.warning') as mock_warning:
+        with patch(
+            "expense_tracker_app.main.ReportService.export_to_excel",
+            side_effect=Exception("Export failed"),
+        ), patch("expense_tracker_app.main.QMessageBox.warning") as mock_warning:
 
             # FIX: Provide a filepath to trigger the exception path
             result = window.export_to_excel_or_csv(filepath="test.xlsx")
@@ -419,7 +478,7 @@ class TestMainWindow:
         # Implement this test
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     def test_pdf_export_with_no_data(self, main_window_with_ui):
         # Implement this test
         pass
@@ -439,7 +498,7 @@ class TestMainWindow:
     def test_init(self, main_window):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     def test_create_menus(self, main_window):
         """Test menu creation - simplified"""
         menubar = main_window.menuBar()
@@ -456,98 +515,98 @@ class TestMainWindow:
     def test_get_all_expense_dates(self, main_window):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_get_filtered_expenses(self, main_window):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_get_filtered_expenses_with_category_filter(self, main_window):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_get_filtered_expenses_with_date_filter(self, main_window):
         pass
 
-    @pytest.mark.unit        
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_update_report_view(self, main_window):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_update_report_date_ranges(self, main_window):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow UI complexity - needs proper mocking")
     def test_export_to_excel_or_csv_excel(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_excel_or_csv_csv(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_excel_or_csv_cancelled(self):
         pass
 
-    @pytest.mark.unit     
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_excel_or_csv_direct_path(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_pdf(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_pdf_direct_path(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_import_from_csv(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_import_from_excel(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_exit_application_confirmed(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_exit_application_cancelled(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_close_event_confirmed(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_close_event_cancelled(self):
         pass
 
-    @pytest.mark.unit    
+    @pytest.mark.unit
     def test_export_with_no_data(self, main_window_with_ui):
         """Test export when no expenses exist"""
         window = main_window_with_ui
         window.get_filtered_expenses = Mock(return_value=[])
 
-        with patch('expense_tracker_app.main.QMessageBox.information') as mock_info:
+        with patch("expense_tracker_app.main.QMessageBox.information") as mock_info:
             result = window.export_to_excel_or_csv()
             assert result is False
             mock_info.assert_called_once()
@@ -558,7 +617,7 @@ class TestMainWindow:
         window = main_window_with_ui
         window.get_filtered_expenses = Mock(return_value=[])
 
-        with patch('expense_tracker_app.main.QMessageBox.information') as mock_info:
+        with patch("expense_tracker_app.main.QMessageBox.information") as mock_info:
             result = window.export_to_pdf()
             assert result is False
             mock_info.assert_called_once()
@@ -567,14 +626,21 @@ class TestMainWindow:
     def test_export_exception_handling(self, main_window_with_ui):
         """Test export handles exceptions gracefully"""
         window = main_window_with_ui
-        window.get_filtered_expenses = Mock(return_value=[
-            {"category": "Food", "amount": 25.50,
-                "date": "2023-01-01", "description": "Lunch"}
-        ])
+        window.get_filtered_expenses = Mock(
+            return_value=[
+                {
+                    "category": "Food",
+                    "amount": 25.50,
+                    "date": "2023-01-01",
+                    "description": "Lunch",
+                }
+            ]
+        )
 
-        with patch('expense_tracker_app.main.ReportService.export_to_excel',
-                   side_effect=Exception("Export failed")), \
-                patch('expense_tracker_app.main.QMessageBox.warning') as mock_warning:
+        with patch(
+            "expense_tracker_app.main.ReportService.export_to_excel",
+            side_effect=Exception("Export failed"),
+        ), patch("expense_tracker_app.main.QMessageBox.warning") as mock_warning:
 
             result = window.export_to_excel_or_csv(filepath="test.xlsx")
             assert result is False
@@ -585,7 +651,7 @@ class TestMainWindow:
     def test_import_cancelled(self):
         pass
 
- # In test_main.py - add new tests
+    # In test_main.py - add new tests
     @pytest.mark.unit
     def test_get_all_expense_dates_with_invalid_dates(self, main_window_with_ui):
         """Test date extraction handles invalid dates gracefully"""
@@ -594,7 +660,7 @@ class TestMainWindow:
             "Food": [
                 {"amount": 25.50, "date": "2023-01-01", "description": "Valid"},
                 {"amount": 15.75, "date": "invalid", "description": "Invalid"},
-                {"amount": 10.00, "date": "", "description": "Empty"}
+                {"amount": 10.00, "date": "", "description": "Empty"},
             ]
         }
 

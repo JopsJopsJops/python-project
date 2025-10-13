@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 import os
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -13,8 +14,16 @@ class DataManager:
         else:
             self.filename = filename
         self.expenses = {}
-        self.categories = ["Food", "Medical", "Utilities", "Travel",
-                           "Clothing", "Transportation", "Vehicle", "Uncategorized"]
+        self.categories = [
+            "Food",
+            "Medical",
+            "Utilities",
+            "Travel",
+            "Clothing",
+            "Transportation",
+            "Vehicle",
+            "Uncategorized",
+        ]
         self.last_deleted = None
         self.last_cleared = None  # Add this for clear undo
         self.load_expense()
@@ -25,7 +34,8 @@ class DataManager:
 
         if not os.path.exists(filename_to_load):
             logger.info(
-                "No existing expense file found, starting fresh: %s", filename_to_load)
+                "No existing expense file found, starting fresh: %s", filename_to_load
+            )
             return
 
         try:
@@ -42,17 +52,28 @@ class DataManager:
                             record["id"] = expense_id
                             expense_id += 1
 
-                logger.info("Loaded %d categories and %d total expenses from %s",
-                            len(self.categories),
-                            sum(len(v) for v in self.expenses.values()),
-                            filename_to_load)
+                logger.info(
+                    "Loaded %d categories and %d total expenses from %s",
+                    len(self.categories),
+                    sum(len(v) for v in self.expenses.values()),
+                    filename_to_load,
+                )
 
         except (json.JSONDecodeError, FileNotFoundError):
             self.expenses = {}
-            self.categories = ["Food", "Medical", "Utilities", "Travel",
-                               "Clothing", "Transportation", "Vehicle", "Uncategorized"]
+            self.categories = [
+                "Food",
+                "Medical",
+                "Utilities",
+                "Travel",
+                "Clothing",
+                "Transportation",
+                "Vehicle",
+                "Uncategorized",
+            ]
             logger.warning(
-                "Failed to load expenses from %s, starting fresh", filename_to_load)
+                "Failed to load expenses from %s, starting fresh", filename_to_load
+            )
         except Exception as e:
             logger.error("Failed to load expenses: %s", e)
             self.expenses = {}
@@ -66,10 +87,7 @@ class DataManager:
             logger.debug("No filename specified for save, skipping")
             return
 
-        data = {
-            "expenses": self.expenses,
-            "categories": self.categories
-        }
+        data = {"expenses": self.expenses, "categories": self.categories}
         try:
             # Create directory if it doesn't exist
             directory = os.path.dirname(filename_to_save)
@@ -92,7 +110,8 @@ class DataManager:
             # Move all expenses from category to merge_target
             if category in self.expenses:
                 self.expenses.setdefault(merge_target, []).extend(
-                    self.expenses[category])
+                    self.expenses[category]
+                )
                 del self.expenses[category]
 
             # Remove the old category
@@ -112,8 +131,7 @@ class DataManager:
             self.save_data()
             logger.warning("Removed category: %s", category)
         else:
-            logger.debug(
-                "Attempted to remove non-existent category: %s", category)
+            logger.debug("Attempted to remove non-existent category: %s", category)
 
     def add_expense(self, category, amount, date, description):
         """Add expense with validation."""
@@ -132,21 +150,20 @@ class DataManager:
         except ValueError:
             raise ValueError("Date must be in YYYY-MM-DD format")
 
-         # If category is not in the list, add it
+        # If category is not in the list, add it
         if category not in self.categories:
             self.categories.append(category)
 
         # Generate unique ID for the expense
         all_expenses = self.list_all_expenses()
-        max_id = max([e.get("id", 0)
-                     for e in all_expenses]) if all_expenses else 0
+        max_id = max([e.get("id", 0) for e in all_expenses]) if all_expenses else 0
         new_id = max_id + 1
 
         new_record = {
             "id": new_id,
             "amount": amount_float,
             "date": date,
-            "description": description
+            "description": description,
         }
         self.expenses.setdefault(category, []).append(new_record)
         self.save_data()
@@ -164,8 +181,9 @@ class DataManager:
                 self.expenses[category].remove(record_to_delete)
                 self.last_deleted = (category, record_to_delete)
                 self.save_data()
-                logger.warning("Deleted expense from %s: %s",
-                               category, record_to_delete)
+                logger.warning(
+                    "Deleted expense from %s: %s", category, record_to_delete
+                )
                 return True
             else:
                 return False
@@ -181,14 +199,15 @@ class DataManager:
         # If we get here, the record wasn't found by value comparison
         # Try to find by content matching for test compatibility
         for existing_record in self.expenses[category]:
-            if (existing_record.get("amount") == record.get("amount") and
-                existing_record.get("date") == record.get("date") and
-                    existing_record.get("description") == record.get("description")):
+            if (
+                existing_record.get("amount") == record.get("amount")
+                and existing_record.get("date") == record.get("date")
+                and existing_record.get("description") == record.get("description")
+            ):
                 self.expenses[category].remove(existing_record)
                 self.last_deleted = (category, existing_record)
                 self.save_data()
-                logger.warning("Deleted expense from %s: %s",
-                               category, existing_record)
+                logger.warning("Deleted expense from %s: %s", category, existing_record)
                 return True
 
         logger.debug("Delete failed for record: %s", record)
@@ -228,18 +247,21 @@ class DataManager:
             try:
                 out[cat] = sorted(
                     records,
-                    key=lambda r: datetime.strptime(
-                        r.get("date", ""), "%Y-%m-%d")
-                    if r.get("date")
-                    else datetime.max
+                    key=lambda r: (
+                        datetime.strptime(r.get("date", ""), "%Y-%m-%d")
+                        if r.get("date")
+                        else datetime.max
+                    ),
                 )
             except Exception:
                 out[cat] = list(records)
         return out
 
     def get_category_subtotals(self):
-        return {category: sum(rec.get("amount", 0.0) for rec in records)
-                for category, records in self.expenses.items()}
+        return {
+            category: sum(rec.get("amount", 0.0) for rec in records)
+            for category, records in self.expenses.items()
+        }
 
     def search_expenses(self, keyword):
         """
@@ -251,8 +273,9 @@ class DataManager:
             for record in records:
                 if keyword.lower() in record.get("description", "").lower():
                     results.append((category, record))
-        logger.debug("Search for keyword='%s' returned %d results",
-                     keyword, len(results))
+        logger.debug(
+            "Search for keyword='%s' returned %d results", keyword, len(results)
+        )
         return results
 
     def get_all_categories(self):
@@ -264,7 +287,10 @@ class DataManager:
         and inserts the updated one (possibly in a new category).
         Falls back to old_record values if new_data is incomplete.
         """
-        if old_category not in self.expenses or old_record not in self.expenses[old_category]:
+        if (
+            old_category not in self.expenses
+            or old_record not in self.expenses[old_category]
+        ):
             return False  # ✅ return False if nothing found
 
         self.expenses[old_category].remove(old_record)
@@ -274,11 +300,9 @@ class DataManager:
         date = new_data.get("date", old_record.get("date", ""))
         desc = new_data.get("description", old_record.get("description", ""))
 
-        self.expenses.setdefault(category, []).append({
-            "amount": amount,
-            "date": date,
-            "description": desc
-        })
+        self.expenses.setdefault(category, []).append(
+            {"amount": amount, "date": date, "description": desc}
+        )
         self.save_data()
         logger.info("Updated expense from %s → %s", old_record, new_data)
         return True
@@ -318,13 +342,12 @@ class DataManager:
                 amount = rec.get("amount", 0.0) or 0.0
                 if date:
                     month = date[:7]  # YYYY-MM
-                    monthly_totals[month] = monthly_totals.get(
-                        month, 0.0) + amount
+                    monthly_totals[month] = monthly_totals.get(month, 0.0) + amount
 
         logger.debug("Calculated monthly totals: %s", monthly_totals)
         return monthly_totals
 
-     # ---------- Testable helpers ----------
+    # ---------- Testable helpers ----------
 
     def list_all_expenses(self):
         """
@@ -334,12 +357,14 @@ class DataManager:
         all_expenses = []
         for category, records in self.expenses.items():
             for rec in records:
-                all_expenses.append({
-                    "category": category,
-                    "amount": rec.get("amount", 0.0),
-                    "date": rec.get("date", ""),
-                    "description": rec.get("description", "")
-                })
+                all_expenses.append(
+                    {
+                        "category": category,
+                        "amount": rec.get("amount", 0.0),
+                        "date": rec.get("date", ""),
+                        "description": rec.get("description", ""),
+                    }
+                )
         return all_expenses
 
     def has_expenses(self):
@@ -355,7 +380,7 @@ class DataManager:
 
     def undo_clear(self):
         """Restore expenses after clear_all."""
-        if hasattr(self, 'last_cleared') and self.last_cleared:
+        if hasattr(self, "last_cleared") and self.last_cleared:
             self.expenses = self.last_cleared
             self.last_cleared = None
             self.save_data()

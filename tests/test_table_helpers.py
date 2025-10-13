@@ -6,7 +6,7 @@ from expense_tracker_app.table_helpers import (
     format_total_row,
     prepare_chart_data,
     aggregate_category_totals,
-    prepare_trend_data
+    prepare_trend_data,
 )
 
 
@@ -14,11 +14,7 @@ class TestTableHelpers:
     @pytest.mark.unit
     def test_calculate_subtotal_basic(self):
         """Test basic subtotal calculation"""
-        records = [
-            {"amount": 10.0},
-            {"amount": 20.0},
-            {"amount": 30.0}
-        ]
+        records = [{"amount": 10.0}, {"amount": 20.0}, {"amount": 30.0}]
         result = calculate_subtotal(records)
         assert result == 60.0
 
@@ -29,7 +25,7 @@ class TestTableHelpers:
             {"amount": 10.0},
             {"description": "No amount"},
             {"amount": 30.0},
-            {"amount": None}
+            {"amount": None},
         ]
         result = calculate_subtotal(records)
         assert result == 40.0
@@ -37,11 +33,7 @@ class TestTableHelpers:
     @pytest.mark.unit
     def test_calculate_subtotal_with_zero_amounts(self):
         """Test subtotal calculation with zero amounts"""
-        records = [
-            {"amount": 0.0},
-            {"amount": 0.0},
-            {"amount": 0.0}
-        ]
+        records = [{"amount": 0.0}, {"amount": 0.0}, {"amount": 0.0}]
         result = calculate_subtotal(records)
         assert result == 0.0
 
@@ -55,11 +47,7 @@ class TestTableHelpers:
     def test_format_expense_row(self):
         """Test expense row formatting"""
         category = "Food"
-        record = {
-            "amount": 25.50,
-            "date": "2023-01-01",
-            "description": "Lunch"
-        }
+        record = {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}
 
         result = format_expense_row(category, record)
 
@@ -107,12 +95,17 @@ class TestTableHelpers:
     @pytest.mark.unit
     def test_prepare_chart_data_basic(self):
         """Test basic chart data preparation"""
-        categories = ["Food", "Travel", "Utilities",
-                      "Entertainment", "Medical", "Other"]
+        categories = [
+            "Food",
+            "Travel",
+            "Utilities",
+            "Entertainment",
+            "Medical",
+            "Other",
+        ]
         amounts = [200.0, 150.0, 100.0, 80.0, 60.0, 40.0]
 
-        top_categories, top_amounts = prepare_chart_data(
-            categories, amounts, top_n=5)
+        top_categories, top_amounts = prepare_chart_data(categories, amounts, top_n=5)
 
         assert len(top_categories) == 6
         assert "Others" in top_categories
@@ -124,8 +117,7 @@ class TestTableHelpers:
         categories = ["Food", "Travel", "Utilities"]
         amounts = [200.0, 150.0, 100.0]
 
-        top_categories, top_amounts = prepare_chart_data(
-            categories, amounts, top_n=5)
+        top_categories, top_amounts = prepare_chart_data(categories, amounts, top_n=5)
 
         assert len(top_categories) == 3  # No Others needed
         assert "Others" not in top_categories
@@ -140,8 +132,7 @@ class TestTableHelpers:
 
         # Should handle empty data gracefully
         try:
-            top_categories, top_amounts = prepare_chart_data(
-                categories, amounts)
+            top_categories, top_amounts = prepare_chart_data(categories, amounts)
             assert top_categories == []
             assert top_amounts == []
         except ValueError:
@@ -152,17 +143,12 @@ class TestTableHelpers:
     def test_aggregate_category_totals(self):
         """Test category totals aggregation"""
         expenses_by_category = {
-            "Food": [
-                {"amount": 25.50},
-                {"amount": 15.75}
-            ],
-            "Travel": [
-                {"amount": 100.00}
-            ],
+            "Food": [{"amount": 25.50}, {"amount": 15.75}],
+            "Travel": [{"amount": 100.00}],
             "Utilities": [
                 {"amount": 0.0},  # Should be excluded
-                {"amount": -10.0}  # Should be excluded
-            ]
+                {"amount": -10.0},  # Should be excluded
+            ],
         }
 
         categories, amounts = aggregate_category_totals(expenses_by_category)
@@ -188,11 +174,7 @@ class TestTableHelpers:
     @pytest.mark.unit
     def test_prepare_trend_data(self):
         """Test trend data preparation"""
-        monthly_totals = {
-            "2023-01": 150.0,
-            "2023-03": 200.0,
-            "2023-02": 180.0
-        }
+        monthly_totals = {"2023-01": 150.0, "2023-03": 200.0, "2023-02": 180.0}
 
         months, totals = prepare_trend_data(monthly_totals)
 
@@ -222,8 +204,7 @@ class TestTableHelpers:
     def test_format_expense_row_zero_amount(self):
         """Test expense row formatting with zero amount"""
         category = "Food"
-        record = {"amount": 0.0, "date": "2023-01-01",
-                  "description": "Free meal"}
+        record = {"amount": 0.0, "date": "2023-01-01", "description": "Free meal"}
 
         result = format_expense_row(category, record)
 

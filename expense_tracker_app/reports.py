@@ -6,6 +6,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 import xlsxwriter
 import csv
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -26,8 +27,7 @@ class ReportService:
         """Generate monthly report using instance data manager."""
         if self.data_manager:
             expenses = self.data_manager.list_all_expenses()
-            monthly_data = [e for e in expenses if e.get(
-                "date", "").startswith(month)]
+            monthly_data = [e for e in expenses if e.get("date", "").startswith(month)]
             return self.export_to_pdf(monthly_data, filename)
         return None
 
@@ -58,12 +58,14 @@ class ReportService:
                         rows.append(row)
                     elif isinstance(r, (list, tuple)):
                         try:
-                            rows.append({
-                                "category": cat,
-                                "amount": float(r[0]) if len(r) > 0 else 0.0,
-                                "date": str(r[1]) if len(r) > 1 else "",
-                                "description": str(r[2]) if len(r) > 2 else "",
-                            })
+                            rows.append(
+                                {
+                                    "category": cat,
+                                    "amount": float(r[0]) if len(r) > 0 else 0.0,
+                                    "date": str(r[1]) if len(r) > 1 else "",
+                                    "description": str(r[2]) if len(r) > 2 else "",
+                                }
+                            )
                         except Exception:
                             continue
 
@@ -74,12 +76,16 @@ class ReportService:
                     rows.append(r)
                 elif isinstance(r, (list, tuple)):
                     try:
-                        rows.append({
-                            "category": str(r[0]) if len(r) > 0 else "Uncategorized",
-                            "amount": float(r[1]) if len(r) > 1 else 0.0,
-                            "date": str(r[2]) if len(r) > 2 else "",
-                            "description": str(r[3]) if len(r) > 3 else "",
-                        })
+                        rows.append(
+                            {
+                                "category": (
+                                    str(r[0]) if len(r) > 0 else "Uncategorized"
+                                ),
+                                "amount": float(r[1]) if len(r) > 1 else 0.0,
+                                "date": str(r[2]) if len(r) > 2 else "",
+                                "description": str(r[3]) if len(r) > 3 else "",
+                            }
+                        )
                     except Exception:
                         continue
         return rows
@@ -95,18 +101,19 @@ class ReportService:
                 writer = csv.writer(f)
                 writer.writerow(headers)
                 for r in rows:
-                    writer.writerow([
-                        r.get("category", ""),
-                        r.get("amount", 0),
-                        r.get("date", ""),
-                        r.get("description", ""),
-                    ])
+                    writer.writerow(
+                        [
+                            r.get("category", ""),
+                            r.get("amount", 0),
+                            r.get("date", ""),
+                            r.get("description", ""),
+                        ]
+                    )
             logger.info("CSV export successful: %s", filename)
             return filename
         except Exception as e:
             logger.exception("CSV export failed: %s", e)
-            QMessageBox.warning(None, "Export Failed",
-                                f"CSV export failed: {e}")
+            QMessageBox.warning(None, "Export Failed", f"CSV export failed: {e}")
             return None
 
     @staticmethod
@@ -119,8 +126,7 @@ class ReportService:
             workbook = xlsxwriter.Workbook(filename)
             ws = workbook.add_worksheet("Expenses")
 
-            header_fmt = workbook.add_format(
-                {"bold": True, "bg_color": "#dce6f1"})
+            header_fmt = workbook.add_format({"bold": True, "bg_color": "#dce6f1"})
             for c, h in enumerate(headers):
                 ws.write(0, c, h, header_fmt)
 
@@ -140,8 +146,7 @@ class ReportService:
             return filename
         except Exception as e:
             logger.exception("Excel export failed: %s", e)
-            QMessageBox.warning(None, "Export Failed",
-                                f"Excel export failed: {e}")
+            QMessageBox.warning(None, "Export Failed", f"Excel export failed: {e}")
             return None
 
     @staticmethod
@@ -158,18 +163,24 @@ class ReportService:
 
             data = [headers]
             for r in rows:
-                data.append([
-                    r.get("category", ""),
-                    f"{r.get('amount', 0)}",
-                    r.get("date", ""),
-                    r.get("description", ""),
-                ])
+                data.append(
+                    [
+                        r.get("category", ""),
+                        f"{r.get('amount', 0)}",
+                        r.get("date", ""),
+                        r.get("description", ""),
+                    ]
+                )
 
             table = Table(data, repeatRows=1)
-            table.setStyle(TableStyle([
-                ("BACKGROUND", (0, 0), (-1, 0), colors.lightblue),
-                ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
-            ]))
+            table.setStyle(
+                TableStyle(
+                    [
+                        ("BACKGROUND", (0, 0), (-1, 0), colors.lightblue),
+                        ("GRID", (0, 0), (-1, -1), 0.5, colors.grey),
+                    ]
+                )
+            )
 
             elements.append(table)
             doc.build(elements)
@@ -178,6 +189,5 @@ class ReportService:
             return filename
         except Exception as e:
             logger.exception("PDF export failed: %s", e)
-            QMessageBox.warning(None, "Export Failed",
-                                f"PDF export failed: {e}")
+            QMessageBox.warning(None, "Export Failed", f"PDF export failed: {e}")
             return None
