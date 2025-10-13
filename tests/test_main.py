@@ -14,7 +14,7 @@ from datetime import datetime
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 
-@pytest.mark.unit
+@pytest.mark.gui
 @pytest.fixture
 def mock_data_manager():
     """Create a mock data manager for testing"""
@@ -49,7 +49,7 @@ def mock_data_manager():
     return mock_dm
 
 
-@pytest.mark.unit
+@pytest.mark.gui
 @pytest.fixture
 def app():
     """Create QApplication instance for testing"""
@@ -60,7 +60,7 @@ def app():
     # Don't quit here - let pytest handle cleanup
 
 
-@pytest.mark.unit
+@pytest.mark.gui
 @pytest.fixture
 def main_window(mock_data_manager, qtbot):
     """Create main window for testing with proper mocking"""
@@ -93,7 +93,7 @@ def main_window(mock_data_manager, qtbot):
 class TestMainWindow:
     """Comprehensive tests for MainWindow to achieve 100% coverage"""
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.fixture
     def main_window_with_ui(self, qtbot):
         """Create MainWindow with proper UI mocking"""
@@ -153,7 +153,7 @@ class TestMainWindow:
 
             yield window
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_main_window_initialization(self, main_window_with_ui):
         """Test MainWindow initializes correctly with all components"""
         window = main_window_with_ui
@@ -163,7 +163,7 @@ class TestMainWindow:
         assert hasattr(window, "dashboard")
         assert hasattr(window, "tabs")
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_setup_ui_components(self, main_window_with_ui):
         """Test UI setup methods"""
         window = main_window_with_ui
@@ -178,7 +178,7 @@ class TestMainWindow:
         # Skip testing setup_reports_tab since it has complex UI dependencies
         # that are hard to mock completely in tests
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_report_filtering_methods(self, main_window_with_ui):
         """Test report filtering functionality"""
         window = main_window_with_ui
@@ -244,7 +244,7 @@ class TestMainWindow:
         assert len(date_filtered) == 1  # Should only return the Coffee expense
         assert date_filtered[0]["description"] == "Coffee"
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_report_view_updates(self, main_window_with_ui):
         """Test report view update methods"""
         window = main_window_with_ui
@@ -281,7 +281,7 @@ class TestMainWindow:
         window.report_table.setRowCount.assert_called()
         window.summary_label.setText.assert_called()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_export_functionality(self, main_window_with_ui):
         """Test export methods"""
         window = main_window_with_ui
@@ -330,7 +330,7 @@ class TestMainWindow:
             assert result is True
             mock_pdf.assert_called_once()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_import_functionality(self, main_window_with_ui):
         """Test import methods"""
         window = main_window_with_ui
@@ -359,7 +359,7 @@ class TestMainWindow:
             window.import_from_excel()
             mock_excel_import.assert_called_once()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_application_lifecycle(self, main_window_with_ui):
         """Test application exit and close events"""
         window = main_window_with_ui
@@ -390,7 +390,7 @@ class TestMainWindow:
             window.closeEvent(mock_event)
             mock_event.accept.assert_called_once()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_tab_switching(self, main_window_with_ui):
         """Test tab switching functionality"""
         window = main_window_with_ui
@@ -416,7 +416,7 @@ class TestMainWindow:
         window.refresh_dashboard_on_switch(0)  # Other tab
         window.dashboard.update_dashboard.assert_not_called()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_error_handling(self, main_window_with_ui):
         """Test error handling scenarios"""
         window = main_window_with_ui
@@ -451,7 +451,7 @@ class TestMainWindow:
             assert result is False
             mock_warning.assert_called_once()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_refresh_functionality(self, main_window_with_ui):
         """Test refresh methods"""
         window = main_window_with_ui
@@ -473,19 +473,19 @@ class TestMainWindow:
         window.expense_tracker.refresh_category_dropdowns.assert_called_once()
         window.update_report_date_ranges.assert_called_once()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_export_with_no_data(self, main_window_with_ui):
         # Implement this test
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_pdf_export_with_no_data(self, main_window_with_ui):
         # Implement this test
         pass
 
     """Basic MainWindow tests"""
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_main_window_import(self, main_window):
         """Test MainWindow initialization - simplified"""
         assert main_window is not None
@@ -493,114 +493,114 @@ class TestMainWindow:
 
     """Test MainWindow functionality"""
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_init(self, main_window):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_create_menus(self, main_window):
         """Test menu creation - simplified"""
         menubar = main_window.menuBar()
         assert menubar is not None
         # Remove complex iteration for now
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_setup_reports_tab(self, main_window):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_get_all_expense_dates(self, main_window):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_get_filtered_expenses(self, main_window):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_get_filtered_expenses_with_category_filter(self, main_window):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_get_filtered_expenses_with_date_filter(self, main_window):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_update_report_view(self, main_window):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI attributes missing - needs proper setup")
     def test_update_report_date_ranges(self, main_window):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow UI complexity - needs proper mocking")
     def test_export_to_excel_or_csv_excel(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_excel_or_csv_csv(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_excel_or_csv_cancelled(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_excel_or_csv_direct_path(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_pdf(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_export_to_pdf_direct_path(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_import_from_csv(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_import_from_excel(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_exit_application_confirmed(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_exit_application_cancelled(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_close_event_confirmed(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_close_event_cancelled(self):
         pass
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_export_with_no_data(self, main_window_with_ui):
         """Test export when no expenses exist"""
         window = main_window_with_ui
@@ -611,7 +611,7 @@ class TestMainWindow:
             assert result is False
             mock_info.assert_called_once()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_pdf_export_with_no_data(self, main_window_with_ui):
         """Test PDF export when no expenses exist"""
         window = main_window_with_ui
@@ -622,7 +622,7 @@ class TestMainWindow:
             assert result is False
             mock_info.assert_called_once()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_export_exception_handling(self, main_window_with_ui):
         """Test export handles exceptions gracefully"""
         window = main_window_with_ui
@@ -646,13 +646,13 @@ class TestMainWindow:
             assert result is False
             mock_warning.assert_called_once()
 
-    @pytest.mark.unit
+    @pytest.mark.gui
     @pytest.mark.skip(reason="MainWindow complexity - fix core first")
     def test_import_cancelled(self):
         pass
 
     # In test_main.py - add new tests
-    @pytest.mark.unit
+    @pytest.mark.gui
     def test_get_all_expense_dates_with_invalid_dates(self, main_window_with_ui):
         """Test date extraction handles invalid dates gracefully"""
         window = main_window_with_ui
