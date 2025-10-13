@@ -11,8 +11,7 @@ from expense_tracker_app.data_manager import DataManager
 class TestDataManager:
     @pytest.mark.unit
     def setup_method(self):
-        self.temp_file = tempfile.NamedTemporaryFile(
-            delete=False, suffix='.json')
+        self.temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
         self.temp_file.close()
         self.data_manager = DataManager(file_path=self.temp_file.name)
 
@@ -28,7 +27,7 @@ class TestDataManager:
         assert dm.filename == "expenses.json"
         assert isinstance(dm.expenses, dict)
         # Accept either empty or sample data
-        
+
     @pytest.mark.unit
     def test_init_custom_file_path(self):
         dm = DataManager(file_path="/custom/path.json")
@@ -36,17 +35,26 @@ class TestDataManager:
 
     @pytest.mark.unit
     def test_load_expense_file_not_exists(self):
-        with patch('os.path.exists', return_value=False):
+        with patch("os.path.exists", return_value=False):
             self.data_manager.load_expense()
             assert self.data_manager.expenses == {}
 
     @pytest.mark.unit
     def test_load_expense_success(self):
         test_data = {
-            "expenses": {"Food": [{"id": 1, "amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]},
-            "categories": ["Food", "Travel"]
+            "expenses": {
+                "Food": [
+                    {
+                        "id": 1,
+                        "amount": 10.0,
+                        "date": "2023-01-01",
+                        "description": "Lunch",
+                    }
+                ]
+            },
+            "categories": ["Food", "Travel"],
         }
-        with open(self.temp_file.name, 'w') as f:
+        with open(self.temp_file.name, "w") as f:
             json.dump(test_data, f)
 
         self.data_manager.load_expense()
@@ -56,17 +64,17 @@ class TestDataManager:
 
     @pytest.mark.unit
     def test_load_expense_json_decode_error(self):
-        with open(self.temp_file.name, 'w') as f:
+        with open(self.temp_file.name, "w") as f:
             f.write("invalid json")
 
-        with patch('logging.Logger.warning') as mock_warning:
+        with patch("logging.Logger.warning") as mock_warning:
             self.data_manager.load_expense()
             mock_warning.assert_called()
 
     @pytest.mark.unit
     def test_load_expense_generic_exception(self):
-        with patch('builtins.open', side_effect=Exception("Test error")):
-            with patch('logging.Logger.error') as mock_error:
+        with patch("builtins.open", side_effect=Exception("Test error")):
+            with patch("logging.Logger.error") as mock_error:
                 self.data_manager.load_expense()
                 mock_error.assert_called()
                 assert self.data_manager.expenses == {}
@@ -74,12 +82,13 @@ class TestDataManager:
     @pytest.mark.unit
     def test_save_data_success(self):
         self.data_manager.expenses = {
-            "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]}
+            "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]
+        }
         self.data_manager.categories = ["Food", "Travel"]
 
         self.data_manager.save_data()
 
-        with open(self.temp_file.name, 'r') as f:
+        with open(self.temp_file.name, "r") as f:
             saved_data = json.load(f)
 
         assert "Food" in saved_data["expenses"]
@@ -104,12 +113,13 @@ class TestDataManager:
             assert os.path.exists(file_path)
         finally:
             import shutil
+
             shutil.rmtree(temp_dir)
 
     @pytest.mark.unit
     def test_save_data_exception(self):
-        with patch('builtins.open', side_effect=Exception("Test error")):
-            with patch('logging.Logger.error') as mock_error:
+        with patch("builtins.open", side_effect=Exception("Test error")):
+            with patch("logging.Logger.error") as mock_error:
                 self.data_manager.save_data()
                 mock_error.assert_called()
 
@@ -130,8 +140,9 @@ class TestDataManager:
 
     @pytest.mark.unit
     def test_add_category_merge(self):
-        self.data_manager.expenses = {"OldCat": [
-            {"amount": 10.0, "date": "2023-01-01", "description": "Test"}]}
+        self.data_manager.expenses = {
+            "OldCat": [{"amount": 10.0, "date": "2023-01-01", "description": "Test"}]
+        }
         self.data_manager.categories = ["OldCat", "NewCat"]
 
         self.data_manager.add_category("OldCat", merge_target="NewCat")
@@ -145,7 +156,8 @@ class TestDataManager:
     def test_add_category_merge_invalid(self):
         with pytest.raises(ValueError):
             self.data_manager.add_category(
-                "NonExistent", merge_target="AlsoNonExistent")
+                "NonExistent", merge_target="AlsoNonExistent"
+            )
 
     @pytest.mark.unit
     def test_remove_category_exists(self):
@@ -175,8 +187,7 @@ class TestDataManager:
 
     @pytest.mark.unit
     def test_add_expense_new_category_auto_add(self):
-        self.data_manager.add_expense(
-            "NewCategory", 15.0, "2023-01-01", "Test")
+        self.data_manager.add_expense("NewCategory", 15.0, "2023-01-01", "Test")
 
         assert "NewCategory" in self.data_manager.categories
         assert "NewCategory" in self.data_manager.expenses
@@ -184,8 +195,7 @@ class TestDataManager:
     @pytest.mark.unit
     def test_add_expense_invalid_amount(self):
         with pytest.raises(ValueError):
-            self.data_manager.add_expense(
-                "Food", "invalid", "2023-01-01", "Test")
+            self.data_manager.add_expense("Food", "invalid", "2023-01-01", "Test")
 
     @pytest.mark.unit
     def test_add_expense_negative_amount(self):
@@ -200,7 +210,8 @@ class TestDataManager:
     @pytest.mark.unit
     def test_delete_expense_by_index(self):
         self.data_manager.expenses = {
-            "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]}
+            "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]
+        }
 
         result = self.data_manager.delete_expense("Food", 0)
 
@@ -225,7 +236,8 @@ class TestDataManager:
     @pytest.mark.unit
     def test_delete_expense_index_out_of_range(self):
         self.data_manager.expenses = {
-            "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]}
+            "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]
+        }
 
         result = self.data_manager.delete_expense("Food", 5)  # Invalid index
         assert result is False
@@ -249,7 +261,8 @@ class TestDataManager:
     @pytest.mark.unit
     def test_undo_clear(self):
         original_expenses = {
-            "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]}
+            "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}]
+        }
         self.data_manager.expenses = original_expenses.copy()
         self.data_manager.clear_all()
 
@@ -263,7 +276,7 @@ class TestDataManager:
         self.data_manager.expenses = {
             "Food": [
                 {"amount": 10.0, "date": "2023-01-02", "description": "Lunch"},
-                {"amount": 20.0, "date": "2023-01-01", "description": "Breakfast"}
+                {"amount": 20.0, "date": "2023-01-01", "description": "Breakfast"},
             ]
         }
 
@@ -277,11 +290,9 @@ class TestDataManager:
         self.data_manager.expenses = {
             "Food": [
                 {"amount": 10.0, "date": "2023-01-01", "description": "Lunch"},
-                {"amount": 20.0, "date": "2023-01-02", "description": "Dinner"}
+                {"amount": 20.0, "date": "2023-01-02", "description": "Dinner"},
             ],
-            "Travel": [
-                {"amount": 50.0, "date": "2023-01-03", "description": "Bus"}
-            ]
+            "Travel": [{"amount": 50.0, "date": "2023-01-03", "description": "Bus"}],
         }
 
         subtotals = self.data_manager.get_category_subtotals()
@@ -293,10 +304,12 @@ class TestDataManager:
     def test_search_expenses(self):
         self.data_manager.expenses = {
             "Food": [
-                {"amount": 10.0, "date": "2023-01-01",
-                    "description": "Lunch at cafe"},
-                {"amount": 20.0, "date": "2023-01-02",
-                    "description": "Dinner restaurant"}
+                {"amount": 10.0, "date": "2023-01-01", "description": "Lunch at cafe"},
+                {
+                    "amount": 20.0,
+                    "date": "2023-01-02",
+                    "description": "Dinner restaurant",
+                },
             ]
         }
 
@@ -317,17 +330,22 @@ class TestDataManager:
 
     @pytest.mark.unit
     def test_update_expense_success(self):
-        old_record = {"amount": 10.0,
-                      "date": "2023-01-01", "description": "Old"}
+        old_record = {"amount": 10.0, "date": "2023-01-01", "description": "Old"}
         self.data_manager.expenses = {"Food": [old_record]}
 
-        new_data = {"category": "Travel", "amount": 15.0,
-                    "date": "2023-01-02", "description": "New"}
+        new_data = {
+            "category": "Travel",
+            "amount": 15.0,
+            "date": "2023-01-02",
+            "description": "New",
+        }
         result = self.data_manager.update_expense("Food", old_record, new_data)
 
         assert result is True
-        assert "Food" not in self.data_manager.expenses or len(
-            self.data_manager.expenses["Food"]) == 0
+        assert (
+            "Food" not in self.data_manager.expenses
+            or len(self.data_manager.expenses["Food"]) == 0
+        )
         assert "Travel" in self.data_manager.expenses
         assert self.data_manager.expenses["Travel"][0]["amount"] == 15.0
 
@@ -354,7 +372,7 @@ class TestDataManager:
     def test_get_grand_total(self):
         self.data_manager.expenses = {
             "Food": [{"amount": 10.0}, {"amount": 20.0}],
-            "Travel": [{"amount": 30.0}]
+            "Travel": [{"amount": 30.0}],
         }
 
         total = self.data_manager.get_grand_total()
@@ -365,11 +383,9 @@ class TestDataManager:
         self.data_manager.expenses = {
             "Food": [
                 {"amount": 10.0, "date": "2023-01-01"},
-                {"amount": 20.0, "date": "2023-01-15"}
+                {"amount": 20.0, "date": "2023-01-15"},
             ],
-            "Travel": [
-                {"amount": 30.0, "date": "2023-02-01"}
-            ]
+            "Travel": [{"amount": 30.0, "date": "2023-02-01"}],
         }
 
         monthly_totals = self.data_manager.get_monthly_totals()
@@ -381,7 +397,7 @@ class TestDataManager:
     def test_list_all_expenses(self):
         self.data_manager.expenses = {
             "Food": [{"amount": 10.0, "date": "2023-01-01", "description": "Lunch"}],
-            "Travel": [{"amount": 20.0, "date": "2023-01-02", "description": "Bus"}]
+            "Travel": [{"amount": 20.0, "date": "2023-01-02", "description": "Bus"}],
         }
 
         all_expenses = self.data_manager.list_all_expenses()
