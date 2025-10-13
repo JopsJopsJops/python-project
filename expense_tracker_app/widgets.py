@@ -280,6 +280,8 @@ class DashboardWidget(QWidget):
         self.insights_label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         layout.addWidget(self.insights_label)
 
+        self.add_budget_section()
+
     def safe_update_dashboard(self):
         """Safe update method that handles test scenarios"""
         if hasattr(self, "update_summary_tab") and self.summary_table is not None:
@@ -543,6 +545,97 @@ class DashboardWidget(QWidget):
         """
         )
         msg.exec_()
+
+    def add_budget_section(self):
+        """Add budget tracking section to summary tab."""
+        budget_label = QLabel("💰 Budget Tracking")
+        budget_label.setStyleSheet("""
+            QLabel {
+                color: #00ff00;
+                font-family: "Segoe UI";
+                font-size: 16px;
+                font-weight: bold;
+                padding: 10px;
+                background: #1a1a2e;
+                border-radius: 8px;
+                margin: 10px 5px 5px 5px;
+            }
+        """)
+        budget_label.setAlignment(Qt.AlignCenter)
+        
+        # Add to your summary tab layout (adjust based on your layout)
+        # If you're using a QVBoxLayout for summary_tab:
+        self.summary_tab.layout().insertWidget(3, budget_label)  # Adjust index as needed
+        
+        # Budget alerts display
+        self.budget_alerts_label = QLabel("No budget alerts")
+        self.budget_alerts_label.setStyleSheet("""
+            QLabel {
+                background-color: #2d2d2d;
+                color: #b0b0b0;
+                padding: 12px;
+                border-radius: 6px;
+                border: 1px solid #404040;
+                font-family: "Segoe UI";
+                font-size: 13px;
+                margin: 5px;
+            }
+        """)
+        self.budget_alerts_label.setWordWrap(True)
+        self.summary_tab.layout().insertWidget(4, self.budget_alerts_label)
+
+    def update_budget_alerts(self):
+        """Update budget alerts display."""
+        try:
+            if hasattr(self.data_manager, 'budget_manager'):
+                alerts = self.data_manager.budget_manager.check_budget_alerts()
+                if alerts:
+                    alerts_text = "<b>Budget Alerts:</b><br>" + "<br>".join(alerts)
+                    self.budget_alerts_label.setText(alerts_text)
+                    
+                    # Color code based on alert severity
+                    if any("🚨" in alert for alert in alerts):
+                        self.budget_alerts_label.setStyleSheet("""
+                            QLabel {
+                                background-color: #442222;
+                                color: #ff6b6b;
+                                padding: 12px;
+                                border-radius: 6px;
+                                border: 1px solid #ff4444;
+                                font-family: "Segoe UI";
+                                font-size: 13px;
+                                margin: 5px;
+                            }
+                        """)
+                    else:
+                        self.budget_alerts_label.setStyleSheet("""
+                            QLabel {
+                                background-color: #443322;
+                                color: #ffb86c;
+                                padding: 12px;
+                                border-radius: 6px;
+                                border: 1px solid #ffa500;
+                                font-family: "Segoe UI";
+                                font-size: 13px;
+                                margin: 5px;
+                            }
+                        """)
+                else:
+                    self.budget_alerts_label.setText("✅ All budgets are within limits")
+                    self.budget_alerts_label.setStyleSheet("""
+                        QLabel {
+                            background-color: #224422;
+                            color: #6bff6b;
+                            padding: 12px;
+                            border-radius: 6px;
+                            border: 1px solid #00ff00;
+                            font-family: "Segoe UI";
+                            font-size: 13px;
+                            margin: 5px;
+                        }
+                    """)
+        except Exception as e:
+            logger.error(f"Error updating budget alerts: {e}")    
 
     # Charts
     def init_charts_tab(self):

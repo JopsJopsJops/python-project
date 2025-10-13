@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
+from expense_tracker_app.budget_manager import BudgetManager
 
 
 class DataManager:
@@ -27,6 +28,7 @@ class DataManager:
         self.last_deleted = None
         self.last_cleared = None  # Add this for clear undo
         self.load_expense()
+        self.budget_manager = BudgetManager(self)
 
     def load_expense(self, file_path=None):
         """Load expenses from file. Accepts optional file_path for testing."""

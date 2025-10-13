@@ -494,6 +494,14 @@ class MainWindow(QMainWindow):
             self.start_date.setDate(start_date)
             self.end_date.setDate(end_date)
 
+    def update_dashboard(self):
+        """Update dashboard with latest data."""
+        if hasattr(self, 'dashboard'):
+            self.dashboard.update_dashboard()
+            # Add budget alerts update
+            if hasattr(self.dashboard, 'update_budget_alerts'):
+                self.dashboard.update_budget_alerts()
+
     def export_to_excel_or_csv(self, filepath=None, filetype=None):
         """Export to Excel or CSV. If filepath provided, extension determines format."""
         logger.info("Starting Excel/CSV export (MainWindow) -> %s", filepath)
