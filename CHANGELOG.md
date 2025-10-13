@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - CI/CD pipeline with GitHub Actions
 - Multi-platform support (Windows, macOS, Linux)
 - Dark neon theme UI
+- Budget Tracking (NEW!)
 
 ### Technical
 - Professional README with screenshots and demo
