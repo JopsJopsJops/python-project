@@ -32,3 +32,17 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+# Sensitive files
+*.key
+*.pem
+config.local.py
+
+# Runtime files
+__pycache__/
+*.pyc
+*.log
+
+# IDE files
+.vscode/
+.idea/
