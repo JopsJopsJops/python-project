@@ -9,6 +9,9 @@ from PyQt5.QtWidgets import QApplication
 
 from expense_tracker_app.data_manager import DataManager
 
+# Add the project root to Python path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 def pytest_configure(config):
     """Register custom markers to avoid warnings."""

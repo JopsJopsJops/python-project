@@ -441,3 +441,10 @@ class TestDataManager:
         result2 = self.data_manager.list_all_expenses()
 
         assert result1 == result2
+
+    @pytest.mark.unit
+    def test_budget_manager_integration(self):
+        """Test that DataManager has budget manager integration."""
+        dm = DataManager()
+        assert hasattr(dm, 'budget_manager')
+        assert dm.budget_manager.data_manager == dm
