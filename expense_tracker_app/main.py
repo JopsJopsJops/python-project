@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (QApplication, QComboBox, QDateEdit, QFileDialog,
                              QHBoxLayout, QHeaderView, QLabel, QMainWindow,
                              QMessageBox, QPushButton, QTableWidget,
                              QTableWidgetItem, QTabWidget, QVBoxLayout,
-                             QWidget)
+                             QWidget, QAction)
 
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
@@ -54,6 +54,8 @@ class MainWindow(QMainWindow):
             not hasattr(self.data_manager, "__class__")
             or self.data_manager.__class__.__name__ != "Mock"
         ):
+            # AUTO-MIGRATE CATEGORIES ON STARTUP
+            self.migrate_categories_on_startup()
 
             # Apply dark theme to the main window
             self.setStyleSheet(
@@ -147,6 +149,27 @@ class MainWindow(QMainWindow):
         exit_action = file_menu.addAction("Exit")
         exit_action.triggered.connect(self.exit_application)
 
+        # ---- Tools Menu ----
+        tools_menu = menubar.addMenu("Tools")  # Add a Tools menu
+
+        # Categories action
+        categories_action = QAction("📁 Categories", self)
+        categories_action.triggered.connect(self.open_category_dialog)  # Connect to your category dialog
+        tools_menu.addAction(categories_action)
+
+        # Add category cleanup tool
+        cleanup_action = QAction("🔄 Cleanup Categories", self)
+        cleanup_action.triggered.connect(self.cleanup_categories)
+        tools_menu.addAction(cleanup_action)
+
+        # ---- Budget Menu
+        budget_menu = menubar.addMenu("💰 Budget")
+
+        budget_action = QAction("Set Budgets", self)
+        budget_action.setShortcut("Ctrl+B")
+        budget_action.triggered.connect(self.open_budget_dialog)
+        budget_menu.addAction(budget_action)
+
         # View menu
         view_menu = menubar.addMenu("View")
         view_menu.addAction(
@@ -206,7 +229,7 @@ class MainWindow(QMainWindow):
             """
             QDateEdit {
                 background: #2d2d2d;
-                color: #e0e0e0;
+                color: white;
                 border: 1px solid #404040;
                 border-radius: 4px;
                 padding: 6px;
@@ -215,6 +238,10 @@ class MainWindow(QMainWindow):
             }
         """
         )
+        calendar = self.start_date.calendarWidget()
+        if calendar:
+            calendar.setDateTextFormat(QDate.currentDate(), self.get_highlighted_date_format())
+
         filter_layout.addWidget(self.start_date)
 
         filter_layout.addWidget(QLabel("To:"))
@@ -222,6 +249,10 @@ class MainWindow(QMainWindow):
         self.end_date.setCalendarPopup(True)
         self.end_date.setDate(end_date)  # Use dynamic end date
         self.end_date.setStyleSheet(self.start_date.styleSheet())
+        calendar = self.end_date.calendarWidget()
+        if calendar:
+            calendar.setDateTextFormat(QDate.currentDate(), self.get_highlighted_date_format())
+
         filter_layout.addWidget(self.end_date)
 
         filter_layout.addWidget(QLabel("Category:"))
@@ -234,7 +265,7 @@ class MainWindow(QMainWindow):
             """
             QComboBox {
                 background: #2d2d2d;
-                color: #e0e0e0;
+                color: white;
                 border: 1px solid #404040;
                 border-radius: 4px;
                 padding: 6px;
@@ -374,6 +405,72 @@ class MainWindow(QMainWindow):
 
         reports_layout.addStretch()
         self.tabs.addTab(self.reports_tab, "Reports")
+
+    def get_highlighted_date_format(self):
+        """Return formatting for highlighted current date"""
+        from PyQt5.QtGui import QTextCharFormat, QColor, QFont
+        from PyQt5.QtCore import QDate
+        
+        format = QTextCharFormat()
+        format.setBackground(QColor("#007acc"))  # Blue background
+        format.setForeground(QColor("#ffffff"))  # White text
+        format.setFontWeight(QFont.Bold)
+        return format
+
+    def migrate_categories_on_startup(self):
+        """Automatically migrate categories to proper case on application startup"""
+        try:
+            # First, migrate all categories to proper capitalization
+            migrated_count = self.data_manager.migrate_categories_to_proper_case()
+            
+            # Then, auto-merge any remaining duplicates
+            merged_count = self.data_manager.auto_merge_duplicate_categories()
+            
+            if migrated_count > 0 or merged_count > 0:
+                logger.info(f"🔄 Migrated {migrated_count} categories and merged {merged_count} duplicates")
+                
+                # Show a one-time notification to user
+                QMessageBox.information(
+                    self,
+                    "Categories Updated",
+                    f"Your categories have been automatically organized:\n\n"
+                    f"• {migrated_count} categories capitalized\n"
+                    f"• {merged_count} duplicate groups merged\n\n"
+                    f"All expenses are now properly categorized with consistent naming."
+                )
+        except Exception as e:
+            logger.error(f"Error during category migration: {e}")
+
+    def cleanup_categories(self):
+        """Manual category cleanup tool"""
+        try:
+            # Run the auto-merge function
+            merged_count = self.data_manager.auto_merge_duplicate_categories()
+            
+            if merged_count > 0:
+                QMessageBox.information(
+                    self,
+                    "Categories Cleaned Up",
+                    f"Successfully merged {merged_count} groups of duplicate categories.\n\n"
+                    f"All your expenses are now organized with consistent category names."
+                )
+            else:
+                QMessageBox.information(
+                    self,
+                    "No Changes Needed",
+                    "Your categories are already properly organized with no duplicates found."
+                )
+                
+            # Refresh the UI
+            self.refresh_all_components()
+            
+        except Exception as e:
+            logger.error(f"Error during category cleanup: {e}")
+            QMessageBox.warning(
+                self,
+                "Cleanup Failed",
+                f"Could not cleanup categories: {str(e)}"
+            )
 
     def update_report_view(self):
         """Update the report table with currently filtered expenses."""
@@ -639,6 +736,28 @@ class MainWindow(QMainWindow):
 
         logger.debug("All components refreshed after data import")
 
+    def open_budget_dialog(self):
+        """Open budget management dialog from main menu."""
+        try:
+            from expense_tracker_app.widgets import BudgetDialog
+            dialog = BudgetDialog(self.data_manager, self)
+            dialog.exec_()
+        except Exception as e:
+            logger.error(f"Error opening budget dialog: {e}")
+            QMessageBox.warning(self, "Error", "Could not open budget dialog.")
+
+    def open_category_dialog(self):
+        """Open category management dialog."""
+        try:
+            # If you have a category dialog in widgets.py, import and use it
+            from expense_tracker_app.dialogs import CategoryDialog
+            # This will open the category dialog from your expense tracker
+            dialog = CategoryDialog(self.data_manager, self)
+            dialog.exec_()
+        except Exception as e:
+            logger.error(f"Error opening category dialog: {e}")
+            QMessageBox.warning(self, "Error", "Could not open category dialog.")
+
     def exit_application(self):
         """Exit the application with save confirmation - matches dashboard exit behavior"""
 
@@ -757,6 +876,37 @@ if __name__ == "__main__":
         QMessageBox QPushButton:pressed {
             background-color: #004578;
         }
+        QDialog {
+        background-color: #2d2d2d;
+        color: #e0e0e0;
+        }
+        QInputDialog {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+        }
+        QMessageBox {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+        }
+        QListWidget {
+            background-color: #252526;
+            color: #e0e0e0;
+            border: 1px solid #404040;
+        }
+        QLineEdit {
+            background-color: #252526;
+            color: #e0e0e0;
+            border: 1px solid #404040;
+        }
+        QComboBox {
+            background-color: #252526;
+            color: #e0e0e0;
+            border: 1px solid #404040;
+        }
+        QLabel {
+            color: #e0e0e0;
+        }
+        
     """
     )
 
