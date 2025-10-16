@@ -192,6 +192,12 @@
                 "amount": 27.45,
                 "date": "2023-10-04",
                 "description": "Mexican restaurant"
+            },
+            {
+                "amount": 60.0,
+                "date": "2025-10-16",
+                "description": "sample",
+                "id": 1
             }
         ],
         "Transportation": [
@@ -302,6 +308,12 @@
                 "amount": 200.0,
                 "date": "2025-10-14",
                 "description": "test"
+            },
+            {
+                "id": 1,
+                "amount": 5000.0,
+                "date": "2025-10-16",
+                "description": "sample"
             }
         ],
         "Entertainment": [
@@ -489,18 +501,6 @@
             },
             {
                 "id": 1,
-                "amount": 89.0,
-                "date": "2023-10-08",
-                "description": "New headphones"
-            },
-            {
-                "id": 1,
-                "amount": 15.99,
-                "date": "2023-10-01",
-                "description": "Phone charger"
-            },
-            {
-                "id": 1,
                 "amount": 300.0,
                 "date": "2025-10-14",
                 "description": "test"
@@ -510,6 +510,12 @@
                 "amount": 100.0,
                 "date": "2025-10-16",
                 "description": "asd"
+            },
+            {
+                "id": 1,
+                "amount": 5000.0,
+                "date": "2025-10-16",
+                "description": "sample"
             }
         ],
         "Healthcare": [
@@ -596,6 +602,12 @@
                 "amount": 200.0,
                 "date": "2025-10-14",
                 "description": "test"
+            },
+            {
+                "id": 1,
+                "amount": 5000.0,
+                "date": "2025-10-16",
+                "description": "sample"
             }
         ],
         "Medical": [
@@ -621,8 +633,8 @@
             },
             {
                 "id": 1,
-                "amount": 200.0,
-                "date": "2025-10-14",
+                "amount": 3000.0,
+                "date": "2025-10-16",
                 "description": "test"
             }
         ],

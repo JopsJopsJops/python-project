@@ -1,0 +1,16 @@
+{
+    "budgets": {
+        "Food": 2500.0,
+        "Clothing": 2000.0,
+        "Entertainment": 2000.0,
+        "Healthcare": 3000.0,
+        "Medical": 3000.0,
+        "Shopping": 1500.0,
+        "Transportation": 1000.0,
+        "Work Equipment": 2000.0
+    },
+    "last_updated": "2025-10-16T22:32:43.384113",
+    "budget_period": "monthly",
+    "description": "Monthly category budgets - resets conceptually each month",
+    "version": "1.0"
+}

@@ -4,6 +4,8 @@ Budget management and alert system for Expense Tracker.
 from typing import Dict, List, Optional
 from datetime import datetime
 import logging
+import json
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +17,53 @@ class BudgetManager:
         self.data_manager = data_manager
         self.budgets: Dict[str, float] = {}  # category -> budget_amount
         self.alerts: List[str] = []
+        self.budget_file = "budgets.json"
+        
+        # Load existing budgets when initialized
+        self.load_budgets()
     
+    def load_budgets(self):
+        """Load budgets from persistent storage."""
+        if not os.path.exists(self.budget_file):
+            logger.info("💰 No existing budget file found, starting fresh")
+            return
+        
+        try:
+            with open(self.budget_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                self.budgets = data.get("budgets", {})
+                
+                # Log budget period info
+                budget_period = data.get("budget_period", "monthly")
+                last_updated = data.get("last_updated", "unknown")
+                
+                logger.info(f"💰 Loaded {len(self.budgets)} {budget_period} budgets (last updated: {last_updated})")
+                
+        except Exception as e:
+            logger.error(f"❌ Failed to load budgets: {e}")
+            self.budgets = {}
+
+    def save_budgets(self):
+        """Save budgets to persistent storage with metadata."""
+        try:
+            data = {
+                "budgets": self.budgets,
+                "last_updated": datetime.now().isoformat(),
+                "budget_period": "monthly",  # Explicitly state this is monthly budgeting
+                "description": "Monthly category budgets - resets conceptually each month",
+                "version": "1.0"
+            }
+            
+            with open(self.budget_file, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=4, ensure_ascii=False)
+            
+            logger.info(f"💾 Saved {len(self.budgets)} monthly budgets to {self.budget_file}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to save budgets: {e}")
+            return False
+
     def set_budget(self, category: str, amount: float) -> bool:
         """Set monthly budget for a category (case-insensitive)."""
         if amount < 0:
@@ -26,9 +74,17 @@ class BudgetManager:
         normalized_category = self._normalize_category_name(category)
         
         self.budgets[normalized_category] = amount
-        logger.info(f"Budget set for {normalized_category}: ₱{amount:,.2f}")
-        return True
-    
+        
+        # Save immediately after setting budget
+        success = self.save_budgets()
+        
+        if success:
+            logger.info(f"💰 Monthly budget set for {normalized_category}: ₱{amount:,.2f}")
+        else:
+            logger.error(f"❌ Budget set for {normalized_category} but failed to save!")
+            
+        return success
+
     def _normalize_category_name(self, category: str) -> str:
         """Normalize category name using case-insensitive matching."""
         category_lower = category.lower()
@@ -56,48 +112,55 @@ class BudgetManager:
 
     def remove_budget(self, category: str) -> bool:
         """Remove budget for a category."""
-        if category in self.budgets:
-            del self.budgets[category]
-            logger.info(f"Budget removed for {category}")
-            return True
+        normalized_category = self._normalize_category_name(category)
+        
+        if normalized_category in self.budgets:
+            del self.budgets[normalized_category]
+            
+            # Save immediately after removal
+            success = self.save_budgets()
+            
+            if success:
+                logger.info(f"🗑️ Monthly budget removed for {normalized_category}")
+            else:
+                logger.error(f"❌ Budget removed for {normalized_category} but failed to save!")
+                
+            return success
         return False
     
-    def check_budget_alerts(self) -> List[str]:
-        """Check for budget exceedances and return alerts."""
-        self.alerts.clear()
+    def check_budget_alerts(self):
+        """Check for budget alerts - FIXED: No red alert for 'no budgets' message"""
+        alerts = []
+        
+        # Check if we have any budgets at all
+        if not self.budgets:
+            # This is just informational, not an alert - don't add to alerts list
+            # We'll handle this separately in the UI
+            return alerts
+        
         current_month = datetime.now().strftime("%Y-%m")
         
-        # DEBUG: Log what budgets we're checking
-        logger.debug(f"💰 Checking budgets for categories: {list(self.budgets.keys())}")
-        
-        for category, budget in self.budgets.items():
+        # Check each budget
+        for category, budget_limit in self.budgets.items():
             monthly_spending = self._get_monthly_spending(category, current_month)
             
-            logger.debug(f"📊 Category: {category}, Budget: ₱{budget:,.2f}, Spent: ₱{monthly_spending:,.2f}")
-            
-            if monthly_spending > budget:
-                overspend = monthly_spending - budget
-                alert_msg = (
-                    f"🚨 Budget exceeded for {category}! "
-                    f"Spent ₱{monthly_spending:,.2f} of ₱{budget:,.2f} "
-                    f"(₱{overspend:,.2f} over budget)"
+            if monthly_spending > budget_limit:
+                # This is a real budget violation - red alert
+                over_amount = monthly_spending - budget_limit
+                alerts.append(
+                    f"🚨 Monthly budget exceeded for {category}! "
+                    f"Spent ₱{monthly_spending:,.2f} of ₱{budget_limit:,.2f} this month "
+                    f"(₱{over_amount:,.2f} over budget)"
                 )
-                self.alerts.append(alert_msg)
-                logger.warning(f"🔴 {alert_msg}")
-            
-            elif monthly_spending > budget * 0.8:  # 80% threshold
-                warning_msg = (
-                    f"⚠️  Close to budget limit for {category}. "
-                    f"Spent ₱{monthly_spending:,.2f} of ₱{budget:,.2f}"
+            elif monthly_spending > budget_limit * 0.8:
+                # Warning alert (approaching budget)
+                alerts.append(
+                    f"⚠️ Approaching budget limit for {category}: "
+                    f"₱{monthly_spending:,.2f} of ₱{budget_limit:,.2f} "
+                    f"({monthly_spending/budget_limit*100:.1f}%)"
                 )
-                self.alerts.append(warning_msg)
-                logger.info(f"🟡 {warning_msg}")
         
-        # Log if no alerts
-        if not self.alerts:
-            logger.info("✅ All budgets are within limits")
-            
-        return self.alerts
+        return alerts
     
     def _get_monthly_spending(self, category: str, month: str) -> float:
         """Calculate monthly spending for a category (case-insensitive)."""
@@ -131,7 +194,7 @@ class BudgetManager:
             return 0.0
     
     def get_budget_progress(self, category: str) -> Dict[str, float]:
-        """Get budget progress for a category."""
+        """Get monthly budget progress for a category."""
         current_month = datetime.now().strftime("%Y-%m")
         spent = self._get_monthly_spending(category, current_month)
         budget = self.budgets.get(category, 0)
@@ -140,21 +203,29 @@ class BudgetManager:
             'spent': spent,
             'budget': budget,
             'remaining': max(0, budget - spent),
-            'percentage': (spent / budget * 100) if budget > 0 else 0
+            'percentage': (spent / budget * 100) if budget > 0 else 0,
+            'month': current_month  # Include month for clarity
         }
     
     def get_all_budgets(self) -> Dict[str, Dict[str, float]]:
-        """Get progress for all budgets."""
+        """Get progress for all monthly budgets."""
         return {
             category: self.get_budget_progress(category)
             for category in self.budgets
         }
     
     def get_budget_summary(self) -> Dict:
-        """Get complete budget summary with alerts."""
+        """Get complete monthly budget summary with alerts."""
+        current_month = datetime.now().strftime("%B %Y")  # e.g., "October 2024"
+        
         return {
             'budgets': self.get_all_budgets(),
             'alerts': self.check_budget_alerts(),
-            'total_budget_categories': len(self.budgets)
+            'total_budget_categories': len(self.budgets),
+            'budget_period': f"Monthly ({current_month})",
+            'description': "Budgets reset tracking each month"
         }
     
+    def get_budgets_count(self) -> int:
+        """Get number of active monthly budgets."""
+        return len(self.budgets)

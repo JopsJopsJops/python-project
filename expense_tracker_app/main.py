@@ -302,7 +302,7 @@ class MainWindow(QMainWindow):
         self.summary_label.setStyleSheet(
             """
             QLabel {
-                color: #ffff00;
+                color: #00ffff;
                 font-family: "Segoe UI";
                 font-size: 13px;
                 font-weight: bold;
@@ -311,7 +311,8 @@ class MainWindow(QMainWindow):
                 border: 1px solid #ffff00;
                 border-radius: 6px;
                 margin: 5px;
-            }
+                border: 1px solid #00ffff;
+            }   
         """
         )
         reports_layout.addWidget(self.summary_label)

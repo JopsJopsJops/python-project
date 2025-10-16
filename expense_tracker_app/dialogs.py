@@ -4,7 +4,7 @@ from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import (QCalendarWidget, QComboBox, QDialog,
                              QDialogButtonBox, QHBoxLayout, QInputDialog,
                              QLabel, QLineEdit, QListWidget, QMessageBox,
-                             QPushButton, QVBoxLayout
+                             QPushButton, QVBoxLayout, QSizePolicy
                              )
 from PyQt5.QtGui import QColor, QFont, QTextCharFormat
 
@@ -511,15 +511,31 @@ class AddExpenseDialog(QDialog):
     def __init__(self, categories, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Add / Edit Expense")
-        self.resize(380, 380)
+        self.resize(420, 420)
 
         layout = QVBoxLayout(self)
 
         self.category_dropdown = QComboBox()
+        self.category_dropdown.setMinimumHeight(35)
+        self.category_dropdown.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.category_dropdown.addItems(categories)
 
         self.amount_input = QLineEdit()
         self.amount_input.setPlaceholderText("Enter amount")
+        self.amount_input.setStyleSheet("""
+            QLineEdit {
+                background-color: #2d2d2d;
+                color: #e0e0e0;
+                border: 1px solid #404040;
+                border-radius: 4px;
+                padding: 8px;
+                font-family: "Segoe UI";
+                font-size: 12px;
+            }
+            QLineEdit:focus {
+                border: 1px solid #007acc;
+            }
+        """)
 
         self.calendar_widget = QCalendarWidget()
         self.calendar_widget.setGridVisible(True)
@@ -529,6 +545,20 @@ class AddExpenseDialog(QDialog):
 
         self.desc_input = QLineEdit()
         self.desc_input.setPlaceholderText("Enter description")
+        self.desc_input.setStyleSheet("""
+            QLineEdit {
+                background-color: #2d2d2d;
+                color: #e0e0e0;
+                border: 1px solid #404040;
+                border-radius: 4px;
+                padding: 8px;
+                font-family: "Segoe UI";
+                font-size: 12px;
+            }
+            QLineEdit:focus {
+                border: 1px solid #007acc;
+            }
+        """)
 
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
@@ -536,6 +566,19 @@ class AddExpenseDialog(QDialog):
 
         layout.addWidget(QLabel("Category:"))
         layout.addWidget(self.category_dropdown)
+        category_hint = QLabel("💡 Need a new category? Use the '📁 Categories' button in the main toolbar")
+        category_hint.setStyleSheet("""
+            QLabel {
+                color: #ffb86c;
+                background-color: #443322;
+                padding: 8px;
+                border-radius: 6px;
+                border: 1px solid #ffa500;
+                font-size: 11px;
+            }
+        """)
+        category_hint.setWordWrap(True)
+        layout.addWidget(category_hint)
         layout.addWidget(QLabel("Amount:"))
         layout.addWidget(self.amount_input)
         layout.addWidget(QLabel("Date:"))
@@ -543,6 +586,8 @@ class AddExpenseDialog(QDialog):
         layout.addWidget(QLabel("Description:"))
         layout.addWidget(self.desc_input)
         layout.addWidget(button_box)
+
+        
 
     def get_highlighted_date_format(self):
         """Return formatting for highlighted current date"""
