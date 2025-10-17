@@ -400,12 +400,6 @@
                 "amount": 12.5,
                 "date": "2023-10-09",
                 "description": "Arcade games"
-            },
-            {
-                "id": 1,
-                "amount": 35.0,
-                "date": "2023-10-02",
-                "description": "Comedy show"
             }
         ],
         "Shopping": [
@@ -636,6 +630,12 @@
                 "amount": 3000.0,
                 "date": "2025-10-16",
                 "description": "test"
+            },
+            {
+                "id": 1,
+                "amount": 20.0,
+                "date": "2025-10-17",
+                "description": "sample"
             }
         ],
         "Uncategorized": [
@@ -749,21 +749,9 @@
             },
             {
                 "id": 1,
-                "amount": 79.35,
-                "date": "2023-10-03",
-                "description": "Internet service"
-            },
-            {
-                "id": 1,
                 "amount": 200.0,
                 "date": "2025-10-14",
                 "description": "test"
-            },
-            {
-                "id": 1,
-                "amount": 100.0,
-                "date": "2025-10-15",
-                "description": "sample"
             },
             {
                 "id": 1,
@@ -776,6 +764,12 @@
                 "amount": 12.0,
                 "date": "2025-10-16",
                 "description": "qwe"
+            },
+            {
+                "id": 1,
+                "amount": 79.35,
+                "date": "2023-10-03",
+                "description": "Internet service"
             }
         ]
     },

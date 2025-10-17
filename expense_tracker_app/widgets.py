@@ -80,6 +80,28 @@ class DashboardWidget(QWidget):
             layout.setContentsMargins(16, 16, 16, 16)
             layout.setSpacing(12)
 
+            #MAIN DASHBOARD HEADER
+            main_header = QLabel("📊 Analytics Dashboard")
+            main_header.setStyleSheet(
+                """
+                QLabel {
+                    color: #00ffff;
+                    font-family: "Segoe UI";
+                    font-size: 18px;
+                    font-weight: bold;
+                    padding: 10px;
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #0f3460, stop:0.5 #533483, stop:1 #e94560);
+                    border-radius: 8px;
+                    border: 2px solid #00ffff;
+                    margin: 5px;
+                }
+            """
+            )
+            main_header.setAlignment(Qt.AlignCenter)
+            main_header.setMaximumHeight(60)
+            layout.addWidget(main_header)
+
             self.tabs = QTabWidget()
             layout.addWidget(self.tabs)
 
@@ -103,41 +125,42 @@ class DashboardWidget(QWidget):
     def apply_cross_platform_style(self):
         self.tabs.setStyleSheet(
             """
-                QTabWidget::pane {
+            QTabWidget::pane {
                 border: 1px solid #404040;
                 background-color: #2d2d2d;
                 border-radius: 4px;
                 margin: 0px;
             }
-            
+
             QTabBar::tab {
                 background-color: #3c3c3c;
                 color: #e0e0e0;
-                padding: 10px 16px;
-                margin: 0px;
+                padding: 12px 20px;
+                margin: 2px;
                 border: none;
                 font-family: "Segoe UI";
                 font-weight: 500;
                 font-size: 12px;
-                min-width: 80px;
+                min-width: 100px;
             }
-            
+
             QTabBar::tab:selected {
                 background-color: #007acc;
                 color: #ffffff;
                 font-weight: 600;
             }
-            
+
             QTabBar::tab:hover:!selected {
                 background-color: #4a4a4a;
             }
+          
         """
         )
 
         # Add headers to each tab
-        self.add_tab_header(self.summary_tab, "Spending Summary")
-        self.add_tab_header(self.charts_tab, "Spending Charts")
-        self.add_tab_header(self.trends_tab, "Expense Trends")
+        self.add_tab_header(self.summary_tab, "📋 Summary Overview")
+        self.add_tab_header(self.charts_tab, "📊 Spending Analysis")
+        self.add_tab_header(self.trends_tab, "📈 Trend Analytics")
 
     def add_tab_header(self, tab, header_text):
         """Add a consistent header to a tab"""
@@ -150,12 +173,13 @@ class DashboardWidget(QWidget):
             QLabel {
                 color: #00ffff;
                 font-family: "Segoe UI";
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: bold;
-                padding: 10px;
+                padding: 9px;
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
                     stop:0 #0f3460, stop:0.5 #533483, stop:1 #e94560);
                 border-radius: 8px;
+                border: 2px solid #00ffff;
                 margin: 2px;
             }
         """
@@ -188,7 +212,7 @@ class DashboardWidget(QWidget):
 
     # Summary
     def init_summary_tab(self):
-        """Initialize summary tab with proper layout - COMPLETE REWRITE"""
+        """Initialize summary tab with proper layout"""
         # Main layout
         main_layout = QVBoxLayout()
         main_layout.setContentsMargins(8, 8, 8, 8)
@@ -344,15 +368,39 @@ class DashboardWidget(QWidget):
             }
             QScrollBar:vertical {
                 background: #2d2d2d;
-                width: 12px;
-                border-radius: 6px;
+                width: 15px;
+                margin: 0px;
+                border-radius: 0px;
             }
             QScrollBar::handle:vertical {
                 background: #007acc;
-                border-radius: 6px;
-                min-height: 20px;
+                border-radius: 7px;
+                min-height: 25px;
+                margin: 2px;
             }
             QScrollBar::handle:vertical:hover {
+                background: #005a9e;
+            }
+            QScrollBar::handle:vertical:pressed {
+                background: #004578;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                border: none;
+                background: none;
+            }
+            QScrollBar:horizontal {
+                background: #2d2d2d;
+                height: 15px;
+                margin: 0px;
+                border-radius: 0px;
+            }
+            QScrollBar::handle:horizontal {
+                background: #007acc;
+                border-radius: 7px;
+                min-width: 25px;
+                margin: 2px;
+            }
+            QScrollBar::handle:horizontal:hover {
                 background: #005a9e;
             }
         """)
@@ -1496,7 +1544,7 @@ class DashboardWidget(QWidget):
                 # Add PDF metadata
                 pdf_info = pdf.infodict()
                 pdf_info["Title"] = "Expense Analysis Report"
-                pdf_info["Author"] = "Expense Tracker App"
+                pdf_info["Author"] = "Expense Tracker Pro"
                 pdf_info["Subject"] = "Spending analysis and charts"
                 pdf_info["Keywords"] = "expense, spending, analysis, charts"
                 pdf_info["CreationDate"] = datetime.datetime.now()
@@ -1901,7 +1949,7 @@ class ExpenseTracker(QWidget):
         self.safe_show_expense()
 
     def initUI(self):
-        self.setWindowTitle("Expense Tracker")
+        self.setWindowTitle("Expense Tracker Pro")
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
@@ -1914,7 +1962,7 @@ class ExpenseTracker(QWidget):
         self.table.setSortingEnabled(True)
 
         # HEADER
-        title_label = QLabel("Expense Tracker")
+        title_label = QLabel("💼 Expense Management")
         title_label.setStyleSheet(
             """
             QLabel {
@@ -1926,6 +1974,7 @@ class ExpenseTracker(QWidget):
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
                     stop:0 #0f3460, stop:0.5 #533483, stop:1 #e94560);
                 border-radius: 8px;
+                border: 2px solid #00ffff;
                 margin: 5px;
             }
         """
@@ -2257,8 +2306,45 @@ class ExpenseTracker(QWidget):
                 logger.info("Edited expense from %s → %s", record, new_data)
 
     def delete_expense(self, category, record):
+        """Delete expense with confirmation dialog"""
+    
+        # Create user-friendly confirmation message
+        amount = record.get("amount", 0)
+        date = record.get("date", "")
+        description = record.get("description", "")[:50]  # First 50 chars
+        
+        confirmation_msg = f"""
+        <h3>🗑️ Are you sure you want to delete this expense?</h3>
+        <p><b>📊 Category:</b> {category}</p>
+        <p><b>💰 Amount:</b> ₱{amount:,.2f}</p>
+        <p><b>📅 Date:</b> {date}</p>
+        <p><b>📝 Description:</b> {description}{'...' if len(description) >= 50 else ''}</p>
+        <br>
+        <p style="color: #ffb86c;"><b>💡 You can use the Undo button if you change your mind</b></p>
+        """
+        
+        # Professional confirmation dialog
+        reply = QMessageBox.question(
+            self,
+            "Delete Expense",
+            confirmation_msg,
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No  # Default to "No" for safety
+        )
+        
+        if reply == QMessageBox.No:
+            return  # User cancelled
+        
+        # Proceed with deletion
         if self.data_manager.delete_expense(category, record):
-            QMessageBox.information(self, "Deleted", "Expense deleted successfully.")
+            # Success message with undo reminder
+            QMessageBox.information(
+                self, 
+                "Deleted", 
+                "<p><b>Expense deleted successfully.\n\n</b></p>" +
+                "<p><font color='#ffb86c'><b>💡 Tip: Use the '↶ Undo' button to restore if needed.</b></font></p>",
+                QMessageBox.Ok
+            )
             logger.warning("Expense deleted via UI: %s", record)
             self.render_table(self.data_manager.get_sorted_expenses())
             self.undo_btn.setEnabled(True)
@@ -2824,7 +2910,7 @@ class BudgetDialog(QDialog):
         set_btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         set_btn.setStyleSheet("""
             QPushButton {
-                background-color: #00ff00;
+                background-color: #ff9900;
                 color: #000000;
                 border: none;
                 padding: 12px;
@@ -2834,10 +2920,10 @@ class BudgetDialog(QDialog):
                 font-size: 14px;
             }
             QPushButton:hover {
-                background-color: #00cc00;
+                background-color: #ffb94f;
             }
             QPushButton:pressed {
-                background-color: #009900;
+                background-color: #f5a122;
             }
         """)
         set_btn.clicked.connect(self.set_budget)
@@ -2900,33 +2986,56 @@ class BudgetDialog(QDialog):
         # Table styling
         self.budgets_table.setStyleSheet("""
             QTableWidget {
-                background-color: #252526;
-                color: #e0e0e0;
-                gridline-color: #404040;
-                border: 1px solid #404040;
-                border-radius: 6px;
-                font-family: "Segoe UI";
-                font-size: 13px;
-                alternate-background-color: #2d2d2d;
-            }
-            QTableWidget::item {
-                background-color: #252526;
-                color: #e0e0e0;
-                padding: 8px 13px;
-                border-bottom: 1px solid #404040;
-            }
-            QHeaderView::section {
-                background-color: #333333;
-                color: #ffffff;
-                padding: 10px 12px;
-                border: none;
-                border-right: 1px solid #404040;
-                border-bottom: 2px solid #007acc;
-                font-weight: 600;
-                font-family: "Segoe UI";
-                font-size: 12px;
-            }
-        """)
+            background-color: #252526;
+            color: #e0e0e0;
+            gridline-color: #404040;
+            border: 1px solid #404040;
+            border-radius: 6px;
+            font-family: "Segoe UI";
+            font-size: 13px;
+            alternate-background-color: #2d2d2d;
+        }
+        QTableWidget::item {
+            background-color: #252526;
+            color: #e0e0e0;
+            padding: 8px 13px;
+            border-bottom: 1px solid #404040;
+        }
+        QHeaderView::section {
+            background-color: #333333;
+            color: #ffffff;
+            padding: 10px 12px;
+            border: none;
+            border-right: 1px solid #404040;
+            border-bottom: 2px solid #007acc;
+            font-weight: 600;
+            font-family: "Segoe UI";
+            font-size: 12px;
+        }
+        QTableWidget QScrollBar:vertical {
+            background: #2d2d2d;
+            width: 15px;
+        }
+        QTableWidget QScrollBar::handle:vertical {
+            background: #007acc;
+            border-radius: 7px;
+            min-height: 25px;
+            margin: 2px;
+        }
+        QTableWidget QScrollBar::handle:vertical:hover {
+            background: #005a9e;
+        }
+        QTableWidget QScrollBar:horizontal {
+            background: #2d2d2d;
+            height: 15px;
+        }
+        QTableWidget QScrollBar::handle:horizontal {
+            background: #007acc;
+            border-radius: 7px;
+            min-width: 25px;
+            margin: 2px;
+        }
+    """)
         self.budgets_table.setShowGrid(True)
         self.budgets_table.verticalHeader().setVisible(False)
         
@@ -2952,7 +3061,7 @@ class BudgetDialog(QDialog):
         self.tabs.addTab(tab, "📊 Current Budgets")
 
     def setup_reports_tab(self):
-        """Setup the 'Budget Reports' tab - DYNAMIC HEADER COLORS"""
+        """Setup the 'Budget Reports' tab - CONSISTENT SCROLLBARS"""
         tab = QWidget()
         
         # Main layout with proper spacing
@@ -2994,21 +3103,29 @@ class BudgetDialog(QDialog):
         top_layout.setContentsMargins(5, 5, 5, 5)
         top_layout.setSpacing(8)
         
-        # Dynamic alerts header - will be updated based on actual alerts
+        # Dynamic alerts header
         self.alerts_header = QLabel("📋 BUDGET ALERTS")
         self.alerts_header.setStyleSheet("""
             QLabel {
-                color: #b0b0b0;  /* Default neutral color */
+                color: #b0b0b0;
                 font-weight: bold;
                 font-size: 14px;
                 padding: 8px;
                 background: #2d2d2d;
                 border-radius: 6px;
-                border: 1px solid #404040;  /* Default neutral border */
+                border: 1px solid #404040;
             }
         """)
         self.alerts_header.setAlignment(Qt.AlignCenter)
         top_layout.addWidget(self.alerts_header)
+
+        # FIXED: Add scroll area for alerts text
+        alerts_scroll = QScrollArea()
+        alerts_scroll.setWidgetResizable(True)
+        alerts_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        alerts_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        alerts_scroll.setStyleSheet(self.get_scrollbar_stylesheet())
+        alerts_scroll.setMaximumHeight(140)
         
         self.alerts_text = QTextEdit()
         self.alerts_text.setReadOnly(True)
@@ -3017,7 +3134,7 @@ class BudgetDialog(QDialog):
             QTextEdit {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
-                border: 1px solid #404040;  /* Default neutral border */
+                border: 1px solid #404040;
                 border-radius: 8px;
                 padding: 12px;
                 font-family: "Segoe UI";
@@ -3025,9 +3142,10 @@ class BudgetDialog(QDialog):
                 line-height: 1.4;
             }
         """)
+        alerts_scroll.setWidget(self.alerts_text)
         top_layout.addWidget(self.alerts_text)
         
-        # BOTTOM SECTION: Budget Utilization (65%)
+        # BOTTOM SECTION: Budget Utilization (65%) - CONSISTENT SCROLLBAR
         bottom_widget = QWidget()
         bottom_layout = QVBoxLayout(bottom_widget)
         bottom_layout.setContentsMargins(5, 5, 5, 5)
@@ -3048,33 +3166,14 @@ class BudgetDialog(QDialog):
         progress_header.setAlignment(Qt.AlignCenter)
         bottom_layout.addWidget(progress_header)
         
-        # Create scroll area with clean scrollbar
+        # Create scroll area with CONSISTENT dark theme scrollbar
         progress_scroll = QScrollArea()
         progress_scroll.setWidgetResizable(True)
         progress_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         progress_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        progress_scroll.setStyleSheet("""
-            QScrollArea {
-                border: 1px solid #404040;
-                border-radius: 4px;
-                background-color: #252526;
-            }
-            QScrollBar:vertical {
-                background: #2d2d2d;
-                width: 12px;
-                border-radius: 6px;
-            }
-            QScrollBar::handle:vertical {
-                background: #007acc;
-                border-radius: 6px;
-                min-height: 20px;
-            }
-            QScrollBar::handle:vertical:hover {
-                background: #005a9e;
-            }
-        """)
+        progress_scroll.setStyleSheet(self.get_scrollbar_stylesheet())
         
-        # Progress container with better background
+        # Progress container
         self.progress_container = QWidget()
         self.progress_container.setStyleSheet("background-color: #252526;")
         self.progress_layout = QVBoxLayout(self.progress_container)
@@ -3099,6 +3198,16 @@ class BudgetDialog(QDialog):
         self.update_progress_bars()
         
         self.tabs.addTab(tab, "📈 Reports")
+
+    def get_scrollbar_stylesheet(self):
+        """Return minimal scrollbar styling (global styles handle most of it)"""
+        return """
+            QScrollArea {
+                border: 1px solid #404040;
+                border-radius: 6px;
+                background-color: #252526;
+            }
+        """
     
     def update_category_list(self):
         """Update the category dropdown with all available categories."""

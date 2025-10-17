@@ -5,7 +5,6 @@ import sys
 from datetime import datetime
 
 import openpyxl
-import pandas as pd
 from fpdf import FPDF
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QFont
@@ -13,8 +12,8 @@ from PyQt5.QtWidgets import (QApplication, QComboBox, QDateEdit, QFileDialog,
                              QHBoxLayout, QHeaderView, QLabel, QMainWindow,
                              QMessageBox, QPushButton, QTableWidget,
                              QTableWidgetItem, QTabWidget, QVBoxLayout,
-                             QWidget, QAction)
-
+                             QWidget, QAction, QDialog)
+from PyQt5.QtCore import Qt 
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 from expense_tracker_app.import_service import DataImportService
@@ -43,7 +42,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.data_manager = DataManager()
-        self.setWindowTitle("Expense Tracker")
+        self.setWindowTitle("Expense Tracker Pro")
 
         # Set a proper default window size
         self.setGeometry(100, 100, 1200, 800)
@@ -72,6 +71,9 @@ class MainWindow(QMainWindow):
             self.tabs = QTabWidget()
             self.setCentralWidget(self.tabs)
 
+            font = QFont("Segoe UI", 10)
+            self.tabs.setFont(font)
+
             # Expenses Tab
             self.expenses_tab = QWidget()
             expenses_layout = QVBoxLayout(self.expenses_tab)
@@ -79,14 +81,14 @@ class MainWindow(QMainWindow):
 
             self.expense_tracker = ExpenseTracker(self.data_manager)
             expenses_layout.addWidget(self.expense_tracker)
-            self.tabs.addTab(self.expenses_tab, "Expenses")
+            self.tabs.addTab(self.expenses_tab, "💼 Expenses")
 
             # Dashboard Tab
             self.dashboard_tab = QWidget()
             dash_layout = QVBoxLayout(self.dashboard_tab)
             self.dashboard = DashboardWidget(self.data_manager)
             dash_layout.addWidget(self.dashboard)
-            self.tabs.addTab(self.dashboard_tab, "Dashboard")
+            self.tabs.addTab(self.dashboard_tab, "📊 Dashboard")
 
             # Reports Tab
             self.setup_reports_tab()
@@ -184,13 +186,14 @@ class MainWindow(QMainWindow):
 
         # Help
         help_menu = menubar.addMenu("Help")
-        help_menu.addAction("About")
+        about_action = help_menu.addAction("About")
+        about_action.triggered.connect(self.show_about_dialog)
 
     def setup_reports_tab(self):
         self.reports_tab = QWidget()
         reports_layout = QVBoxLayout(self.reports_tab)
 
-        title = QLabel("Reports & Exports")
+        title = QLabel("📈 Reports & Exports")
         title.setStyleSheet(
             """
             QLabel {
@@ -202,11 +205,14 @@ class MainWindow(QMainWindow):
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
                     stop:0 #0f3460, stop:0.5 #533483, stop:1 #e94560);
                 border-radius: 8px;
+                border: 2px solid #00ffff;
                 margin: 5px;
             }
         """
         )
+        title.setAlignment(Qt.AlignCenter)
         reports_layout.addWidget(title)
+        
 
         filter_layout = QHBoxLayout()
 
@@ -405,7 +411,7 @@ class MainWindow(QMainWindow):
         reports_layout.addLayout(btn_layout)
 
         reports_layout.addStretch()
-        self.tabs.addTab(self.reports_tab, "Reports")
+        self.tabs.addTab(self.reports_tab, "📈 Reports")
 
     def get_highlighted_date_format(self):
         """Return formatting for highlighted current date"""
@@ -803,6 +809,144 @@ class MainWindow(QMainWindow):
         else:
             event.ignore()
 
+    def show_about_dialog(self):
+        """Show professional About dialog"""
+        about_text = f"""
+        <html>
+        <head>
+        <style>
+            body {{ 
+                color: #e0e0e0; 
+                font-family: 'Segoe UI', Arial, sans-serif; 
+                margin: 0; 
+                padding: 0; 
+            }}
+            .header {{ 
+                color: #00ffff; 
+                font-size: 24px; 
+                font-weight: bold; 
+                margin-bottom: 10px;
+                text-align: center;
+            }}
+            .version {{ 
+                color: #ffb86c; 
+                font-size: 14px; 
+                margin-bottom: 20px;
+                text-align: center;
+            }}
+            .section {{ 
+                margin: 15px 0; 
+                padding: 10px;
+                background: #2d2d2d;
+                border-radius: 6px;
+                border-left: 4px solid #007acc;
+            }}
+            .feature {{ 
+                margin: 8px 0; 
+                padding-left: 10px;
+            }}
+            .tech {{ 
+                color: #b0b0b0; 
+                font-size: 12px; 
+                margin-top: 20px;
+                text-align: center;
+            }}
+            .copyright {{ 
+                color: #808080; 
+                font-size: 11px; 
+                margin-top: 25px;
+                text-align: center;
+            }}
+        </style>
+        </head>
+        <body>
+            <div class="header">💼 Expense Tracker Pro</div>
+            <div class="version">Version 1.0</div>
+            
+            <div class="section">
+                <strong>🎯 Features:</strong>
+                <div class="feature">✅ Complete expense tracking & management</div>
+                <div class="feature">📊 Interactive charts & spending analytics</div>
+                <div class="feature">💰 Smart budget management with alerts</div>
+                <div class="feature">📁 Category management with auto-merge</div>
+                <div class="feature">📈 Professional reports & exports</div>
+                <div class="feature">🔄 Import/Export (CSV, Excel, PDF)</div>
+                <div class="feature">🎨 Dark theme with professional UI</div>
+            </div>
+            
+            <div class="section">
+                <strong>🛠️ Built With:</strong>
+                <div class="feature">Python • PyQt5 (GUI) • Matplotlib (Charts) • OpenPyXL (Excel) • FPDF (Reports)</div>
+            </div>
+            
+            <div class="tech">
+                Professional expense management solution
+            </div>
+            
+            <div class="copyright">
+                © 2025 Expense Tracker Pro. All rights reserved.
+            </div>
+        </body>
+        </html>
+        """
+        
+        # Create custom dialog for better control
+        dialog = QDialog(self)
+        dialog.setWindowTitle("About Expense Tracker")
+        dialog.setMinimumSize(500, 550)
+        dialog.setStyleSheet("""
+            QDialog {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 #1a1a2e, stop:0.5 #16213e, stop:1 #0f3460);
+                border: 2px solid #007acc;
+                border-radius: 10px;
+            }
+        """)
+        
+        layout = QVBoxLayout(dialog)
+        
+        # App icon/logo placeholder
+        icon_label = QLabel("💼")
+        icon_label.setAlignment(Qt.AlignCenter)
+        icon_label.setStyleSheet("""
+            QLabel {
+                font-size: 64px;
+                padding: 20px;
+            }
+        """)
+        layout.addWidget(icon_label)
+        
+        # About text
+        about_label = QLabel(about_text)
+        about_label.setAlignment(Qt.AlignCenter)
+        about_label.setWordWrap(True)
+        about_label.setTextFormat(Qt.RichText)
+        layout.addWidget(about_label)
+        
+        # Close button
+        close_btn = QPushButton("Close")
+        close_btn.setMinimumHeight(35)
+        close_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #007acc;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-weight: 500;
+                font-family: "Segoe UI";
+                font-size: 12px;
+                margin: 10px;
+            }
+            QPushButton:hover {
+                background-color: #005a9e;
+            }
+        """)
+        close_btn.clicked.connect(dialog.accept)
+        layout.addWidget(close_btn)
+        
+        dialog.exec_()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -878,8 +1022,8 @@ if __name__ == "__main__":
             background-color: #004578;
         }
         QDialog {
-        background-color: #2d2d2d;
-        color: #e0e0e0;
+            background-color: #2d2d2d;
+            color: #e0e0e0;
         }
         QInputDialog {
             background-color: #2d2d2d;
@@ -907,8 +1051,99 @@ if __name__ == "__main__":
         QLabel {
             color: #e0e0e0;
         }
+            /* ===== GLOBAL SCROLLBAR STYLING ===== */
+        QScrollBar:vertical {
+            background: #2d2d2d;
+            width: 15px;
+            margin: 0px;
+            border-radius: 0px;
+        }
         
-    """
+        QScrollBar::handle:vertical {
+            background: #007acc;
+            border-radius: 7px;
+            min-height: 25px;
+            margin: 2px;
+        }
+        
+        QScrollBar::handle:vertical:hover {
+            background: #005a9e;
+        }
+        
+        QScrollBar::handle:vertical:pressed {
+            background: #004578;
+        }
+        
+        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+            border: none;
+            background: none;
+            height: 0px;
+        }
+        
+        QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+            background: none;
+        }
+        
+        QScrollBar:horizontal {
+            background: #2d2d2d;
+            height: 15px;
+            margin: 0px;
+            border-radius: 0px;
+        }
+        
+        QScrollBar::handle:horizontal {
+            background: #007acc;
+            border-radius: 7px;
+            min-width: 25px;
+            margin: 2px;
+        }
+        
+        QScrollBar::handle:horizontal:hover {
+            background: #005a9e;
+        }
+        
+        QScrollBar::handle:horizontal:pressed {
+            background: #004578;
+        }
+        
+        QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+            border: none;
+            background: none;
+            width: 0px;
+        }
+        
+        /* Scroll Areas */
+        QScrollArea {
+            border: 1px solid #404040;
+            border-radius: 6px;
+            background-color: #252526;
+        }
+        
+        /* Table Scrollbars */
+        QTableWidget QScrollBar:vertical, QListWidget QScrollBar:vertical {
+            background: #2d2d2d;
+            width: 15px;
+        }
+        
+        QTableWidget QScrollBar::handle:vertical, QListWidget QScrollBar::handle:vertical {
+            background: #007acc;
+            border-radius: 7px;
+            min-height: 25px;
+            margin: 2px;
+        }
+        
+        QTextEdit QScrollBar:vertical {
+            background: #2d2d2d;
+            width: 15px;
+        }
+        
+        QTextEdit QScrollBar::handle:vertical {
+            background: #007acc;
+            border-radius: 7px;
+            min-height: 25px;
+            margin: 2px;
+        }
+        """
     )
 
     main = MainWindow()
