@@ -6,21 +6,11 @@ from unittest.mock import MagicMock, Mock, PropertyMock, patch
 
 import pytest
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
-    QApplication,
-    QLabel,
-    QMessageBox,
-    QPushButton,
-    QTableWidgetItem,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import (QApplication, QLabel, QMessageBox, QPushButton,
+                             QTableWidgetItem, QVBoxLayout, QWidget)
 
-from expense_tracker_app.widgets import (
-    DashboardWidget,
-    ExpenseTracker,
-    NumericTableWidgetItem,
-)
+from expense_tracker_app.widgets import (DashboardWidget, ExpenseTracker,
+                                         NumericTableWidgetItem)
 
 try:
     from matplotlib.backends.backend_pdf import PdfPages

@@ -1,44 +1,25 @@
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import \
+    FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtCore import QDate, QPropertyAnimation, Qt, QTimer
 from PyQt5.QtGui import QColor, QFont, QKeySequence, QTextCharFormat
-from PyQt5.QtWidgets import (
-    QAbstractItemView,
-    QComboBox,
-    QDateEdit,
-    QDialog,
-    QFileDialog,
-    QGraphicsOpacityEffect,
-    QHBoxLayout,
-    QHeaderView,
-    QLabel,
-    QLineEdit,
-    QMessageBox,
-    QProgressBar,
-    QPushButton,
-    QScrollArea,
-    QShortcut,
-    QSizePolicy,
-    QSplitter,
-    QTableWidget,
-    QTableWidgetItem,
-    QTabWidget,
-    QTextEdit,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import (QAbstractItemView, QComboBox, QDateEdit, QDialog,
+                             QFileDialog, QGraphicsOpacityEffect, QHBoxLayout,
+                             QHeaderView, QLabel, QLineEdit, QMessageBox,
+                             QProgressBar, QPushButton, QScrollArea, QShortcut,
+                             QSizePolicy, QSplitter, QTableWidget,
+                             QTableWidgetItem, QTabWidget, QTextEdit,
+                             QVBoxLayout, QWidget)
 
 from expense_tracker_app.budget_manager import BudgetManager
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
-from expense_tracker_app.table_helpers import (
-    aggregate_category_totals,
-    calculate_subtotal,
-    format_expense_row,
-    format_total_row,
-    prepare_chart_data,
-    prepare_trend_data,
-)
+from expense_tracker_app.table_helpers import (aggregate_category_totals,
+                                               calculate_subtotal,
+                                               format_expense_row,
+                                               format_total_row,
+                                               prepare_chart_data,
+                                               prepare_trend_data)
 
 try:
     from matplotlib.backends.backend_pdf import PdfPages
