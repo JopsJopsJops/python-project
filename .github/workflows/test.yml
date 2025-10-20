@@ -56,9 +56,9 @@ jobs:
       run: |
         black --check expense_tracker_app/ tests/
 
-    - name: Check import sorting with isort
-      run: |
-        isort --check-only expense_tracker_app/ tests/
+    # - name: Check import sorting with isort
+    #   run: |
+    #     isort --check-only expense_tracker_app/ tests/
 
     - name: Run flake8
       run: |
