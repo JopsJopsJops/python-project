@@ -1,12 +1,14 @@
 # test_table_helpers.py
 import pytest
 
-from expense_tracker_app.table_helpers import (aggregate_category_totals,
-                                               calculate_subtotal,
-                                               format_expense_row,
-                                               format_total_row,
-                                               prepare_chart_data,
-                                               prepare_trend_data)
+from expense_tracker_app.table_helpers import (
+    aggregate_category_totals,
+    calculate_subtotal,
+    format_expense_row,
+    format_total_row,
+    prepare_chart_data,
+    prepare_trend_data,
+)
 
 
 class TestTableHelpers:

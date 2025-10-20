@@ -1,11 +1,21 @@
 import logging
 
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import (QCalendarWidget, QComboBox, QDialog,
-                             QDialogButtonBox, QHBoxLayout, QInputDialog,
-                             QLabel, QLineEdit, QListWidget, QMessageBox,
-                             QPushButton, QVBoxLayout, QSizePolicy
-                             )
+from PyQt5.QtWidgets import (
+    QCalendarWidget,
+    QComboBox,
+    QDialog,
+    QDialogButtonBox,
+    QHBoxLayout,
+    QInputDialog,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+    QSizePolicy,
+)
 from PyQt5.QtGui import QColor, QFont, QTextCharFormat
 
 from expense_tracker_app.data_manager import DataManager
@@ -22,7 +32,8 @@ class CategoryDialog(QDialog):
         self.resize(360, 400)
 
         # Apply dark theme styling
-        self.setStyleSheet("""
+        self.setStyleSheet(
+            """
             QDialog {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
@@ -61,8 +72,8 @@ class CategoryDialog(QDialog):
             QPushButton:pressed {
                 background-color: #004578;
             }
-        """)
-
+        """
+        )
 
         self.layout = QVBoxLayout(self)
 
@@ -95,10 +106,11 @@ class CategoryDialog(QDialog):
         # Use QInputDialog instead of QMessageBox for text input
         name, ok = QInputDialog.getText(self, "Add Category", "Category name:")
         # Apply dark theme to the input dialog
-        if hasattr(self, 'window') and self.window():
+        if hasattr(self, "window") and self.window():
             input_dialog = self.findChild(QInputDialog)
             if input_dialog:
-                input_dialog.setStyleSheet("""
+                input_dialog.setStyleSheet(
+                    """
                     QDialog {
                         background-color: #2d2d2d;
                         color: #e0e0e0;
@@ -127,23 +139,28 @@ class CategoryDialog(QDialog):
                     QPushButton:hover {
                         background-color: #005a9e;
                     }
-                """)
-        
+                """
+                )
+
         if ok and name.strip():
             name = name.strip()
-            
+
             if isinstance(self.data_manager, list):
                 # Test mode
-                normalized_name = name.capitalize()  # Simple capitalization for test mode
+                normalized_name = (
+                    name.capitalize()
+                )  # Simple capitalization for test mode
                 if normalized_name not in self.data_manager:
                     self.data_manager.append(normalized_name)
                     self.list_widget.addItem(normalized_name)  # ✅ Add normalized name
                 else:
-                    QMessageBox.warning(self, "Duplicate", f"'{normalized_name}' already exists.")
+                    QMessageBox.warning(
+                        self, "Duplicate", f"'{normalized_name}' already exists."
+                    )
             else:
                 # Normal mode - USE THE PROPER CATEGORY MANAGEMENT
                 success, message = self.data_manager.add_category(name)
-                
+
                 if success:
                     # Refresh the list to show the CAPITALIZED version
                     self.refresh_category_list()
@@ -157,7 +174,7 @@ class CategoryDialog(QDialog):
                         except Exception:
                             pass
                         self._refresh_dashboards()
-                    
+
                     # Only show success message if it's a NEW category
                     if "added successfully" in message:
                         QMessageBox.information(self, "Success", message)
@@ -197,14 +214,18 @@ class CategoryDialog(QDialog):
 
         # Get normalized (capitalized) version of the category
         normalized_category = self.data_manager.normalize_category_name(category)
-        
+
         # Check if this is a duplicate that should be merged
-        is_duplicate = (category != normalized_category and 
-                    normalized_category in self.data_manager.categories)
-        
+        is_duplicate = (
+            category != normalized_category
+            and normalized_category in self.data_manager.categories
+        )
+
         # Check if category has expenses
-        has_expenses = (category in self.data_manager.expenses and 
-                    self.data_manager.expenses[category])
+        has_expenses = (
+            category in self.data_manager.expenses
+            and self.data_manager.expenses[category]
+        )
 
         if has_expenses:
             if is_duplicate:
@@ -218,26 +239,34 @@ class CategoryDialog(QDialog):
                     f"• <b>Merge</b> - Expenses stay organized under '{normalized_category}'\n"
                     f"• <b>Move to Uncategorized</b> - Expenses will be harder to find",
                     QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
-                    QMessageBox.Yes  # Default to Yes for smart merging
+                    QMessageBox.Yes,  # Default to Yes for smart merging
                 )
-                
+
                 if reply == QMessageBox.Cancel:
                     return
                 elif reply == QMessageBox.Yes:
                     merge_target = normalized_category
                 else:
                     merge_target = "Uncategorized"
-                    
+
             else:
                 # Better UX: Step-by-step approach with clearer consequences
-                from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QFrame
+                from PyQt5.QtWidgets import (
+                    QDialog,
+                    QVBoxLayout,
+                    QHBoxLayout,
+                    QPushButton,
+                    QLabel,
+                    QFrame,
+                )
                 from PyQt5.QtCore import Qt
                 from PyQt5.QtGui import QFont
 
                 dialog = QDialog(self)
                 dialog.setWindowTitle(f"Remove '{category}'")
                 dialog.setMinimumSize(500, 300)
-                dialog.setStyleSheet("""
+                dialog.setStyleSheet(
+                    """
                     QDialog {
                         background-color: #2d2d2d;
                         color: #e0e0e0;
@@ -283,18 +312,23 @@ class CategoryDialog(QDialog):
                         background-color: #4a4a4a;
                         border-color: #007acc;
                     }
-                """)
+                """
+                )
 
                 layout = QVBoxLayout(dialog)
 
                 # Header
                 header_label = QLabel(f"🗑️ Remove '{category}'")
-                header_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #ff6b6b;")
+                header_label.setStyleSheet(
+                    "font-size: 16px; font-weight: bold; color: #ff6b6b;"
+                )
                 header_label.setAlignment(Qt.AlignCenter)
                 layout.addWidget(header_label)
 
                 # Warning
-                warning_label = QLabel(f"This category contains {len(self.data_manager.expenses[category])} expense(s).")
+                warning_label = QLabel(
+                    f"This category contains {len(self.data_manager.expenses[category])} expense(s)."
+                )
                 warning_label.setStyleSheet("color: #ffb86c; font-weight: bold;")
                 warning_label.setAlignment(Qt.AlignCenter)
                 layout.addWidget(warning_label)
@@ -312,7 +346,9 @@ class CategoryDialog(QDialog):
                 merge_header.setStyleSheet("font-weight: bold; color: #6bff6b;")
                 merge_layout.addWidget(merge_header)
 
-                merge_desc = QLabel("• Expenses stay organized\n• Easy to find later\n• Recommended approach")
+                merge_desc = QLabel(
+                    "• Expenses stay organized\n• Easy to find later\n• Recommended approach"
+                )
                 merge_desc.setStyleSheet("color: #b0b0b0; font-size: 11px;")
                 merge_layout.addWidget(merge_desc)
 
@@ -333,7 +369,9 @@ class CategoryDialog(QDialog):
                 uncat_header.setStyleSheet("font-weight: bold; color: #ffb86c;")
                 uncat_layout.addWidget(uncat_header)
 
-                uncat_desc = QLabel("• Expenses become harder to find\n• Use only if you can't merge\n• Not recommended")
+                uncat_desc = QLabel(
+                    "• Expenses become harder to find\n• Use only if you can't merge\n• Not recommended"
+                )
                 uncat_desc.setStyleSheet("color: #b0b0b0; font-size: 11px;")
                 uncat_layout.addWidget(uncat_desc)
 
@@ -366,28 +404,30 @@ class CategoryDialog(QDialog):
                         f"Are you sure you want to move {len(self.data_manager.expenses[category])} expense(s) to 'Uncategorized'?\n\n"
                         "⚠️ Expenses moved to Uncategorized will be harder to find and organize.",
                         QMessageBox.Yes | QMessageBox.No,
-                        QMessageBox.No  # Default to No for safety
+                        QMessageBox.No,  # Default to No for safety
                     )
-                    
+
                     if confirm_reply == QMessageBox.No:
                         return  # User changed their mind
-                    
+
                     merge_target = "Uncategorized"
-            
+
             # FIX: Ensure merge_target is a string, not a tuple
             if isinstance(merge_target, tuple):
                 merge_target = merge_target[0]  # Take the first element if it's a tuple
-            
+
             # Perform the removal with merge
             success, message = self.data_manager.remove_category(category, merge_target)
-            
+
             if success:
-                action = "merged into" if merge_target != "Uncategorized" else "moved to"
+                action = (
+                    "merged into" if merge_target != "Uncategorized" else "moved to"
+                )
                 QMessageBox.information(
-                    self, 
-                    "Success", 
+                    self,
+                    "Success",
                     f"Category '{category}' removed successfully.\n"
-                    f"The expense(s) were {action} '{merge_target}'."
+                    f"The expense(s) were {action} '{merge_target}'.",
                 )
             else:
                 QMessageBox.warning(self, "Error", message)
@@ -400,12 +440,12 @@ class CategoryDialog(QDialog):
                 f"Are you sure you want to remove the category '{category}'?\n\n"
                 f"This category has no expenses.",
                 QMessageBox.Yes | QMessageBox.No,
-                QMessageBox.No  # Default to No for safety
+                QMessageBox.No,  # Default to No for safety
             )
-            
+
             if reply == QMessageBox.No:
                 return
-                
+
             # Perform the removal
             success, message = self.data_manager.remove_category(category)
             if success:
@@ -428,30 +468,32 @@ class CategoryDialog(QDialog):
         """Ask user which category to merge expenses into - FIXED to return string only"""
         # Get all available categories except the one being removed and Uncategorized
         available_categories = [
-            cat for cat in self.data_manager.categories 
+            cat
+            for cat in self.data_manager.categories
             if cat != category_to_remove and cat != "Uncategorized"
         ]
-        
+
         if not available_categories:
             # No other categories available, use Uncategorized
             return "Uncategorized"  # ✅ Return string, not tuple
-        
+
         # Create a simple dialog to select merge target
         from PyQt5.QtWidgets import QInputDialog
-        
+
         merge_target, ok = QInputDialog.getItem(
             self,
             "Select Merge Target",
             f"Select which category to merge '{category_to_remove}' expenses into:",
             available_categories,
             0,  # Default to first item
-            False  # Not editable
+            False,  # Not editable
         )
         # Apply dark theme to the input dialog
-        if hasattr(self, 'window') and self.window():
+        if hasattr(self, "window") and self.window():
             input_dialog = self.findChild(QInputDialog)
             if input_dialog:
-                input_dialog.setStyleSheet("""
+                input_dialog.setStyleSheet(
+                    """
                     QDialog {
                         background-color: #2d2d2d;
                         color: #e0e0e0;
@@ -486,8 +528,9 @@ class CategoryDialog(QDialog):
                     QPushButton:hover {
                         background-color: #005a9e;
                     }
-                """)
-        
+                """
+                )
+
         if ok:
             return merge_target  # ✅ Return string only
         else:
@@ -522,7 +565,8 @@ class AddExpenseDialog(QDialog):
 
         self.amount_input = QLineEdit()
         self.amount_input.setPlaceholderText("Enter amount")
-        self.amount_input.setStyleSheet("""
+        self.amount_input.setStyleSheet(
+            """
             QLineEdit {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
@@ -535,17 +579,20 @@ class AddExpenseDialog(QDialog):
             QLineEdit:focus {
                 border: 1px solid #007acc;
             }
-        """)
+        """
+        )
 
         self.calendar_widget = QCalendarWidget()
         self.calendar_widget.setGridVisible(True)
         self.calendar_widget.setSelectedDate(QDate.currentDate())
-        self.calendar_widget.setDateTextFormat(QDate.currentDate(), 
-                                             self.get_highlighted_date_format())
+        self.calendar_widget.setDateTextFormat(
+            QDate.currentDate(), self.get_highlighted_date_format()
+        )
 
         self.desc_input = QLineEdit()
         self.desc_input.setPlaceholderText("Enter description")
-        self.desc_input.setStyleSheet("""
+        self.desc_input.setStyleSheet(
+            """
             QLineEdit {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
@@ -558,7 +605,8 @@ class AddExpenseDialog(QDialog):
             QLineEdit:focus {
                 border: 1px solid #007acc;
             }
-        """)
+        """
+        )
 
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
@@ -566,8 +614,11 @@ class AddExpenseDialog(QDialog):
 
         layout.addWidget(QLabel("Category:"))
         layout.addWidget(self.category_dropdown)
-        category_hint = QLabel("💡 Need a new category? Use the '📁 Categories' button in the main toolbar")
-        category_hint.setStyleSheet("""
+        category_hint = QLabel(
+            "💡 Need a new category? Use the '📁 Categories' button in the main toolbar"
+        )
+        category_hint.setStyleSheet(
+            """
             QLabel {
                 color: #ffb86c;
                 background-color: #443322;
@@ -576,7 +627,8 @@ class AddExpenseDialog(QDialog):
                 border: 1px solid #ffa500;
                 font-size: 11px;
             }
-        """)
+        """
+        )
         category_hint.setWordWrap(True)
         layout.addWidget(category_hint)
         layout.addWidget(QLabel("Amount:"))
@@ -586,8 +638,6 @@ class AddExpenseDialog(QDialog):
         layout.addWidget(QLabel("Description:"))
         layout.addWidget(self.desc_input)
         layout.addWidget(button_box)
-
-        
 
     def get_highlighted_date_format(self):
         """Return formatting for highlighted current date"""

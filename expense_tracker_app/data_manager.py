@@ -6,6 +6,7 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 from expense_tracker_app.budget_manager import BudgetManager
 
+
 class DataManager:
     def __init__(self, filename="expenses.json", file_path=None):
         # Allow file_path parameter for tests
@@ -33,54 +34,54 @@ class DataManager:
         """Debug method to see what categories actually have expenses."""
         print("=== DEBUG EXPENSE CATEGORIES ===")
         all_expenses = self.list_all_expenses()
-        
+
         # Group expenses by category
         categories_with_expenses = {}
         for expense in all_expenses:
-            category = expense.get('category', 'Unknown')
+            category = expense.get("category", "Unknown")
             if category not in categories_with_expenses:
                 categories_with_expenses[category] = []
             categories_with_expenses[category].append(expense)
-        
+
         print(f"Total expenses: {len(all_expenses)}")
         print("Categories with expenses:")
         for category, expenses in categories_with_expenses.items():
-            total = sum(exp.get('amount', 0) for exp in expenses)
+            total = sum(exp.get("amount", 0) for exp in expenses)
             print(f"  '{category}': {len(expenses)} expenses, Total: ₱{total:.2f}")
-        
+
         print("Budgets set:")
         for category, budget in self.budget_manager.budgets.items():
             print(f"  '{category}': ₱{budget:.2f}")
-        
+
         # Check if budget categories match expense categories
         mismatches = []
         for budget_cat in self.budget_manager.budgets.keys():
             if budget_cat not in categories_with_expenses:
                 mismatches.append(f"Budget category '{budget_cat}' has no expenses")
-        
+
         if mismatches:
             print("CATEGORY MISMATCHES:")
             for mismatch in mismatches:
                 print(f"  ❌ {mismatch}")
-        
+
         print("=== END DEBUG ===")
 
     def debug_category_matching(self):
         """Debug method to check category name matching."""
         print("=== DEBUG CATEGORY MATCHING ===")
-        
+
         # Get all unique categories from expenses
         all_expenses = self.list_all_expenses()
-        expense_categories = set(exp.get('category') for exp in all_expenses)
-        
+        expense_categories = set(exp.get("category") for exp in all_expenses)
+
         print("Categories found in expenses:")
         for cat in sorted(expense_categories):
             print(f"  '{cat}'")
-        
+
         print("Budgets set for categories:")
         for cat in self.budget_manager.budgets.keys():
             print(f"  '{cat}'")
-        
+
         # Check for exact matches
         matches = []
         mismatches = []
@@ -89,19 +90,21 @@ class DataManager:
                 matches.append(budget_cat)
             else:
                 mismatches.append(budget_cat)
-        
+
         print("MATCHES:")
         for match in matches:
             print(f"  ✅ '{match}' - budget will work")
-        
+
         print("MISMATCHES:")
         for mismatch in mismatches:
             print(f"  ❌ '{mismatch}' - no expenses found with this exact name")
             # Suggest possible matches
-            possible_matches = [ec for ec in expense_categories if ec.lower() == mismatch.lower()]
+            possible_matches = [
+                ec for ec in expense_categories if ec.lower() == mismatch.lower()
+            ]
             if possible_matches:
                 print(f"     💡 Possible match: '{possible_matches[0]}'")
-        
+
         print("=== END DEBUG ===")
 
     def load_expense(self, file_path=None):
@@ -180,9 +183,9 @@ class DataManager:
         """Add category with proper capitalization and duplicate checking"""
         if not category or not category.strip():
             return False, "Category cannot be empty"
-        
+
         normalized_category = self.normalize_category_name(category)
-        
+
         # Check if category already exists
         exists, existing_name = self.category_exists(category)
         if exists:
@@ -190,12 +193,18 @@ class DataManager:
             if category == existing_name:
                 return True, f"Category '{existing_name}' is already in your list"
             else:
-                return False, f"Category '{existing_name}' already exists (you entered '{category}')"
-        
+                return (
+                    False,
+                    f"Category '{existing_name}' already exists (you entered '{category}')",
+                )
+
         if merge_target:
             # This is a merge operation
             normalized_merge_target = self.normalize_category_name(merge_target)
-            if category not in self.expenses or normalized_merge_target not in self.categories:
+            if (
+                category not in self.expenses
+                or normalized_merge_target not in self.categories
+            ):
                 raise ValueError("Cannot merge: category or target not found")
 
             # Move all expenses from category to merge_target
@@ -222,30 +231,33 @@ class DataManager:
         """Normalize category name to proper capitalization"""
         if not category or not category.strip():
             return category
-        
+
         # Remove extra spaces and capitalize each word
-        normalized = ' '.join(word.strip().capitalize() for word in category.split())
+        normalized = " ".join(word.strip().capitalize() for word in category.split())
         return normalized
 
     def category_exists(self, category):
         """Check if category already exists (case-insensitive)"""
         normalized_input = self.normalize_category_name(category)
-        
+
         # Check in existing categories
         for existing_category in self.categories:
             normalized_existing = self.normalize_category_name(existing_category)
             if normalized_existing == normalized_input:
-                return True, existing_category  # Return True and the existing category name
-        
+                return (
+                    True,
+                    existing_category,
+                )  # Return True and the existing category name
+
         return False, None
 
     def migrate_categories_to_proper_case(self):
         """Migrate all existing categories and expenses to proper capitalization"""
         logger.info("🔄 Migrating categories to proper capitalization...")
-        
+
         # Create a mapping of old category names to new normalized names
         category_mapping = {}
-        
+
         # Normalize main categories list
         new_categories = []
         for category in self.categories:
@@ -254,14 +266,14 @@ class DataManager:
                 new_categories.append(normalized)
             if category != normalized:
                 category_mapping[category] = normalized
-        
+
         self.categories = sorted(new_categories)
-        
+
         # Normalize expense categories and merge duplicates
         new_expenses = {}
         for old_category, expenses_list in self.expenses.items():
             new_category = self.normalize_category_name(old_category)
-            
+
             if new_category in new_expenses:
                 # Merge expenses from duplicate category
                 new_expenses[new_category].extend(expenses_list)
@@ -270,22 +282,24 @@ class DataManager:
                 new_expenses[new_category] = expenses_list
                 if old_category != new_category:
                     logger.info(f"🔄 Renamed '{old_category}' to '{new_category}'")
-        
+
         self.expenses = new_expenses
-        
+
         # Normalize budget categories
-        if hasattr(self, 'budget_manager') and hasattr(self.budget_manager, 'budgets'):
+        if hasattr(self, "budget_manager") and hasattr(self.budget_manager, "budgets"):
             new_budgets = {}
             for old_category, budget_amount in self.budget_manager.budgets.items():
                 new_category = self.normalize_category_name(old_category)
                 if new_category in new_budgets:
                     # Keep the higher budget if there are duplicates
-                    new_budgets[new_category] = max(new_budgets[new_category], budget_amount)
+                    new_budgets[new_category] = max(
+                        new_budgets[new_category], budget_amount
+                    )
                 else:
                     new_budgets[new_category] = budget_amount
-            
+
             self.budget_manager.budgets = new_budgets
-        
+
         self.save_data()
         logger.info("✅ Categories migrated to proper capitalization")
         return len(category_mapping)
@@ -293,7 +307,7 @@ class DataManager:
     def auto_merge_duplicate_categories(self):
         """Automatically find and merge duplicate categories (case-insensitive)"""
         logger.info("🔄 Looking for duplicate categories to merge...")
-        
+
         # Find duplicate categories (case-insensitive)
         category_groups = {}
         for category in list(self.expenses.keys()):
@@ -301,13 +315,15 @@ class DataManager:
             if normalized not in category_groups:
                 category_groups[normalized] = []
             category_groups[normalized].append(category)
-        
+
         # Merge duplicates
         merged_count = 0
         for normalized_category, duplicates in category_groups.items():
             if len(duplicates) > 1:
-                logger.info(f"📂 Found duplicates for '{normalized_category}': {duplicates}")
-                
+                logger.info(
+                    f"📂 Found duplicates for '{normalized_category}': {duplicates}"
+                )
+
                 # Merge all duplicates into the normalized version
                 all_expenses = []
                 for duplicate in duplicates:
@@ -316,31 +332,33 @@ class DataManager:
                         if duplicate != normalized_category:
                             del self.expenses[duplicate]
                             logger.info(f"🗑️ Removed duplicate category: '{duplicate}'")
-                
+
                 # Add merged expenses to normalized category
                 self.expenses[normalized_category] = all_expenses
                 merged_count += 1
-        
+
         # Update categories list
-        self.categories = sorted(list(set(self.normalize_category_name(cat) for cat in self.categories)))
-        
+        self.categories = sorted(
+            list(set(self.normalize_category_name(cat) for cat in self.categories))
+        )
+
         if merged_count > 0:
             self.save_data()
             logger.info(f"✅ Merged {merged_count} groups of duplicate categories")
-        
+
         return merged_count
 
     def remove_category(self, category, merge_to=None):
         """Remove category with option to merge expenses to another category"""
         normalized_category = self.normalize_category_name(category)
-        
+
         if normalized_category not in self.categories:
             return False, "Category not found"
-        
+
         # Always ensure 'Uncategorized' exists if we might need it
         if "Uncategorized" not in self.categories:
             self.categories.append("Uncategorized")
-        
+
         # If category has expenses
         if normalized_category in self.expenses and self.expenses[normalized_category]:
             if merge_to is None:
@@ -351,23 +369,25 @@ class DataManager:
                 # Ensure merge target exists in categories
                 if merge_to not in self.categories and merge_to != "Uncategorized":
                     self.categories.append(merge_to)
-            
+
             # Move expenses to merge target
             if merge_to in self.expenses:
                 self.expenses[merge_to].extend(self.expenses[normalized_category])
             else:
                 self.expenses[merge_to] = self.expenses[normalized_category]
-            
-            logger.info(f"📂 Moved {len(self.expenses[normalized_category])} expenses from '{normalized_category}' to '{merge_to}'")
-        
+
+            logger.info(
+                f"📂 Moved {len(self.expenses[normalized_category])} expenses from '{normalized_category}' to '{merge_to}'"
+            )
+
         # Remove the category from expenses if it exists
         if normalized_category in self.expenses:
             del self.expenses[normalized_category]
-        
+
         # Remove from categories list
         if normalized_category in self.categories:
             self.categories.remove(normalized_category)
-        
+
         self.save_data()
         logger.warning("Removed category: %s", normalized_category)
         return True, f"Category '{normalized_category}' removed successfully"
@@ -391,7 +411,7 @@ class DataManager:
 
         # Normalize category name
         normalized_category = self.normalize_category_name(category)
-        
+
         # If normalized category is not in the list, add it
         if normalized_category not in self.categories:
             self.categories.append(normalized_category)
@@ -411,21 +431,21 @@ class DataManager:
         self.expenses.setdefault(normalized_category, []).append(new_record)
         self.save_data()
         logger.info("Added expense in %s: %s", normalized_category, new_record)
-        
+
         # NEW: Update budget alerts after adding expense
         self.update_budget_alerts()
         self.debug_expense_categories()
-        
+
         return True
-    
+
     def update_budget_alerts(self):
         """Update budget alerts and refresh dashboard if available."""
-        if hasattr(self, 'budget_manager'):
+        if hasattr(self, "budget_manager"):
             alerts = self.budget_manager.check_budget_alerts()
             logger.info(f"💰 Budget alerts updated: {len(alerts)} alerts")
             for alert in alerts:
                 logger.info(f"   - {alert}")
-            
+
             # NEW: Trigger dashboard refresh
             self.trigger_dashboard_refresh()
 
@@ -434,18 +454,18 @@ class DataManager:
         try:
             from PyQt5.QtWidgets import QApplication
             from PyQt5.QtCore import QTimer
-            
+
             # Use QTimer to safely refresh the UI in the next event loop
             QTimer.singleShot(100, self._refresh_all_dashboards)
-            
+
         except Exception as e:
-            logger.error(f"Error triggering dashboard refresh: {e}")    
+            logger.error(f"Error triggering dashboard refresh: {e}")
 
     def _refresh_all_dashboards(self):
         """Refresh all dashboard widgets."""
         try:
             from PyQt5.QtWidgets import QApplication, QWidget
-            
+
             for w in QApplication.topLevelWidgets():
                 for child in w.findChildren(QWidget):
                     if hasattr(child, "update_dashboard"):
@@ -454,7 +474,7 @@ class DataManager:
                         except Exception as e:
                             logger.debug(f"Error updating dashboard widget: {e}")
         except Exception as e:
-            logger.error(f"Error in dashboard refresh: {e}")     
+            logger.error(f"Error in dashboard refresh: {e}")
 
     def delete_expense(self, category, record):
         """Delete expense - handle both record dict and index."""
@@ -499,7 +519,9 @@ class DataManager:
                 self.expenses[normalized_category].remove(existing_record)
                 self.last_deleted = (normalized_category, existing_record)
                 self.save_data()
-                logger.warning("Deleted expense from %s: %s", normalized_category, existing_record)
+                logger.warning(
+                    "Deleted expense from %s: %s", normalized_category, existing_record
+                )
                 # NEW: Update budget alerts after deletion
                 self.update_budget_alerts()
                 return True
@@ -594,7 +616,9 @@ class DataManager:
 
         self.expenses[normalized_old_category].remove(old_record)
 
-        category = self.normalize_category_name(new_data.get("category", normalized_old_category))
+        category = self.normalize_category_name(
+            new_data.get("category", normalized_old_category)
+        )
         amount = float(new_data.get("amount", old_record.get("amount", 0)))
         date = new_data.get("date", old_record.get("date", ""))
         desc = new_data.get("description", old_record.get("description", ""))
@@ -604,10 +628,10 @@ class DataManager:
         )
         self.save_data()
         logger.info("Updated expense from %s → %s", old_record, new_data)
-        
+
         # NEW: Update budget alerts after update
         self.update_budget_alerts()
-        
+
         return True
 
     def get_expenses_for_category(self, category):

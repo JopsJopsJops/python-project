@@ -1,25 +1,44 @@
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import \
-    FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtCore import QDate, QPropertyAnimation, Qt, QTimer
 from PyQt5.QtGui import QColor, QFont, QKeySequence, QTextCharFormat
-from PyQt5.QtWidgets import (QAbstractItemView, QComboBox, QDateEdit, QDialog,
-                             QFileDialog, QGraphicsOpacityEffect, QHBoxLayout,
-                             QHeaderView, QLabel, QLineEdit, QMessageBox,
-                             QPushButton, QShortcut, QSizePolicy, QTableWidget,
-                             QTableWidgetItem, QTabWidget, QVBoxLayout,
-                             QWidget, QTextEdit, QProgressBar, QSplitter,
-                             QScrollArea)
+from PyQt5.QtWidgets import (
+    QAbstractItemView,
+    QComboBox,
+    QDateEdit,
+    QDialog,
+    QFileDialog,
+    QGraphicsOpacityEffect,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QShortcut,
+    QSizePolicy,
+    QTableWidget,
+    QTableWidgetItem,
+    QTabWidget,
+    QVBoxLayout,
+    QWidget,
+    QTextEdit,
+    QProgressBar,
+    QSplitter,
+    QScrollArea,
+)
 
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 from expense_tracker_app.budget_manager import BudgetManager
-from expense_tracker_app.table_helpers import (aggregate_category_totals,
-                                               calculate_subtotal,
-                                               format_expense_row,
-                                               format_total_row,
-                                               prepare_chart_data,
-                                               prepare_trend_data)
+from expense_tracker_app.table_helpers import (
+    aggregate_category_totals,
+    calculate_subtotal,
+    format_expense_row,
+    format_total_row,
+    prepare_chart_data,
+    prepare_trend_data,
+)
 
 try:
     from matplotlib.backends.backend_pdf import PdfPages
@@ -80,7 +99,7 @@ class DashboardWidget(QWidget):
             layout.setContentsMargins(16, 16, 16, 16)
             layout.setSpacing(12)
 
-            #MAIN DASHBOARD HEADER
+            # MAIN DASHBOARD HEADER
             main_header = QLabel("📊 Analytics Dashboard")
             main_header.setStyleSheet(
                 """
@@ -184,7 +203,7 @@ class DashboardWidget(QWidget):
             }
         """
         )
-       
+
         header_label.setAlignment(Qt.AlignCenter)
         header_label.setMaximumHeight(50)
 
@@ -222,16 +241,17 @@ class DashboardWidget(QWidget):
         # Create horizontal splitter for left/right panels
         splitter = QSplitter(Qt.Horizontal)
         splitter.setChildrenCollapsible(False)
-        
+
         # LEFT PANEL: Spending Data (60%)
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
         left_layout.setContentsMargins(0, 0, 5, 0)
         left_layout.setSpacing(6)
-        
+
         # Spending Table - Compact
         table_header = QLabel("📊 Spending by Category")
-        table_header.setStyleSheet("""
+        table_header.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-weight: bold;
@@ -241,7 +261,8 @@ class DashboardWidget(QWidget):
                 border-radius: 6px;
                 border: 1px solid #00ffff;     
             }
-        """)
+        """
+        )
         table_header.setAlignment(Qt.AlignCenter)
         table_header.setMaximumHeight(25)
         left_layout.addWidget(table_header)
@@ -249,13 +270,18 @@ class DashboardWidget(QWidget):
         self.summary_table = QTableWidget()
         self.summary_table.setColumnCount(2)
         self.summary_table.setHorizontalHeaderLabels(["Category", "Amount"])
-        self.summary_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
-        self.summary_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.summary_table.horizontalHeader().setSectionResizeMode(
+            0, QHeaderView.Stretch
+        )
+        self.summary_table.horizontalHeader().setSectionResizeMode(
+            1, QHeaderView.ResizeToContents
+        )
         self.summary_table.verticalHeader().setVisible(False)
         self.summary_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        
+
         # Compact table styling
-        self.summary_table.setStyleSheet("""
+        self.summary_table.setStyleSheet(
+            """
             QTableWidget {
                 background-color: #252526;
                 color: #e0e0e0;
@@ -277,12 +303,14 @@ class DashboardWidget(QWidget):
                 border-bottom: 2px solid #007acc;
                 font-size: 11px;
             }
-        """)
+        """
+        )
         left_layout.addWidget(self.summary_table)
-        
+
         # Grand Total - Compact
         self.total_label = QLabel("Grand Total: ₱0.00")
-        self.total_label.setStyleSheet("""
+        self.total_label.setStyleSheet(
+            """
             QLabel {
                 background-color: #007acc;
                 color: #ffffff;
@@ -292,20 +320,22 @@ class DashboardWidget(QWidget):
                 font-size: 12px;
                 border: 1px solid #005a9e;
             }
-        """)
+        """
+        )
         self.total_label.setAlignment(Qt.AlignCenter)
         self.total_label.setMaximumHeight(35)
         left_layout.addWidget(self.total_label)
-        
+
         # RIGHT PANEL: Insights & Budgets (40%)
         right_widget = QWidget()
         right_layout = QVBoxLayout(right_widget)
         right_layout.setContentsMargins(5, 0, 0, 0)
         right_layout.setSpacing(6)
-        
+
         # Insights Section
         insights_header = QLabel("💡 Spending Insights")
-        insights_header.setStyleSheet("""
+        insights_header.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-weight: bold;
@@ -315,13 +345,15 @@ class DashboardWidget(QWidget):
                 border-radius: 6px;
                 border: 1px solid #00ffff;     
             }
-        """)
+        """
+        )
         insights_header.setAlignment(Qt.AlignCenter)
         insights_header.setMaximumHeight(25)
         right_layout.addWidget(insights_header)
-        
+
         self.insights_label = QLabel("💡 Add expenses to see insights...")
-        self.insights_label.setStyleSheet("""
+        self.insights_label.setStyleSheet(
+            """
             QLabel {
                 background-color: #252526;
                 color: #b0b0b0;
@@ -332,15 +364,17 @@ class DashboardWidget(QWidget):
                 font-size: 11px;
                 line-height: 1.3;
             }
-        """)
+        """
+        )
         self.insights_label.setWordWrap(True)
         self.insights_label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         self.insights_label.setMinimumHeight(120)
         right_layout.addWidget(self.insights_label)
-        
+
         # BUDGET SECTION - Force add it here
         budget_header = QLabel("💰 Budget Alerts")
-        budget_header.setStyleSheet("""
+        budget_header.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-weight: bold;
@@ -350,7 +384,8 @@ class DashboardWidget(QWidget):
                 border-radius: 6px;
                 border: 1px solid #00ffff;                     
             }
-        """)
+        """
+        )
         budget_header.setAlignment(Qt.AlignCenter)
         budget_header.setMaximumHeight(25)
         right_layout.addWidget(budget_header)
@@ -360,7 +395,8 @@ class DashboardWidget(QWidget):
         budget_scroll.setWidgetResizable(True)
         budget_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         budget_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        budget_scroll.setStyleSheet("""
+        budget_scroll.setStyleSheet(
+            """
             QScrollArea {
                 border: 1px solid #404040;
                 border-radius: 4px;
@@ -403,8 +439,9 @@ class DashboardWidget(QWidget):
             QScrollBar::handle:horizontal:hover {
                 background: #005a9e;
             }
-        """)
-        
+        """
+        )
+
         # Budget alerts container
         budget_container = QWidget()
         budget_container.setStyleSheet("background-color: #252526;")
@@ -414,7 +451,8 @@ class DashboardWidget(QWidget):
 
         # Budget alerts label - inside scroll area
         self.budget_alerts_label = QLabel("✅ No budget alerts")
-        self.budget_alerts_label.setStyleSheet("""
+        self.budget_alerts_label.setStyleSheet(
+            """
             QLabel {
                 background-color: #224422;
                 color: #6bff6b;
@@ -425,17 +463,20 @@ class DashboardWidget(QWidget):
                 font-size: 11px;
                 font-weight: bold;
             }
-        """)
+        """
+        )
         self.budget_alerts_label.setWordWrap(True)
         self.budget_alerts_label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
-        self.budget_alerts_label.setTextInteractionFlags(Qt.TextSelectableByMouse)  # Allow text selection
+        self.budget_alerts_label.setTextInteractionFlags(
+            Qt.TextSelectableByMouse
+        )  # Allow text selection
 
         self.budget_layout.addWidget(self.budget_alerts_label)
         self.budget_layout.addStretch()  # Push content to top
 
         budget_scroll.setWidget(budget_container)
         right_layout.addWidget(budget_scroll)  # Scroll area takes remaining space
-        
+
         # Add both panels to splitter
         splitter.addWidget(left_widget)
         splitter.addWidget(right_widget)
@@ -444,15 +485,14 @@ class DashboardWidget(QWidget):
         # Optional: Set minimum sizes to prevent panels from getting too small
         left_widget.setMinimumWidth(300)
         right_widget.setMinimumWidth(250)
-        
+
         # Add to main layout
         main_layout.addWidget(splitter)
 
         self.update_budget_alerts()
-        
+
         # Initial update
         self.update_summary_tab()
-
 
     def safe_update_dashboard(self):
         """Safe update method that handles test scenarios"""
@@ -548,7 +588,9 @@ class DashboardWidget(QWidget):
                 reverse=True,
             )
         else:
-            sorted_categories = sorted(category_totals, key=lambda x: x[1], reverse=True)
+            sorted_categories = sorted(
+                category_totals, key=lambda x: x[1], reverse=True
+            )
 
         insights = []
         warnings = []
@@ -559,16 +601,20 @@ class DashboardWidget(QWidget):
             if sorted_categories:
                 top_category, top_amount = sorted_categories[0]
                 top_percentage = (top_amount / total_all) * 100
-                
+
                 insights.append(f"🏆 <b>Top Category:</b> {top_category}")
-                insights.append(f"📈 <b>Spends:</b> ₱{top_amount:,.0f} ({top_percentage:.1f}%)")
+                insights.append(
+                    f"📈 <b>Spends:</b> ₱{top_amount:,.0f} ({top_percentage:.1f}%)"
+                )
 
             # Top 3 categories analysis
             if len(sorted_categories) >= 3:
                 top3_total = sum(amount for _, amount in sorted_categories[:3])
                 top3_percentage = (top3_total / total_all) * 100
-                insights.append(f"🎯 <b>Top 3 Categories:</b> {top3_percentage:.1f}% of total")
-                
+                insights.append(
+                    f"🎯 <b>Top 3 Categories:</b> {top3_percentage:.1f}% of total"
+                )
+
                 # List top 3 with amounts
                 top3_list = []
                 for i, (cat, amt) in enumerate(sorted_categories[:3], 1):
@@ -577,14 +623,27 @@ class DashboardWidget(QWidget):
                 insights.append(f"   {' → '.join(top3_list)}")
 
             # Essential vs Discretionary analysis
-            essential_categories = ["Food", "Utilities", "Transportation", "Medical", "Housing", "Bills"]
+            essential_categories = [
+                "Food",
+                "Utilities",
+                "Transportation",
+                "Medical",
+                "Housing",
+                "Bills",
+            ]
             essential_total = sum(
-                amount for cat, amount in sorted_categories if cat in essential_categories
+                amount
+                for cat, amount in sorted_categories
+                if cat in essential_categories
             )
-            essential_percentage = (essential_total / total_all) * 100 if total_all > 0 else 0
-            
-            insights.append(f"🏠 <b>Essential Spending:</b> {essential_percentage:.1f}%")
-            
+            essential_percentage = (
+                (essential_total / total_all) * 100 if total_all > 0 else 0
+            )
+
+            insights.append(
+                f"🏠 <b>Essential Spending:</b> {essential_percentage:.1f}%"
+            )
+
             if essential_percentage > 70:
                 recommendations.append("Consider reducing discretionary spending")
             elif essential_percentage < 40:
@@ -596,16 +655,24 @@ class DashboardWidget(QWidget):
                 recent_months = list(monthly_totals.values())[-3:]
                 avg_monthly = sum(recent_months) / len(recent_months)
                 latest_month = recent_months[-1] if recent_months else 0
-                
+
                 insights.append(f"📅 <b>Monthly Average:</b> ₱{avg_monthly:,.0f}")
-                
+
                 # Trend analysis
                 if len(recent_months) >= 2:
-                    trend = ((latest_month - recent_months[-2]) / recent_months[-2]) * 100 if recent_months[-2] > 0 else 0
+                    trend = (
+                        ((latest_month - recent_months[-2]) / recent_months[-2]) * 100
+                        if recent_months[-2] > 0
+                        else 0
+                    )
                     if trend > 15:
-                        warnings.append(f"Spending increased by {trend:+.1f}% last month")
+                        warnings.append(
+                            f"Spending increased by {trend:+.1f}% last month"
+                        )
                     elif trend < -15:
-                        insights.append(f"Spending decreased by {abs(trend):.1f}% last month")
+                        insights.append(
+                            f"Spending decreased by {abs(trend):.1f}% last month"
+                        )
 
             # Daily spending rate
             if total_all > 0:
@@ -621,10 +688,12 @@ class DashboardWidget(QWidget):
                 recommendations.append("Try categorizing expenses more specifically")
 
             # Budget alerts integration
-            if hasattr(self.data_manager, 'budget_manager'):
+            if hasattr(self.data_manager, "budget_manager"):
                 budget_alerts = self.data_manager.budget_manager.check_budget_alerts()
                 if budget_alerts:
-                    budget_warnings = [alert for alert in budget_alerts if "🚨" in alert]
+                    budget_warnings = [
+                        alert for alert in budget_alerts if "🚨" in alert
+                    ]
                     if budget_warnings:
                         warnings.append(f"{len(budget_warnings)} budget(s) exceeded")
 
@@ -654,7 +723,9 @@ class DashboardWidget(QWidget):
                 insights_text += f"• {rec}<br>"
 
         # Add data summary
-        insights_text += f"<br><small><i>Based on {len(sorted_categories)} categories</i></small>"
+        insights_text += (
+            f"<br><small><i>Based on {len(sorted_categories)} categories</i></small>"
+        )
 
         if hasattr(self, "insights_label") and self.insights_label:
             self.insights_label.setText(insights_text)
@@ -682,24 +753,32 @@ class DashboardWidget(QWidget):
     def update_budget_alerts(self):
         """Update budget alerts display - FIXED: Handle no budgets case properly"""
         try:
-            if not hasattr(self, 'budget_alerts_label') or self.budget_alerts_label is None:
+            if (
+                not hasattr(self, "budget_alerts_label")
+                or self.budget_alerts_label is None
+            ):
                 return
-                
+
             logger.info("🔄 Updating budget alerts...")
-            
-            if hasattr(self.data_manager, 'budget_manager'):
+
+            if hasattr(self.data_manager, "budget_manager"):
                 alerts = self.data_manager.budget_manager.check_budget_alerts()
-                budgets_exist = bool(getattr(self.data_manager.budget_manager, 'budgets', {}))
-                
-                logger.info(f"📢 Found {len(alerts)} budget alerts, budgets exist: {budgets_exist}")
-                
+                budgets_exist = bool(
+                    getattr(self.data_manager.budget_manager, "budgets", {})
+                )
+
+                logger.info(
+                    f"📢 Found {len(alerts)} budget alerts, budgets exist: {budgets_exist}"
+                )
+
                 if not budgets_exist:
                     # No budgets set - show friendly info message (not red alert)
                     self.budget_alerts_label.setText(
                         "💡 No monthly budgets set yet.\n\n"
                         "Use Budget Management to set spending limits and track your expenses."
                     )
-                    self.budget_alerts_label.setStyleSheet("""
+                    self.budget_alerts_label.setStyleSheet(
+                        """
                         QLabel {
                             background-color: #2d2d2d;      /* Normal dark background */
                             color: #b0b0b0;                 /* Friendly gray text */
@@ -711,20 +790,22 @@ class DashboardWidget(QWidget):
                             font-weight: normal;            /* Not bold */
                             line-height: 1.4;
                         }
-                    """)
-                    
+                    """
+                    )
+
                 elif alerts:
                     # Real budget alerts exist - show them with proper coloring
                     alerts_text = "<b>🚨 Budget Alerts:</b><br>"
                     for alert in alerts:
                         alerts_text += f"• {alert}<br>"
-                    
+
                     self.budget_alerts_label.setText(alerts_text)
-                    
+
                     # Color coding based on alert severity
                     if any("🚨" in alert for alert in alerts):
                         # Critical alerts - over budget
-                        self.budget_alerts_label.setStyleSheet("""
+                        self.budget_alerts_label.setStyleSheet(
+                            """
                             QLabel {
                                 background-color: #442222; /* Dark red background */
                                 color: #ff6b6b;           /* Bright red text */
@@ -736,10 +817,12 @@ class DashboardWidget(QWidget):
                                 font-weight: bold;
                                 line-height: 1.4;
                             }
-                        """)
+                        """
+                        )
                     elif any("⚠️" in alert for alert in alerts):
                         # Warning alerts - approaching budget
-                        self.budget_alerts_label.setStyleSheet("""
+                        self.budget_alerts_label.setStyleSheet(
+                            """
                             QLabel {
                                 background-color: #443322;   /* Dark orange background */
                                 color: #ffb86c;              /* Bright orange text */
@@ -751,11 +834,13 @@ class DashboardWidget(QWidget):
                                 font-weight: bold;
                                 line-height: 1.4;
                             }
-                        """)
+                        """
+                        )
                 else:
                     # Budgets exist but no alerts - all good!
                     self.budget_alerts_label.setText("✅ All budgets are within limits")
-                    self.budget_alerts_label.setStyleSheet("""
+                    self.budget_alerts_label.setStyleSheet(
+                        """
                         QLabel {
                             background-color: #224422;      /* Dark green background */
                             color: #6bff6b;                 /* Bright green text */
@@ -767,12 +852,14 @@ class DashboardWidget(QWidget):
                             font-weight: bold;
                             line-height: 1.4;
                         }
-                    """)
-                    
+                    """
+                    )
+
             else:
                 # Budget manager not available
                 self.budget_alerts_label.setText("❌ Budget manager not available")
-                self.budget_alerts_label.setStyleSheet("""
+                self.budget_alerts_label.setStyleSheet(
+                    """
                     QLabel {
                         background-color: #442222;
                         color: #ff6b6b;
@@ -783,13 +870,15 @@ class DashboardWidget(QWidget):
                         font-size: 11px;
                         font-weight: bold;
                     }
-                """)
-                
+                """
+                )
+
         except Exception as e:
             logger.error(f"❌ Error updating budget alerts: {e}")
-            if hasattr(self, 'budget_alerts_label') and self.budget_alerts_label:
+            if hasattr(self, "budget_alerts_label") and self.budget_alerts_label:
                 self.budget_alerts_label.setText("❌ Error loading budget alerts")
-                self.budget_alerts_label.setStyleSheet("""
+                self.budget_alerts_label.setStyleSheet(
+                    """
                     QLabel {
                         background-color: #442222;
                         color: #ff6b6b;
@@ -800,7 +889,8 @@ class DashboardWidget(QWidget):
                         font-size: 11px;
                         font-weight: bold;
                     }
-                """)
+                """
+                )
 
     # Charts
     def init_charts_tab(self):
@@ -1854,36 +1944,44 @@ class DashboardWidget(QWidget):
             self.update_trends_tab()
             self.update_chart_filters()
             self.update_chart_date_ranges()
-            
+
             # FORCE budget alerts update
             self.force_budget_alerts_update()
-            
+
             logger.debug("📊 Dashboard updated completely")
-            
+
         except Exception as e:
             logger.error(f"❌ Error updating dashboard: {e}")
 
     def force_budget_alerts_update(self):
         """Force update budget alerts with proper no-budgets handling"""
         try:
-            if not hasattr(self, 'budget_alerts_label') or self.budget_alerts_label is None:
+            if (
+                not hasattr(self, "budget_alerts_label")
+                or self.budget_alerts_label is None
+            ):
                 return
-                
+
             logger.info("🔄 Force updating budget alerts...")
-            
-            if hasattr(self.data_manager, 'budget_manager'):
+
+            if hasattr(self.data_manager, "budget_manager"):
                 alerts = self.data_manager.budget_manager.check_budget_alerts()
-                budgets_exist = bool(getattr(self.data_manager.budget_manager, 'budgets', {}))
-                
-                logger.info(f"📢 Found {len(alerts)} alerts, budgets exist: {budgets_exist}")
-                
+                budgets_exist = bool(
+                    getattr(self.data_manager.budget_manager, "budgets", {})
+                )
+
+                logger.info(
+                    f"📢 Found {len(alerts)} alerts, budgets exist: {budgets_exist}"
+                )
+
                 if not budgets_exist:
                     # No budgets - friendly info (not alert)
                     self.budget_alerts_label.setText(
                         "💡 No monthly budgets set yet.\n\n"
                         "Use Budget Management to set spending limits."
                     )
-                    self.budget_alerts_label.setStyleSheet("""
+                    self.budget_alerts_label.setStyleSheet(
+                        """
                         QLabel {
                             background-color: #2d2d2d;
                             color: #b0b0b0;
@@ -1895,15 +1993,17 @@ class DashboardWidget(QWidget):
                             font-weight: normal;
                             line-height: 1.4;
                         }
-                    """)
+                    """
+                    )
                 elif alerts:
                     # Real alerts exist
                     alerts_text = "<b>🚨 Budget Alerts:</b><br>"
                     for alert in alerts:
                         alerts_text += f"• {alert}<br>"
-                    
+
                     self.budget_alerts_label.setText(alerts_text)
-                    self.budget_alerts_label.setStyleSheet("""
+                    self.budget_alerts_label.setStyleSheet(
+                        """
                         QLabel {
                             background-color: #442222;
                             color: #ff6b6b;
@@ -1915,11 +2015,13 @@ class DashboardWidget(QWidget):
                             font-weight: bold;
                             line-height: 1.4;
                         }
-                    """)
+                    """
+                    )
                 else:
                     # All good
                     self.budget_alerts_label.setText("✅ All budgets are within limits")
-                    self.budget_alerts_label.setStyleSheet("""
+                    self.budget_alerts_label.setStyleSheet(
+                        """
                         QLabel {
                             background-color: #224422;
                             color: #6bff6b;
@@ -1931,8 +2033,9 @@ class DashboardWidget(QWidget):
                             font-weight: bold;
                             line-height: 1.4;
                         }
-                    """)
-                        
+                    """
+                    )
+
         except Exception as e:
             logger.error(f"❌ Error in force_budget_alerts_update: {e}")
 
@@ -2056,7 +2159,7 @@ class ExpenseTracker(QWidget):
         # Neon accent buttons
         buttons_data = [
             ("➕ Add", "#00ffff"),
-            ("📊 Show Expenses", "#ff00ff"), 
+            ("📊 Show Expenses", "#ff00ff"),
             ("💰 Totals", "#ffff00"),
             ("📋 Budgets", "#ff9900"),
             ("↶ Undo", "#ff6600"),
@@ -2307,12 +2410,12 @@ class ExpenseTracker(QWidget):
 
     def delete_expense(self, category, record):
         """Delete expense with confirmation dialog"""
-    
+
         # Create user-friendly confirmation message
         amount = record.get("amount", 0)
         date = record.get("date", "")
         description = record.get("description", "")[:50]  # First 50 chars
-        
+
         confirmation_msg = f"""
         <h3>🗑️ Are you sure you want to delete this expense?</h3>
         <p><b>📊 Category:</b> {category}</p>
@@ -2322,28 +2425,28 @@ class ExpenseTracker(QWidget):
         <br>
         <p style="color: #ffb86c;"><b>💡 You can use the Undo button if you change your mind</b></p>
         """
-        
+
         # Professional confirmation dialog
         reply = QMessageBox.question(
             self,
             "Delete Expense",
             confirmation_msg,
             QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No  # Default to "No" for safety
+            QMessageBox.No,  # Default to "No" for safety
         )
-        
+
         if reply == QMessageBox.No:
             return  # User cancelled
-        
+
         # Proceed with deletion
         if self.data_manager.delete_expense(category, record):
             # Success message with undo reminder
             QMessageBox.information(
-                self, 
-                "Deleted", 
-                "<p><b>Expense deleted successfully.\n\n</b></p>" +
-                "<p><font color='#ffb86c'><b>💡 Tip: Use the '↶ Undo' button to restore if needed.</b></font></p>",
-                QMessageBox.Ok
+                self,
+                "Deleted",
+                "<p><b>Expense deleted successfully.\n\n</b></p>"
+                + "<p><font color='#ffb86c'><b>💡 Tip: Use the '↶ Undo' button to restore if needed.</b></font></p>",
+                QMessageBox.Ok,
             )
             logger.warning("Expense deleted via UI: %s", record)
             self.render_table(self.data_manager.get_sorted_expenses())
@@ -2562,12 +2665,13 @@ class ExpenseTracker(QWidget):
         """Open budget management dialog from Expenses tab button."""
         try:
             from expense_tracker_app.widgets import BudgetDialog
+
             dialog = BudgetDialog(self.data_manager, self)
             dialog.exec_()
         except Exception as e:
             logger.error(f"Error opening budget dialog: {e}")
             QMessageBox.warning(self, "Error", "Could not open budget dialog.")
-    
+
     def refresh_category_dropdowns(self):
         for widget in __import__(
             "PyQt5.QtWidgets", fromlist=["QApplication"]
@@ -2709,6 +2813,7 @@ class ExpenseTracker(QWidget):
             )
             __import__("PyQt5.QtWidgets", fromlist=["QApplication"]).QApplication.quit()
 
+
 class BudgetDialog(QDialog):
     def __init__(self, data_manager, parent=None):
         super().__init__(parent)
@@ -2717,17 +2822,18 @@ class BudgetDialog(QDialog):
         self.setModal(True)
         self.setMinimumSize(700, 600)
         self.resize(750, 650)  # Larger for tabbed interface
-        
+
         self.initUI()
-        
+
     def initUI(self):
         layout = QVBoxLayout()
         layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(10)
-        
+
         # Title
         title_label = QLabel("💰 Budget Management")
-        title_label.setStyleSheet("""
+        title_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-size: 20px;
@@ -2738,14 +2844,18 @@ class BudgetDialog(QDialog):
                 border-radius: 10px;
                 margin: 5px;
             }
-        """)
+        """
+        )
         title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(title_label)
-        
+
         # Create tab widget with professional styling
         self.tabs = QTabWidget()
-        self.tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # Auto-resize entire tab widget
-        self.tabs.setStyleSheet("""
+        self.tabs.setSizePolicy(
+            QSizePolicy.Expanding, QSizePolicy.Expanding
+        )  # Auto-resize entire tab widget
+        self.tabs.setStyleSheet(
+            """
             QTabWidget::pane {
                 border: 2px solid #404040;
                 background-color: #2d2d2d;
@@ -2772,20 +2882,24 @@ class BudgetDialog(QDialog):
             QTabBar::tab:hover:!selected {
                 background-color: #4a4a4a;
             }
-        """)
-        
+        """
+        )
+
         # Create tabs
         self.setup_set_budget_tab()
         self.setup_view_budgets_tab()
         self.setup_reports_tab()
-        
+
         layout.addWidget(self.tabs)
-        
+
         # Close button
         close_btn = QPushButton("Close")
         close_btn.setMinimumHeight(45)
-        close_btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)  # Or Expanding for full width
-        close_btn.setStyleSheet("""
+        close_btn.setSizePolicy(
+            QSizePolicy.Expanding, QSizePolicy.Fixed
+        )  # Or Expanding for full width
+        close_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #007acc;
                 color: white;
@@ -2803,24 +2917,26 @@ class BudgetDialog(QDialog):
             QPushButton:pressed {
                 background-color: #004578;
             }
-        """)
+        """
+        )
         close_btn.clicked.connect(self.close)
 
         layout.addWidget(close_btn)
 
         self.setLayout(layout)
-    
+
     def setup_set_budget_tab(self):
         """Setup the 'Set Budget'"""
         tab = QWidget()
         layout = QVBoxLayout(tab)
         layout.setContentsMargins(15, 15, 15, 15)
         layout.setSpacing(15)
-        
+
         # Header with monthly context
         current_month = datetime.now().strftime("%B %Y")
         header_label = QLabel(f"💾 Set Monthly Budget - {current_month}")
-        header_label.setStyleSheet("""
+        header_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ff00;
                 font-size: 16px;
@@ -2829,14 +2945,18 @@ class BudgetDialog(QDialog):
                 background: #1a1a2e;
                 border-radius: 8px;
             }
-        """)
+        """
+        )
         header_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(header_label)
 
         # Monthly budget explanation
-        info_label = QLabel("📅 Monthly budgets help you track spending limits each month. "
-                        "Budget alerts reset monthly.")
-        info_label.setStyleSheet("""
+        info_label = QLabel(
+            "📅 Monthly budgets help you track spending limits each month. "
+            "Budget alerts reset monthly."
+        )
+        info_label.setStyleSheet(
+            """
             QLabel {
                 color: #ffb86c;
                 background-color: #443322;
@@ -2845,26 +2965,32 @@ class BudgetDialog(QDialog):
                 border: 1px solid #ffa500;
                 font-size: 11px;
             }
-        """)
+        """
+        )
         info_label.setWordWrap(True)
         layout.addWidget(info_label)
-        
+
         # Category selection
         category_layout = QHBoxLayout()
         category_label = QLabel("Category:")
-        category_label.setStyleSheet("color: #e0e0e0; font-weight: bold; font-size: 14px;")
+        category_label.setStyleSheet(
+            "color: #e0e0e0; font-weight: bold; font-size: 14px;"
+        )
         category_layout.addWidget(category_label)
-        
+
         self.category_combo = QComboBox()
         self.category_combo.setMinimumHeight(35)
         self.category_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-             
+
         self.update_category_list()
         category_layout.addWidget(self.category_combo)
         layout.addLayout(category_layout)
 
-        category_hint = QLabel("💡 Need a new category? Use the '📁 Categories' button in the main toolbar")
-        category_hint.setStyleSheet("""
+        category_hint = QLabel(
+            "💡 Need a new category? Use the '📁 Categories' button in the main toolbar"
+        )
+        category_hint.setStyleSheet(
+            """
             QLabel {
                 color: #ffb86c;
                 background-color: #443322;
@@ -2873,21 +2999,25 @@ class BudgetDialog(QDialog):
                 border: 1px solid #ffa500;
                 font-size: 11px;
             }
-        """)
+        """
+        )
         category_hint.setWordWrap(True)
         layout.addWidget(category_hint)
-        
+
         # Budget amount
         amount_layout = QHBoxLayout()
         amount_label = QLabel("Budget Amount (₱):")
-        amount_label.setStyleSheet("color: #e0e0e0; font-weight: bold; font-size: 14px;")
+        amount_label.setStyleSheet(
+            "color: #e0e0e0; font-weight: bold; font-size: 14px;"
+        )
         amount_layout.addWidget(amount_label)
-        
+
         self.amount_input = QLineEdit()
         self.amount_input.setPlaceholderText("Enter budget amount...")
         self.amount_input.setMinimumHeight(35)
         self.amount_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.amount_input.setStyleSheet("""
+        self.amount_input.setStyleSheet(
+            """
             QLineEdit {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
@@ -2900,15 +3030,17 @@ class BudgetDialog(QDialog):
             QLineEdit:focus {
                 border: 1px solid #007acc;
             }
-        """)
+        """
+        )
         amount_layout.addWidget(self.amount_input)
         layout.addLayout(amount_layout)
-        
+
         # Set budget button
         set_btn = QPushButton("💾 Set Budget")
         set_btn.setMinimumHeight(40)
         set_btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        set_btn.setStyleSheet("""
+        set_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #ff9900;
                 color: #000000;
@@ -2925,13 +3057,17 @@ class BudgetDialog(QDialog):
             QPushButton:pressed {
                 background-color: #f5a122;
             }
-        """)
+        """
+        )
         set_btn.clicked.connect(self.set_budget)
         layout.addWidget(set_btn)
-        
+
         # Quick stats
-        stats_label = QLabel("💡 Tip: Set realistic budgets based on your spending patterns")
-        stats_label.setStyleSheet("""
+        stats_label = QLabel(
+            "💡 Tip: Set realistic budgets based on your spending patterns"
+        )
+        stats_label.setStyleSheet(
+            """
             QLabel {
                 color: #ffb86c;
                 background-color: #443322;
@@ -2941,24 +3077,26 @@ class BudgetDialog(QDialog):
                 font-family: "Segoe UI";
                 font-size: 12px;
             }
-        """)
+        """
+        )
         stats_label.setWordWrap(True)
         stats_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         layout.addWidget(stats_label)
-        
+
         layout.addStretch()
         self.tabs.addTab(tab, "💾 Set Budget")
-    
+
     def setup_view_budgets_tab(self):
         """Setup the 'Current Budgets' tab."""
         tab = QWidget()
         layout = QVBoxLayout(tab)
         layout.setContentsMargins(18, 18, 18, 18)
         layout.setSpacing(16)
-        
+
         # Header
         header_label = QLabel("📊 Current Budgets")
-        header_label.setStyleSheet("""
+        header_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-weight: bold;
@@ -2968,23 +3106,35 @@ class BudgetDialog(QDialog):
                 border-radius: 6px;
                 border: 1px solid #00ffff;
             }
-        """)
+        """
+        )
         header_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(header_label)
-        
+
         # Budgets table
         self.budgets_table = QTableWidget()
         self.budgets_table.setColumnCount(4)
-        self.budgets_table.setHorizontalHeaderLabels(["Category", "Budget Limit", "Current Spending", "Actions"])
+        self.budgets_table.setHorizontalHeaderLabels(
+            ["Category", "Budget Limit", "Current Spending", "Actions"]
+        )
         # === AUTO-ADJUST COLUMNS PROPERLY ===
         header = self.budgets_table.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)  # Category - fit content
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)  # Budget Limit - fit content  
-        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)  # Current Spending - fit content
-        header.setSectionResizeMode(3, QHeaderView.Stretch)           # Actions - stretch to fill space
-        
+        header.setSectionResizeMode(
+            0, QHeaderView.ResizeToContents
+        )  # Category - fit content
+        header.setSectionResizeMode(
+            1, QHeaderView.ResizeToContents
+        )  # Budget Limit - fit content
+        header.setSectionResizeMode(
+            2, QHeaderView.ResizeToContents
+        )  # Current Spending - fit content
+        header.setSectionResizeMode(
+            3, QHeaderView.Stretch
+        )  # Actions - stretch to fill space
+
         # Table styling
-        self.budgets_table.setStyleSheet("""
+        self.budgets_table.setStyleSheet(
+            """
             QTableWidget {
             background-color: #252526;
             color: #e0e0e0;
@@ -3035,16 +3185,18 @@ class BudgetDialog(QDialog):
             min-width: 25px;
             margin: 2px;
         }
-    """)
+    """
+        )
         self.budgets_table.setShowGrid(True)
         self.budgets_table.verticalHeader().setVisible(False)
-        
+
         layout.addWidget(self.budgets_table)
         self.update_budgets_table()  # This will populate data and trigger auto-resize
-        
+
         # Summary
         self.summary_label = QLabel()
-        self.summary_label.setStyleSheet("""
+        self.summary_label.setStyleSheet(
+            """
             QLabel {
                 color: #e0e0e0;
                 background-color: #2d2d2d;
@@ -3054,24 +3206,26 @@ class BudgetDialog(QDialog):
                 font-family: "Segoe UI";
                 font-size: 12px;
             }
-        """)
+        """
+        )
         layout.addWidget(self.summary_label)
         self.update_summary()
-        
+
         self.tabs.addTab(tab, "📊 Current Budgets")
 
     def setup_reports_tab(self):
         """Setup the 'Budget Reports' tab - CONSISTENT SCROLLBARS"""
         tab = QWidget()
-        
+
         # Main layout with proper spacing
         main_layout = QVBoxLayout(tab)
         main_layout.setContentsMargins(12, 12, 12, 12)
         main_layout.setSpacing(15)
-        
+
         # Header
         header_label = QLabel("📈 Budget Reports & Analytics")
-        header_label.setStyleSheet("""
+        header_label.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-weight: bold;
@@ -3081,31 +3235,35 @@ class BudgetDialog(QDialog):
                 border-radius: 6px;
                 border: 1px solid #00ffff;
             }
-        """)
+        """
+        )
         header_label.setAlignment(Qt.AlignCenter)
         header_label.setMaximumHeight(50)
         main_layout.addWidget(header_label)
-        
+
         # Create a splitter for better space management
         splitter = QSplitter(Qt.Vertical)
         splitter.setChildrenCollapsible(False)
         splitter.setHandleWidth(2)
-        splitter.setStyleSheet("""
+        splitter.setStyleSheet(
+            """
             QSplitter::handle:vertical {
                 background: #404040;
                 height: 2px;
             }
-        """)
-        
+        """
+        )
+
         # TOP SECTION: Budget Alerts (35%)
         top_widget = QWidget()
         top_layout = QVBoxLayout(top_widget)
         top_layout.setContentsMargins(5, 5, 5, 5)
         top_layout.setSpacing(8)
-        
+
         # Dynamic alerts header
         self.alerts_header = QLabel("📋 BUDGET ALERTS")
-        self.alerts_header.setStyleSheet("""
+        self.alerts_header.setStyleSheet(
+            """
             QLabel {
                 color: #b0b0b0;
                 font-weight: bold;
@@ -3115,7 +3273,8 @@ class BudgetDialog(QDialog):
                 border-radius: 6px;
                 border: 1px solid #404040;
             }
-        """)
+        """
+        )
         self.alerts_header.setAlignment(Qt.AlignCenter)
         top_layout.addWidget(self.alerts_header)
 
@@ -3126,11 +3285,12 @@ class BudgetDialog(QDialog):
         alerts_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         alerts_scroll.setStyleSheet(self.get_scrollbar_stylesheet())
         alerts_scroll.setMaximumHeight(140)
-        
+
         self.alerts_text = QTextEdit()
         self.alerts_text.setReadOnly(True)
         self.alerts_text.setMaximumHeight(140)
-        self.alerts_text.setStyleSheet("""
+        self.alerts_text.setStyleSheet(
+            """
             QTextEdit {
                 background-color: #2d2d2d;
                 color: #e0e0e0;
@@ -3141,18 +3301,20 @@ class BudgetDialog(QDialog):
                 font-size: 12px;
                 line-height: 1.4;
             }
-        """)
+        """
+        )
         alerts_scroll.setWidget(self.alerts_text)
         top_layout.addWidget(self.alerts_text)
-        
+
         # BOTTOM SECTION: Budget Utilization (65%) - CONSISTENT SCROLLBAR
         bottom_widget = QWidget()
         bottom_layout = QVBoxLayout(bottom_widget)
         bottom_layout.setContentsMargins(5, 5, 5, 5)
         bottom_layout.setSpacing(8)
-        
+
         progress_header = QLabel("📊 BUDGET UTILIZATION")
-        progress_header.setStyleSheet("""
+        progress_header.setStyleSheet(
+            """
             QLabel {
                 color: #00ffff;
                 font-weight: bold;
@@ -3162,41 +3324,42 @@ class BudgetDialog(QDialog):
                 border-radius: 6px;
                 border: 1px solid #00ffff;
             }
-        """)
+        """
+        )
         progress_header.setAlignment(Qt.AlignCenter)
         bottom_layout.addWidget(progress_header)
-        
+
         # Create scroll area with CONSISTENT dark theme scrollbar
         progress_scroll = QScrollArea()
         progress_scroll.setWidgetResizable(True)
         progress_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         progress_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         progress_scroll.setStyleSheet(self.get_scrollbar_stylesheet())
-        
+
         # Progress container
         self.progress_container = QWidget()
         self.progress_container.setStyleSheet("background-color: #252526;")
         self.progress_layout = QVBoxLayout(self.progress_container)
         self.progress_layout.setContentsMargins(15, 15, 15, 15)
         self.progress_layout.setSpacing(10)
-        
+
         progress_scroll.setWidget(self.progress_container)
         bottom_layout.addWidget(progress_scroll)
-        
+
         # Add widgets to splitter
         splitter.addWidget(top_widget)
         splitter.addWidget(bottom_widget)
-        
+
         # Set initial sizes
         splitter.setSizes([200, 400])
-        
+
         # Add splitter to main layout
         main_layout.addWidget(splitter)
-        
+
         # Initialize content
         self.update_alerts()
         self.update_progress_bars()
-        
+
         self.tabs.addTab(tab, "📈 Reports")
 
     def get_scrollbar_stylesheet(self):
@@ -3208,42 +3371,46 @@ class BudgetDialog(QDialog):
                 background-color: #252526;
             }
         """
-    
+
     def update_category_list(self):
         """Update the category dropdown with all available categories."""
         self.category_combo.clear()
-        
+
         # Get all unique categories
         all_categories = set(self.data_manager.categories)
         all_expenses = self.data_manager.list_all_expenses()
-        expense_categories = set(exp.get('category') for exp in all_expenses)
+        expense_categories = set(exp.get("category") for exp in all_expenses)
         all_categories.update(expense_categories)
-        
+
         self.category_combo.addItems(sorted(all_categories))
-    
+
     def update_budgets_table(self):
         """Update the budgets table with current data - FIXED BUTTON ALIGNMENT."""
         self.budgets_table.setRowCount(0)
-        
-        if hasattr(self.data_manager.budget_manager, 'budgets'):
+
+        if hasattr(self.data_manager.budget_manager, "budgets"):
             current_month = datetime.now().strftime("%Y-%m")
-            
-            for row, (category, budget) in enumerate(self.data_manager.budget_manager.budgets.items()):
+
+            for row, (category, budget) in enumerate(
+                self.data_manager.budget_manager.budgets.items()
+            ):
                 self.budgets_table.insertRow(row)
-                
+
                 # Calculate current spending
-                spending = self.data_manager.budget_manager._get_monthly_spending(category, current_month)
-                
+                spending = self.data_manager.budget_manager._get_monthly_spending(
+                    category, current_month
+                )
+
                 # Category
                 category_item = QTableWidgetItem(category)
                 category_item.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
                 self.budgets_table.setItem(row, 0, category_item)
-                
+
                 # Budget amount
                 budget_item = QTableWidgetItem(f"₱{budget:,.2f}")
                 budget_item.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
                 self.budgets_table.setItem(row, 1, budget_item)
-                
+
                 # Current spending with color coding
                 spending_item = QTableWidgetItem(f"₱{spending:,.2f}")
                 spending_item.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -3254,11 +3421,12 @@ class BudgetDialog(QDialog):
                 else:
                     spending_item.setForeground(QColor("#6bff6b"))
                 self.budgets_table.setItem(row, 2, spending_item)
-                
+
                 # Remove button - FIXED: Perfect alignment with proper margins
                 remove_btn = QPushButton("Remove")
                 remove_btn.setFixedSize(75, 28)  # Optimal size
-                remove_btn.setStyleSheet("""
+                remove_btn.setStyleSheet(
+                    """
                     QPushButton {
                         background-color: #ff4444;
                         color: white;
@@ -3272,58 +3440,66 @@ class BudgetDialog(QDialog):
                     QPushButton:hover {
                         background-color: #cc0000;
                     }
-                """)
-                remove_btn.clicked.connect(lambda checked, cat=category: self.remove_budget(cat))
-                
+                """
+                )
+                remove_btn.clicked.connect(
+                    lambda checked, cat=category: self.remove_budget(cat)
+                )
+
                 # Set the button directly in the cell (no container needed)
                 self.budgets_table.setCellWidget(row, 3, remove_btn)
-            
+
             # Set optimized column widths
             self.budgets_table.setColumnWidth(0, 130)  # Category
-            self.budgets_table.setColumnWidth(1, 110)  # Budget Limit  
+            self.budgets_table.setColumnWidth(1, 110)  # Budget Limit
             self.budgets_table.setColumnWidth(2, 120)  # Current Spending
-            self.budgets_table.setColumnWidth(3, 85)   # Actions - perfect for button
-            
+            self.budgets_table.setColumnWidth(3, 85)  # Actions - perfect for button
+
             # Set row height
             self.budgets_table.verticalHeader().setDefaultSectionSize(35)
-            
+
             # Enable alternating colors
             self.budgets_table.setAlternatingRowColors(True)
-    
+
     def update_summary(self):
         """Update the budgets summary."""
-        budgets = getattr(self.data_manager.budget_manager, 'budgets', {})
-        
+        budgets = getattr(self.data_manager.budget_manager, "budgets", {})
+
         if not budgets:
-            self.summary_label.setText("📊 No budgets set. Use the 'Set Budget' tab to create budgets.")
+            self.summary_label.setText(
+                "📊 No budgets set. Use the 'Set Budget' tab to create budgets."
+            )
             return
-        
+
         total_budgets = len(budgets)
         current_month = datetime.now().strftime("%Y-%m")
         over_budget_count = 0
-        
+
         for category, budget in budgets.items():
-            spending = self.data_manager.budget_manager._get_monthly_spending(category, current_month)
+            spending = self.data_manager.budget_manager._get_monthly_spending(
+                category, current_month
+            )
             if spending > budget:
                 over_budget_count += 1
-        
+
         summary_text = f"📈 Summary: {total_budgets} active budgets"
         if over_budget_count > 0:
             summary_text += f" | 🚨 {over_budget_count} over budget"
         else:
             summary_text += " | ✅ All within budget"
-        
+
         self.summary_label.setText(summary_text)
-    
+
     def update_alerts(self):
         """Update budget alerts with dynamic header coloring"""
         alerts = self.data_manager.budget_manager.check_budget_alerts()
-        budgets_exist = bool(getattr(self.data_manager.budget_manager, 'budgets', {}))
-        
+        budgets_exist = bool(getattr(self.data_manager.budget_manager, "budgets", {}))
+
         if not budgets_exist:
             # No budgets set - neutral styling
             self.alerts_header.setText("📋 BUDGET ALERTS")
-            self.alerts_header.setStyleSheet("""
+            self.alerts_header.setStyleSheet(
+                """
                 QLabel {
                     color: #b0b0b0;  /* Neutral gray */
                     font-weight: bold;
@@ -3333,13 +3509,15 @@ class BudgetDialog(QDialog):
                     border-radius: 6px;
                     border: 1px solid #404040;  /* Neutral border */
                 }
-            """)
+            """
+            )
             self.alerts_text.setHtml(
                 "<b>💡 No Budgets Set</b><br><br>"
                 "Use the 'Set Budget' tab to create monthly spending limits. "
                 "Budget alerts will appear here when you have active budgets."
             )
-            self.alerts_text.setStyleSheet("""
+            self.alerts_text.setStyleSheet(
+                """
                 QTextEdit {
                     background-color: #2d2d2d;
                     color: #b0b0b0;
@@ -3350,16 +3528,18 @@ class BudgetDialog(QDialog):
                     font-size: 12px;
                     line-height: 1.4;
                 }
-            """)
-            
+            """
+            )
+
         elif alerts:
             # Check if there are critical alerts (over budget)
             has_critical_alerts = any("🚨" in alert for alert in alerts)
-            
+
             if has_critical_alerts:
                 # Critical alerts - red styling
                 self.alerts_header.setText("🚨 CRITICAL BUDGET ALERTS")
-                self.alerts_header.setStyleSheet("""
+                self.alerts_header.setStyleSheet(
+                    """
                     QLabel {
                         color: #ff6b6b;  /* Red text */
                         font-weight: bold;
@@ -3369,11 +3549,13 @@ class BudgetDialog(QDialog):
                         border-radius: 6px;
                         border: 1px solid #ff4444;  /* Red border */
                     }
-                """)
+                """
+                )
             else:
                 # Only warning alerts - orange styling
                 self.alerts_header.setText("⚠️ BUDGET WARNINGS")
-                self.alerts_header.setStyleSheet("""
+                self.alerts_header.setStyleSheet(
+                    """
                     QLabel {
                         color: #ffb86c;  /* Orange text */
                         font-weight: bold;
@@ -3383,15 +3565,17 @@ class BudgetDialog(QDialog):
                         border-radius: 6px;
                         border: 1px solid #ffa500;  /* Orange border */
                     }
-                """)
-            
+                """
+                )
+
             # Set alerts content
             alerts_text = "<b>Current Alerts:</b><br><br>"
             for alert in alerts:
                 alerts_text += f"• {alert}<br>"
-            
+
             self.alerts_text.setHtml(alerts_text)
-            self.alerts_text.setStyleSheet("""
+            self.alerts_text.setStyleSheet(
+                """
                 QTextEdit {
                     background-color: #2d2d2d;
                     color: #e0e0e0;
@@ -3402,12 +3586,14 @@ class BudgetDialog(QDialog):
                     font-size: 12px;
                     line-height: 1.4;
                 }
-            """)
-            
+            """
+            )
+
         else:
             # Budgets exist but no alerts - green success styling
             self.alerts_header.setText("✅ ALL BUDGETS GOOD")
-            self.alerts_header.setStyleSheet("""
+            self.alerts_header.setStyleSheet(
+                """
                 QLabel {
                     color: #6bff6b;  /* Green text */
                     font-weight: bold;
@@ -3417,12 +3603,14 @@ class BudgetDialog(QDialog):
                     border-radius: 6px;
                     border: 1px solid #00ff00;  /* Green border */
                 }
-            """)
+            """
+            )
             self.alerts_text.setHtml(
                 "<b>✅ All Budgets Within Limits</b><br><br>"
                 "Great job! All your spending is within the budget limits you've set."
             )
-            self.alerts_text.setStyleSheet("""
+            self.alerts_text.setStyleSheet(
+                """
                 QTextEdit {
                     background-color: #2d2d2d;
                     color: #e0e0e0;
@@ -3433,35 +3621,39 @@ class BudgetDialog(QDialog):
                     font-size: 12px;
                     line-height: 1.4;
                 }
-            """)
-    
+            """
+            )
+
     def update_progress_bars(self):
         """Update budget progress bars with perfect alignment"""
         print("DEBUG: update_progress_bars called")
-        
-        budgets = getattr(self.data_manager.budget_manager, 'budgets', {})
+
+        budgets = getattr(self.data_manager.budget_manager, "budgets", {})
         print(f"DEBUG: Number of budgets: {len(budgets)}")
-        
+
         # Check if progress container exists
-        if not hasattr(self, 'progress_container') or self.progress_container is None:
+        if not hasattr(self, "progress_container") or self.progress_container is None:
             print("❌ ERROR: progress_container doesn't exist!")
             return
-        
+
         layout = self.progress_layout
-        
+
         # Clear existing progress bars
         print(f"DEBUG: Clearing {layout.count()} existing items")
         while layout.count():
             item = layout.takeAt(0)
             if item.widget():
                 item.widget().deleteLater()
-        
+
         current_month = datetime.now().strftime("%Y-%m")
-        
+
         if not budgets:
             # Show message when no budgets
-            no_budgets_label = QLabel("🎯 No budgets set yet!\n\nUse the 'Set Budget' tab to create budgets.")
-            no_budgets_label.setStyleSheet("""
+            no_budgets_label = QLabel(
+                "🎯 No budgets set yet!\n\nUse the 'Set Budget' tab to create budgets."
+            )
+            no_budgets_label.setStyleSheet(
+                """
                 QLabel {
                     color: #b0b0b0; 
                     font-size: 14px;
@@ -3473,117 +3665,140 @@ class BudgetDialog(QDialog):
                     text-align: center;
                     line-height: 1.6;
                 }
-            """)
+            """
+            )
             no_budgets_label.setAlignment(Qt.AlignCenter)
             no_budgets_label.setMinimumHeight(150)
             layout.addWidget(no_budgets_label)
         else:
             # Create bar charts for ALL budgets
             for category, budget in budgets.items():
-                spending = self.data_manager.budget_manager._get_monthly_spending(category, current_month)
+                spending = self.data_manager.budget_manager._get_monthly_spending(
+                    category, current_month
+                )
                 percentage = min((spending / budget) * 100, 100) if budget > 0 else 0
-                
-                print(f"DEBUG: Creating bar chart for {category}: {spending}/{budget} ({percentage}%)")
-                
+
+                print(
+                    f"DEBUG: Creating bar chart for {category}: {spending}/{budget} ({percentage}%)"
+                )
+
                 # Create bar chart widget
-                bar_chart_widget = self.create_bar_chart_widget(category, spending, budget, percentage)
+                bar_chart_widget = self.create_bar_chart_widget(
+                    category, spending, budget, percentage
+                )
                 layout.addWidget(bar_chart_widget)
-        
+
         # Add stretch to push content to top
         layout.addStretch()
 
         self.update_alerts()
-        
+
         print("DEBUG: Bar charts update completed successfully")
-    
+
     def create_bar_chart_widget(self, category, spending, budget, percentage):
         """Create a perfectly aligned bar chart widget"""
         widget = QWidget()
         widget.setFixedHeight(70)  # Optimal height for alignment
-        widget.setStyleSheet("""
+        widget.setStyleSheet(
+            """
             QWidget {
                 background: #2d2d2d;
                 border: 1px solid #404040;
                 border-radius: 8px;
                 margin: 2px;
             }
-        """)
-        
+        """
+        )
+
         layout = QHBoxLayout(widget)
         layout.setContentsMargins(12, 8, 12, 8)
         layout.setSpacing(15)
-        
+
         # Left: Category and amounts (fixed width for perfect alignment)
         left_widget = QWidget()
         left_widget.setFixedWidth(180)  # Fixed width for consistent alignment
         left_layout = QVBoxLayout(left_widget)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.setSpacing(4)
-        
+
         # Category name
         category_label = QLabel(category)
-        category_label.setStyleSheet("""
+        category_label.setStyleSheet(
+            """
             QLabel {
                 color: #e0e0e0; 
                 font-weight: bold; 
                 font-size: 13px;
                 padding: 2px 0px;
             }
-        """)
-        
+        """
+        )
+
         # Amounts
         amounts_label = QLabel(f"₱{spending:,.0f} / ₱{budget:,.0f}")
-        amounts_label.setStyleSheet("""
+        amounts_label.setStyleSheet(
+            """
             QLabel {
                 color: #b0b0b0; 
                 font-size: 11px;
                 font-weight: bold;
                 padding: 2px 0px;
             }
-        """)
-        
+        """
+        )
+
         left_layout.addWidget(category_label)
         left_layout.addWidget(amounts_label)
         left_layout.addStretch()
-        
+
         # Center: Bar chart (flexible width)
         center_widget = QWidget()
         center_layout = QVBoxLayout(center_widget)
         center_layout.setContentsMargins(0, 0, 0, 0)
         center_layout.setSpacing(4)
-        
+
         # Percentage label
-        status_color = "#ff6b6b" if percentage > 100 else "#ffb86c" if percentage > 80 else "#6bff6b"
-        status_text = "OVER" if percentage > 100 else "WARNING" if percentage > 80 else "GOOD"
+        status_color = (
+            "#ff6b6b"
+            if percentage > 100
+            else "#ffb86c" if percentage > 80 else "#6bff6b"
+        )
+        status_text = (
+            "OVER" if percentage > 100 else "WARNING" if percentage > 80 else "GOOD"
+        )
         percentage_label = QLabel(f"{percentage:.1f}% - {status_text}")
-        percentage_label.setStyleSheet(f"""
+        percentage_label.setStyleSheet(
+            f"""
             QLabel {{
                 color: {status_color}; 
                 font-weight: bold; 
                 font-size: 11px;
                 padding: 1px 0px;
             }}
-        """)
+        """
+        )
         percentage_label.setAlignment(Qt.AlignCenter)
-        
+
         # Bar chart
         bar_widget = QWidget()
         bar_widget.setFixedHeight(20)
-        bar_widget.setStyleSheet("""
+        bar_widget.setStyleSheet(
+            """
             QWidget {
                 background: #1a1a2e;
                 border: 1px solid #404040;
                 border-radius: 10px;
             }
-        """)
-        
+        """
+        )
+
         bar_layout = QHBoxLayout(bar_widget)
         bar_layout.setContentsMargins(2, 2, 2, 2)
         bar_layout.setSpacing(0)
-        
+
         # Progress bar fill
         fill_width = min(int(percentage), 100)
-        
+
         # Determine fill color based on percentage
         if percentage > 100:
             fill_color = "#ff4444"  # Bright red for over budget
@@ -3591,65 +3806,73 @@ class BudgetDialog(QDialog):
             fill_color = "#ffaa00"  # Orange for warning
         else:
             fill_color = "#00cc00"  # Green for good
-        
+
         fill_widget = QWidget()
-        fill_widget.setStyleSheet(f"""
+        fill_widget.setStyleSheet(
+            f"""
             QWidget {{
                 background: {fill_color};
                 border-radius: 8px;
             }}
-        """)
-        
+        """
+        )
+
         # Remaining space
         remaining_widget = QWidget()
         remaining_widget.setStyleSheet("background: transparent;")
-        
+
         bar_layout.addWidget(fill_widget, fill_width)
         bar_layout.addWidget(remaining_widget, 100 - fill_width)
-        
+
         center_layout.addWidget(percentage_label)
         center_layout.addWidget(bar_widget)
-        
+
         # Add all sections to main layout
         layout.addWidget(left_widget)
         layout.addWidget(center_widget, 1)  # Center takes remaining space
-        
+
         return widget
-    
+
     def set_budget(self):
         """Set budget for selected category."""
         category = self.category_combo.currentText().strip()
         amount_text = self.amount_input.text().strip()
-        
+
         if not category:
             QMessageBox.warning(self, "Error", "Please select or enter a category.")
             return
-        
+
         if not amount_text:
             QMessageBox.warning(self, "Error", "Please enter a budget amount.")
             return
-        
+
         try:
             amount = float(amount_text)
             if amount <= 0:
                 QMessageBox.warning(self, "Error", "Budget amount must be positive.")
                 return
         except ValueError:
-            QMessageBox.warning(self, "Error", "Please enter a valid number for the budget.")
+            QMessageBox.warning(
+                self, "Error", "Please enter a valid number for the budget."
+            )
             return
-        
+
         # Use case-insensitive matching to find existing category
         normalized_category = self.find_matching_category(category)
-        
+
         if normalized_category:
-            success = self.data_manager.budget_manager.set_budget(normalized_category, amount)
+            success = self.data_manager.budget_manager.set_budget(
+                normalized_category, amount
+            )
             final_category = normalized_category
         else:
             success = self.data_manager.budget_manager.set_budget(category, amount)
             final_category = category
-        
+
         if success:
-            QMessageBox.information(self, "Success", f"Budget set for {final_category}: ₱{amount:,.2f}")
+            QMessageBox.information(
+                self, "Success", f"Budget set for {final_category}: ₱{amount:,.2f}"
+            )
             self.amount_input.clear()
             # Refresh all displays
             self.update_budgets_table()
@@ -3660,35 +3883,40 @@ class BudgetDialog(QDialog):
             self.data_manager.update_budget_alerts()
         else:
             QMessageBox.warning(self, "Error", "Failed to set budget.")
-    
+
     def find_matching_category(self, category):
         """Find existing category with case-insensitive matching."""
         category_lower = category.lower()
-        
+
         # Check in main categories list
         for existing_cat in self.data_manager.categories:
             if existing_cat.lower() == category_lower:
                 return existing_cat
-        
+
         # Check in expense categories
         all_expenses = self.data_manager.list_all_expenses()
-        expense_categories = set(exp.get('category') for exp in all_expenses)
+        expense_categories = set(exp.get("category") for exp in all_expenses)
         for existing_cat in expense_categories:
             if existing_cat.lower() == category_lower:
                 return existing_cat
-        
+
         return None
-    
+
     def remove_budget(self, category):
         """Remove budget for selected category."""
-        reply = QMessageBox.question(self, "Confirm Removal", 
-                                   f"Are you sure you want to remove the budget for {category}?",
-                                   QMessageBox.Yes | QMessageBox.No)
-        
+        reply = QMessageBox.question(
+            self,
+            "Confirm Removal",
+            f"Are you sure you want to remove the budget for {category}?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+
         if reply == QMessageBox.Yes:
             success = self.data_manager.budget_manager.remove_budget(category)
             if success:
-                QMessageBox.information(self, "Success", f"Budget removed for {category}")
+                QMessageBox.information(
+                    self, "Success", f"Budget removed for {category}"
+                )
                 # Refresh all displays
                 self.update_budgets_table()
                 self.update_summary()

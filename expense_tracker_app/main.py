@@ -8,12 +8,26 @@ import openpyxl
 from fpdf import FPDF
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import (QApplication, QComboBox, QDateEdit, QFileDialog,
-                             QHBoxLayout, QHeaderView, QLabel, QMainWindow,
-                             QMessageBox, QPushButton, QTableWidget,
-                             QTableWidgetItem, QTabWidget, QVBoxLayout,
-                             QWidget, QAction, QDialog)
-from PyQt5.QtCore import Qt 
+from PyQt5.QtWidgets import (
+    QApplication,
+    QComboBox,
+    QDateEdit,
+    QFileDialog,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QMainWindow,
+    QMessageBox,
+    QPushButton,
+    QTableWidget,
+    QTableWidgetItem,
+    QTabWidget,
+    QVBoxLayout,
+    QWidget,
+    QAction,
+    QDialog,
+)
+from PyQt5.QtCore import Qt
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 from expense_tracker_app.import_service import DataImportService
@@ -156,7 +170,9 @@ class MainWindow(QMainWindow):
 
         # Categories action
         categories_action = QAction("📁 Categories", self)
-        categories_action.triggered.connect(self.open_category_dialog)  # Connect to your category dialog
+        categories_action.triggered.connect(
+            self.open_category_dialog
+        )  # Connect to your category dialog
         tools_menu.addAction(categories_action)
 
         # Add category cleanup tool
@@ -212,7 +228,6 @@ class MainWindow(QMainWindow):
         )
         title.setAlignment(Qt.AlignCenter)
         reports_layout.addWidget(title)
-        
 
         filter_layout = QHBoxLayout()
 
@@ -246,7 +261,9 @@ class MainWindow(QMainWindow):
         )
         calendar = self.start_date.calendarWidget()
         if calendar:
-            calendar.setDateTextFormat(QDate.currentDate(), self.get_highlighted_date_format())
+            calendar.setDateTextFormat(
+                QDate.currentDate(), self.get_highlighted_date_format()
+            )
 
         filter_layout.addWidget(self.start_date)
 
@@ -257,7 +274,9 @@ class MainWindow(QMainWindow):
         self.end_date.setStyleSheet(self.start_date.styleSheet())
         calendar = self.end_date.calendarWidget()
         if calendar:
-            calendar.setDateTextFormat(QDate.currentDate(), self.get_highlighted_date_format())
+            calendar.setDateTextFormat(
+                QDate.currentDate(), self.get_highlighted_date_format()
+            )
 
         filter_layout.addWidget(self.end_date)
 
@@ -417,7 +436,7 @@ class MainWindow(QMainWindow):
         """Return formatting for highlighted current date"""
         from PyQt5.QtGui import QTextCharFormat, QColor, QFont
         from PyQt5.QtCore import QDate
-        
+
         format = QTextCharFormat()
         format.setBackground(QColor("#007acc"))  # Blue background
         format.setForeground(QColor("#ffffff"))  # White text
@@ -429,13 +448,15 @@ class MainWindow(QMainWindow):
         try:
             # First, migrate all categories to proper capitalization
             migrated_count = self.data_manager.migrate_categories_to_proper_case()
-            
+
             # Then, auto-merge any remaining duplicates
             merged_count = self.data_manager.auto_merge_duplicate_categories()
-            
+
             if migrated_count > 0 or merged_count > 0:
-                logger.info(f"🔄 Migrated {migrated_count} categories and merged {merged_count} duplicates")
-                
+                logger.info(
+                    f"🔄 Migrated {migrated_count} categories and merged {merged_count} duplicates"
+                )
+
                 # Show a one-time notification to user
                 QMessageBox.information(
                     self,
@@ -443,7 +464,7 @@ class MainWindow(QMainWindow):
                     f"Your categories have been automatically organized:\n\n"
                     f"• {migrated_count} categories capitalized\n"
                     f"• {merged_count} duplicate groups merged\n\n"
-                    f"All expenses are now properly categorized with consistent naming."
+                    f"All expenses are now properly categorized with consistent naming.",
                 )
         except Exception as e:
             logger.error(f"Error during category migration: {e}")
@@ -453,30 +474,28 @@ class MainWindow(QMainWindow):
         try:
             # Run the auto-merge function
             merged_count = self.data_manager.auto_merge_duplicate_categories()
-            
+
             if merged_count > 0:
                 QMessageBox.information(
                     self,
                     "Categories Cleaned Up",
                     f"Successfully merged {merged_count} groups of duplicate categories.\n\n"
-                    f"All your expenses are now organized with consistent category names."
+                    f"All your expenses are now organized with consistent category names.",
                 )
             else:
                 QMessageBox.information(
                     self,
                     "No Changes Needed",
-                    "Your categories are already properly organized with no duplicates found."
+                    "Your categories are already properly organized with no duplicates found.",
                 )
-                
+
             # Refresh the UI
             self.refresh_all_components()
-            
+
         except Exception as e:
             logger.error(f"Error during category cleanup: {e}")
             QMessageBox.warning(
-                self,
-                "Cleanup Failed",
-                f"Could not cleanup categories: {str(e)}"
+                self, "Cleanup Failed", f"Could not cleanup categories: {str(e)}"
             )
 
     def update_report_view(self):
@@ -600,10 +619,10 @@ class MainWindow(QMainWindow):
 
     def update_dashboard(self):
         """Update dashboard with latest data."""
-        if hasattr(self, 'dashboard'):
+        if hasattr(self, "dashboard"):
             self.dashboard.update_dashboard()
             # Add budget alerts update
-            if hasattr(self.dashboard, 'update_budget_alerts'):
+            if hasattr(self.dashboard, "update_budget_alerts"):
                 self.dashboard.update_budget_alerts()
 
     def export_to_excel_or_csv(self, filepath=None, filetype=None):
@@ -747,6 +766,7 @@ class MainWindow(QMainWindow):
         """Open budget management dialog from main menu."""
         try:
             from expense_tracker_app.widgets import BudgetDialog
+
             dialog = BudgetDialog(self.data_manager, self)
             dialog.exec_()
         except Exception as e:
@@ -758,6 +778,7 @@ class MainWindow(QMainWindow):
         try:
             # If you have a category dialog in widgets.py, import and use it
             from expense_tracker_app.dialogs import CategoryDialog
+
             # This will open the category dialog from your expense tracker
             dialog = CategoryDialog(self.data_manager, self)
             dialog.exec_()
@@ -889,44 +910,49 @@ class MainWindow(QMainWindow):
         </body>
         </html>
         """
-        
+
         # Create custom dialog for better control
         dialog = QDialog(self)
         dialog.setWindowTitle("About Expense Tracker")
         dialog.setMinimumSize(500, 550)
-        dialog.setStyleSheet("""
+        dialog.setStyleSheet(
+            """
             QDialog {
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
                     stop:0 #1a1a2e, stop:0.5 #16213e, stop:1 #0f3460);
                 border: 2px solid #007acc;
                 border-radius: 10px;
             }
-        """)
-        
+        """
+        )
+
         layout = QVBoxLayout(dialog)
-        
+
         # App icon/logo placeholder
         icon_label = QLabel("💼")
         icon_label.setAlignment(Qt.AlignCenter)
-        icon_label.setStyleSheet("""
+        icon_label.setStyleSheet(
+            """
             QLabel {
                 font-size: 64px;
                 padding: 20px;
             }
-        """)
+        """
+        )
         layout.addWidget(icon_label)
-        
+
         # About text
         about_label = QLabel(about_text)
         about_label.setAlignment(Qt.AlignCenter)
         about_label.setWordWrap(True)
         about_label.setTextFormat(Qt.RichText)
         layout.addWidget(about_label)
-        
+
         # Close button
         close_btn = QPushButton("Close")
         close_btn.setMinimumHeight(35)
-        close_btn.setStyleSheet("""
+        close_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #007acc;
                 color: white;
@@ -941,10 +967,11 @@ class MainWindow(QMainWindow):
             QPushButton:hover {
                 background-color: #005a9e;
             }
-        """)
+        """
+        )
         close_btn.clicked.connect(dialog.accept)
         layout.addWidget(close_btn)
-        
+
         dialog.exec_()
 
 

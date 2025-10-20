@@ -446,5 +446,5 @@ class TestDataManager:
     def test_budget_manager_integration(self):
         """Test that DataManager has budget manager integration."""
         dm = DataManager()
-        assert hasattr(dm, 'budget_manager')
+        assert hasattr(dm, "budget_manager")
         assert dm.budget_manager.data_manager == dm
