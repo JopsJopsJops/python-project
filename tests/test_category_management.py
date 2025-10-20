@@ -1,8 +1,9 @@
-import pytest
-import unittest
-from unittest.mock import patch, Mock
-from PyQt5.QtWidgets import QApplication, QMessageBox
 import sys
+import unittest
+from unittest.mock import Mock, patch
+
+import pytest
+from PyQt5.QtWidgets import QApplication, QMessageBox
 
 # Import your modules
 from expense_tracker_app.data_manager import DataManager

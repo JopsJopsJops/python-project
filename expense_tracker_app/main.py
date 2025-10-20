@@ -6,12 +6,14 @@ from datetime import datetime
 
 import openpyxl
 from fpdf import FPDF
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (
+    QAction,
     QApplication,
     QComboBox,
     QDateEdit,
+    QDialog,
     QFileDialog,
     QHBoxLayout,
     QHeaderView,
@@ -24,10 +26,8 @@ from PyQt5.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QWidget,
-    QAction,
-    QDialog,
 )
-from PyQt5.QtCore import Qt
+
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 from expense_tracker_app.import_service import DataImportService
@@ -434,8 +434,8 @@ class MainWindow(QMainWindow):
 
     def get_highlighted_date_format(self):
         """Return formatting for highlighted current date"""
-        from PyQt5.QtGui import QTextCharFormat, QColor, QFont
         from PyQt5.QtCore import QDate
+        from PyQt5.QtGui import QColor, QFont, QTextCharFormat
 
         format = QTextCharFormat()
         format.setBackground(QColor("#007acc"))  # Blue background

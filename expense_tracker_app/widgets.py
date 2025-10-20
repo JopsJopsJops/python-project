@@ -14,23 +14,23 @@ from PyQt5.QtWidgets import (
     QLabel,
     QLineEdit,
     QMessageBox,
+    QProgressBar,
     QPushButton,
+    QScrollArea,
     QShortcut,
     QSizePolicy,
+    QSplitter,
     QTableWidget,
     QTableWidgetItem,
     QTabWidget,
+    QTextEdit,
     QVBoxLayout,
     QWidget,
-    QTextEdit,
-    QProgressBar,
-    QSplitter,
-    QScrollArea,
 )
 
+from expense_tracker_app.budget_manager import BudgetManager
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
-from expense_tracker_app.budget_manager import BudgetManager
 from expense_tracker_app.table_helpers import (
     aggregate_category_totals,
     calculate_subtotal,

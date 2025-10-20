@@ -1,5 +1,7 @@
-import pytest
 import os
+
+import pytest
+
 from expense_tracker_app.budget_manager import BudgetManager
 from expense_tracker_app.data_manager import DataManager
 

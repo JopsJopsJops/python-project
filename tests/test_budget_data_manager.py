@@ -1,4 +1,5 @@
 import pytest
+
 from expense_tracker_app.data_manager import DataManager
 
 

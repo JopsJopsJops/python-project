@@ -1,7 +1,8 @@
 import pytest
 from PyQt5.QtWidgets import QApplication
-from expense_tracker_app.widgets import BudgetDialog
+
 from expense_tracker_app.data_manager import DataManager
+from expense_tracker_app.widgets import BudgetDialog
 
 
 class TestBudgetDialog:

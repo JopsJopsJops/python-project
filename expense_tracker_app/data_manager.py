@@ -452,8 +452,8 @@ class DataManager:
     def trigger_dashboard_refresh(self):
         """Trigger dashboard refresh across the application."""
         try:
-            from PyQt5.QtWidgets import QApplication
             from PyQt5.QtCore import QTimer
+            from PyQt5.QtWidgets import QApplication
 
             # Use QTimer to safely refresh the UI in the next event loop
             QTimer.singleShot(100, self._refresh_all_dashboards)
