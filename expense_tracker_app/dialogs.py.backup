@@ -233,14 +233,11 @@ class CategoryDialog(QDialog):
                 reply = QMessageBox.question(
                     self,
                     "Merge Duplicate Category",
-                    f"Category '{category}'\
-                    appears to be a duplicate of '{normalized_category}'.\n\n"
-                    f"Would you like to merge the\
-                    {len(self.data_manager.expenses[category])} expense(s) "
+                    f"Category '{category}' appears to be a duplicate of '{normalized_category}'.\n\n"
+                    f"Would you like to merge the {len(self.data_manager.expenses[category])} expense(s) "
                     f"into '{normalized_category}'?\n\n"
-                    f"• <b>Merge</b> - \
-    Expenses stay organized under '{normalized_category}'\n"
-                    "• <b>Move to Uncategorized</b> - Expenses will be harder to find",
+                    f"• <b>Merge</b> - Expenses stay organized under '{normalized_category}'\n"
+                    f"• <b>Move to Uncategorized</b> - Expenses will be harder to find",
                     QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
                     QMessageBox.Yes,  # Default to Yes for smart merging
                 )
@@ -330,8 +327,7 @@ class CategoryDialog(QDialog):
 
                 # Warning
                 warning_label = QLabel(
-                    f"This category contains\
-                    {len(self.data_manager.expenses[category])} expense(s)."
+                    f"This category contains {len(self.data_manager.expenses[category])} expense(s)."
                 )
                 warning_label.setStyleSheet("color: #ffb86c; font-weight: bold;")
                 warning_label.setAlignment(Qt.AlignCenter)
@@ -351,8 +347,7 @@ class CategoryDialog(QDialog):
                 merge_layout.addWidget(merge_header)
 
                 merge_desc = QLabel(
-                    "• Expenses stay organized\n•\
-                          Easy to find later\n• Recommended approach"
+                    "• Expenses stay organized\n• Easy to find later\n• Recommended approach"
                 )
                 merge_desc.setStyleSheet("color: #b0b0b0; font-size: 11px;")
                 merge_layout.addWidget(merge_desc)
@@ -375,8 +370,7 @@ class CategoryDialog(QDialog):
                 uncat_layout.addWidget(uncat_header)
 
                 uncat_desc = QLabel(
-                    "• Expenses become harder to find\n•\
-                          Use only if you can't merge\n• Not recommended"
+                    "• Expenses become harder to find\n• Use only if you can't merge\n• Not recommended"
                 )
                 uncat_desc.setStyleSheet("color: #b0b0b0; font-size: 11px;")
                 uncat_layout.addWidget(uncat_desc)
@@ -407,11 +401,9 @@ class CategoryDialog(QDialog):
                     confirm_reply = QMessageBox.question(
                         self,
                         "Confirm Move to Uncategorized",
-                        f"Are you sure you want to move\
-                        {len(self.data_manager.expenses[category])}\
-                        expense(s) to 'Uncategorized'?\n\n"
-                        "⚠️ Expenses moved to Uncategorized\
-                        will be harder to find and organize.",
+                        f"Are you sure you want to move {len(self.data_manager.e" \
+    "xpenses[category])} expense(s) to 'Uncategorized'?\n\n"
+                        "⚠️ Expenses moved to Uncategorized will be harder to find and organize.",
                         QMessageBox.Yes | QMessageBox.No,
                         QMessageBox.No,  # Default to No for safety
                     )
@@ -447,7 +439,7 @@ class CategoryDialog(QDialog):
                 self,
                 "Confirm Category Removal",
                 f"Are you sure you want to remove the category '{category}'?\n\n"
-                "This category has no expenses.",
+                f"This category has no expenses.",
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.No,  # Default to No for safety
             )
@@ -474,8 +466,7 @@ class CategoryDialog(QDialog):
         self._refresh_dashboards()
 
     def ask_merge_target(self, category_to_remove):
-        """Ask user which category to merge expenses into - \
-    FIXED to return string only"""
+        """Ask user which category to merge expenses into - FIXED to return string only"""
         # Get all available categories except the one being removed and Uncategorized
         available_categories = [
             cat

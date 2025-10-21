@@ -222,7 +222,8 @@ class TestExpenseTracker:
         expense_tracker.clear_search()
 
         assert expense_tracker.search_input.text() == ""
-        # The label text might be different, so check if it contains "Total" or just verify it changed
+        # The label text might be different,\
+        # so check if it contains "Total" or just verify it changed
         assert (
             "Total" in expense_tracker.summary_label.text()
             or "cleared" in expense_tracker.summary_label.text()
@@ -307,7 +308,8 @@ class TestExpenseTracker:
                     qtbot.addWidget(expense_tracker)
 
         category = "Food"
-        original_record = {"date": "2023-01-01", "amount": 25.0, "description": "Lunch"}
+        original_record = \
+            {"date": "2023-01-01", "amount": 25.0, "description": "Lunch"}
 
         # Mock the dialog and dependencies
         with patch("expense_tracker_app.widgets.AddExpenseDialog") as MockDialog:
@@ -487,7 +489,8 @@ class TestExpenseTracker:
                 expense_tracker = ExpenseTracker(mock_dm)
                 qtbot.addWidget(expense_tracker)
 
-        # Let's see ALL attributes to find the dropdowns - remove the filter to see everything
+        # Let's see ALL attributes to find the dropdowns\
+        # - remove the filter to see everything
         print("All attributes (first 50):")
         for i, attr in enumerate(dir(expense_tracker)):
             if i >= 50:  # Show first 50 to avoid too much output

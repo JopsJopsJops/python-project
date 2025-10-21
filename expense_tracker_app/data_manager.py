@@ -1,10 +1,12 @@
 import json
 import logging
+
 import os
 from datetime import datetime
 
-logger = logging.getLogger(__name__)
 from expense_tracker_app.budget_manager import BudgetManager
+
+logger = logging.getLogger(__name__)
 
 
 class DataManager:
@@ -189,13 +191,15 @@ class DataManager:
         # Check if category already exists
         exists, existing_name = self.category_exists(category)
         if exists:
-            # If user entered the exact same category (same capitalization), treat as success
+            # If user entered the exact same category (same capitalization)\
+            # treat as success
             if category == existing_name:
                 return True, f"Category '{existing_name}' is already in your list"
             else:
                 return (
                     False,
-                    f"Category '{existing_name}' already exists (you entered '{category}')",
+                    f"Category '{existing_name}'\
+                          already exists (you entered '{category}')",
                 )
 
         if merge_target:
@@ -377,7 +381,8 @@ class DataManager:
                 self.expenses[merge_to] = self.expenses[normalized_category]
 
             logger.info(
-                f"📂 Moved {len(self.expenses[normalized_category])} expenses from '{normalized_category}' to '{merge_to}'"
+                f"📂 Moved {len(self.expenses[normalized_category])}\
+                      expenses from '{normalized_category}' to '{merge_to}'"
             )
 
         # Remove the category from expenses if it exists
@@ -721,7 +726,8 @@ class DataManager:
         return False
 
     def list_expenses(self):
-        """Return expenses by category (alias for get_sorted_expenses for test compatibility)."""
+        """Return expenses by category\
+              (alias for get_sorted_expenses for test compatibility)."""
         return self.get_sorted_expenses()
 
     def get_all_expenses(self):

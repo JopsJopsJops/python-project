@@ -199,7 +199,8 @@ class TestMainWindow:
         assert "2023-01-01" in dates
         assert "2023-01-02" in dates
 
-        # FIX: Create a proper mock for get_filtered_expenses that respects date filtering
+        # FIX: Create a proper mock for\
+        # get_filtered_expenses that respects date filtering
         def mock_get_filtered_expenses():
             start_date = window.start_date.date().toPyDate()
             end_date = window.end_date.date().toPyDate()
@@ -326,7 +327,7 @@ class TestMainWindow:
             mock_csv.assert_called_once()
 
             # Test PDF export
-            mock_dialog.return_value = ("test.pdf", "PDF Files (*.pdf)")
+            mock_dialog.return_value = ("test.pd", "PDF Files (*.pdf)")
             mock_pdf.return_value = "test.pdf"
             result = window.export_to_pdf(filepath="test.pdf")
             assert result is True

@@ -35,16 +35,19 @@ class TestDataManagerBudgetIntegration:
 
         # Debug: Check what's happening
         print("=== BUDGET PROGRESS DEBUG ===")
-        print("Budget set: {data_manager.budget_manager.budgets}")
-        print(f"Expenses in category '{unique_category}':\
-               {data_manager.expenses.get(unique_category, [])}")
+        print(f"Budget set: {data_manager.budget_manager.budgets}")
+        print(
+f"Expenses in category '{unique_category}': {data_manager.expenses.get(
+    (unique_category,
+     [])}"
+)
+        )
 
         # Get progress and check structure
         progress = data_manager.budget_manager.get_budget_progress(unique_category)
-        print("Progress object: {progress}")
+        print(f"Progress object: {progress}")
 
-        # The key insight: Instead of asserting exact values, \
-        # test the structure and logic
+        # The key insight: Instead of asserting exact values, test the structure and logic
         assert progress is not None
         assert "budget" in progress
         assert "spent" in progress
@@ -54,13 +57,11 @@ class TestDataManagerBudgetIntegration:
         # Budget should be what we set
         assert progress["budget"] == 500.0
 
-        # Spent should be calculated from expenses (might be 0 due to timing or \
-        # filtering)
+        # Spent should be calculated from expenses (might be 0 due to timing or filtering)
         # But the structure should be correct
         assert isinstance(progress["spent"], (int, float))
 
-        # Remaining and \
-        # percentage should be calculated correctly based on budget and spent
+        # Remaining and percentage should be calculated correctly based on budget and spent
         expected_remaining = progress["budget"] - progress["spent"]
         expected_percentage = (
             (progress["spent"] / progress["budget"]) * 100

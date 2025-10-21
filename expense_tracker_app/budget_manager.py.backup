@@ -39,8 +39,7 @@ class BudgetManager:
                 last_updated = data.get("last_updated", "unknown")
 
                 logger.info(
-                    f"💰 Loaded {len(self.budgets)} {budget_period}\
-                    budgets (last updated: {last_updated})"
+                    f"💰 Loaded {len(self.budgets)} {budget_period} budgets (last updated: {last_updated})"
                 )
 
         except Exception as e:
@@ -53,10 +52,8 @@ class BudgetManager:
             data = {
                 "budgets": self.budgets,
                 "last_updated": datetime.now().isoformat(),
-                "budget_period": "monthly", \
-                # Explicitly state this is monthly budgeting
-                "description": "Monthly category budgets - \
-                resets conceptually each month",
+                "budget_period": "monthly",  # Explicitly state this is monthly budgeting
+                "description": "Monthly category budgets - resets conceptually each month",
                 "version": "1.0",
             }
 
@@ -161,8 +158,7 @@ class BudgetManager:
                 over_amount = monthly_spending - budget_limit
                 alerts.append(
                     f"🚨 Monthly budget exceeded for {category}! "
-                    f"Spent ₱{monthly_spending:,.2f} \
-                    of ₱{budget_limit:,.2f} this month "
+                    f"Spent ₱{monthly_spending:,.2f} of ₱{budget_limit:,.2f} this month "
                     f"(₱{over_amount:,.2f} over budget)"
                 )
             elif monthly_spending > budget_limit * 0.8:
@@ -183,18 +179,17 @@ class BudgetManager:
             monthly_total = 0.0
 
             logger.debug(
-                f"🔍 Checking {len(all_expenses)} \
-                    total expenses for category: {category}, month: {month}"
+                    f"🔍 Checking {len(
+                        (all_expenses)} total expenses for category: {category},
+                        month: {month}")
             )
 
             for expense in all_expenses:
                 expense_category = expense.get("category", "")
-                expense_date = \
-                    expense.get("date", "")
+                expense_date = expense.get("date", "")
                 expense_amount = expense.get("amount", 0)
 
-                # Check if this expense belongs to our category\
-                #  (CASE-INSENSITIVE) and current month
+                # Check if this expense belongs to our category (CASE-INSENSITIVE) and current month
                 if (
                     expense_category.lower() == category.lower()
                     and expense_date.startswith(month)
@@ -202,8 +197,7 @@ class BudgetManager:
                     try:
                         monthly_total += float(expense_amount)
                         logger.debug(
-                            f"   ➕ Added expense: {expense_category} - \
-                        ₱{expense_amount} on {expense_date}"
+                            f"   ➕ Added expense: {expense_category} - ₱{expense_amount} on {expense_date}"
                         )
                     except (ValueError, TypeError) as e:
                         logger.warning(

@@ -20,12 +20,12 @@ def check_for_sensitive_patterns():
         r'bearer_token',
         r'oauth_token',
     ]
-    
+
     print("🔍 Scanning for ACTUAL sensitive data patterns...")
-    
+
     # Check Python files
     python_files = glob.glob('**/*.py', recursive=True)
-    
+
     issues_found = 0
     for file_path in python_files:
         try:
@@ -41,7 +41,7 @@ def check_for_sensitive_patterns():
                                 issues_found += 1
         except Exception as e:
             print(f"❌ Could not read {file_path}: {e}")
-    
+
     if issues_found == 0:
         print("✅ No sensitive data patterns found!")
     else:
@@ -50,15 +50,15 @@ def check_for_sensitive_patterns():
 def check_file_extensions():
     """Check for files with sensitive extensions"""
     sensitive_extensions = ['.key', '.pem', '.cert', '.pfx', '.p12']
-    
+
     print("\n📁 Checking for sensitive file extensions...")
-    
+
     found_files = []
     for root, dirs, files in os.walk('.'):
         for file in files:
             if any(file.endswith(ext) for ext in sensitive_extensions):
                 found_files.append(os.path.join(root, file))
-    
+
     if found_files:
         print("⚠️  Found files with sensitive extensions:")
         for file in found_files:
@@ -79,18 +79,18 @@ def check_gitignore():
         'config.ini',
         '.env'
     ]
-    
+
     print("\n📋 Checking .gitignore...")
-    
+
     if os.path.exists('.gitignore'):
         with open('.gitignore', 'r') as f:
             gitignore_content = f.read()
-        
+
         missing_patterns = []
         for pattern in required_patterns:
             if pattern not in gitignore_content:
                 missing_patterns.append(pattern)
-        
+
         if missing_patterns:
             print("⚠️  Missing patterns in .gitignore:")
             for pattern in missing_patterns:

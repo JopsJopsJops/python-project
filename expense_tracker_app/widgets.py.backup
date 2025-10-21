@@ -768,16 +768,14 @@ class DashboardWidget(QWidget):
                 )
 
                 logger.info(
-                    f"📢 Found {len(alerts)} budget alerts, \
-    budgets exist: {budgets_exist}"
+                    f"📢 Found {len(alerts)} budget alerts, budgets exist: {budgets_exist}"
                 )
 
                 if not budgets_exist:
                     # No budgets set - show friendly info message (not red alert)
                     self.budget_alerts_label.setText(
                         "💡 No monthly budgets set yet.\n\n"
-                        "Use Budget Management to set spending limits and \
-    track your expenses."
+                        "Use Budget Management to set spending limits and track your expenses."
                     )
                     self.budget_alerts_label.setStyleSheet(
                         """
@@ -826,10 +824,8 @@ class DashboardWidget(QWidget):
                         self.budget_alerts_label.setStyleSheet(
                             """
                             QLabel {
-                                background-color: #443322;\
-                                /* Dark orange background */
-                                color: #ffb86c;\
-                                /* Bright orange text */
+                                background-color: #443322;   /* Dark orange background */
+                                color: #ffb86c;              /* Bright orange text */
                                 padding: 12px;
                                 border-radius: 6px;
                                 border: 2px solid #ffa500;
@@ -1265,8 +1261,7 @@ class DashboardWidget(QWidget):
                 categories_list, amounts_list
             )
 
-            # Find which categories are in\
-            #  "Others" (all categories minus top categories)
+            # Find which categories are in "Others" (all categories minus top categories)
             other_categories = [
                 cat for cat in all_categories if cat not in top_categories
             ]
@@ -1292,8 +1287,7 @@ class DashboardWidget(QWidget):
             total_amount = sum(float(exp.get("amount", 0)) for exp in category_expenses)
 
             print(
-                f"DEBUG: Regular category - Amount: {total_amount}, \
-    Expenses: {len(category_expenses)}"
+                f"DEBUG: Regular category - Amount: {total_amount}, Expenses: {len(category_expenses)}"
             )
 
             # Show details in a popup
@@ -1493,7 +1487,7 @@ class DashboardWidget(QWidget):
             )
 
             # Show success message with file paths
-            success_msg = """
+            success_msg = f"""
             <h3>✅ Charts Exported Successfully!</h3>
             <p><b>Pie Chart:</b> {pie_path}</p>
             <p><b>Bar Chart:</b> {bar_path}</p>
@@ -1647,7 +1641,7 @@ class DashboardWidget(QWidget):
                 pdf_info["ModDate"] = datetime.datetime.now()
 
             # Show success message
-            success_msg = """
+            success_msg = f"""
             <h3>✅ PDF Report Exported Successfully!</h3>
             <p><b>File:</b> {file_path}</p>
             <p><b>Pages:</b> 3 (Cover, Pie Chart, Bar Chart)</p>
@@ -1776,8 +1770,7 @@ class DashboardWidget(QWidget):
             if len(expenses) > 1:
                 avg_amount = total_amount / len(expenses)
                 summary_label = QLabel(
-                    f"📈 Average per expense:\
-                ₱{avg_amount:,.2f} ({len(expenses)} transactions)"
+                    f"📈 Average per expense: ₱{avg_amount:,.2f} ({len(expenses)} transactions)"
                 )
                 summary_label.setStyleSheet("color: #ffff00; font-weight: bold;")
                 layout.addWidget(summary_label)
@@ -2184,7 +2177,7 @@ class ExpenseTracker(QWidget):
             btn.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
 
             btn.setStyleSheet(
-                """
+                f"""
                 QPushButton {{
                 background-color: {color};
                 color: {'#ffffff' if self.is_dark_color(color) else '#000000'};
@@ -2200,17 +2193,15 @@ class ExpenseTracker(QWidget):
 
             QPushButton:hover {{
                 background-color: {self.darken_color_universal(color)};
-                color: {'#ffffff'\
-                if self.is_dark_color(self.darken_color_universal(color))\
-                else '#000000'};
+                color: {'#ffffff' if self.is_dark_color(self.darken_color_universal(color)) else '#000000'};
             }}
 
             QPushButton:pressed {{
                 background-color: {self.darken_color_universal(color, 0.3)};
- self.is_dark_color(
-                    self.darken_color_universal(color,
-                    0.3
-                )
+color: {'#ffffff' if self.is_dark_color(
+    (self.darken_color_universal(color,
+     0.3)) else '#000000'};
+)
             }}
 
             QPushButton:disabled {{
@@ -2428,17 +2419,14 @@ class ExpenseTracker(QWidget):
         date = record.get("date", "")
         description = record.get("description", "")[:50]  # First 50 chars
 
-        confirmation_msg = """
-        <h3>🗑️ Are you sure you want\
-              to delete this expense?</h3>
+        confirmation_msg = f"""
+        <h3>🗑️ Are you sure you want to delete this expense?</h3>
         <p><b>📊 Category:</b> {category}</p>
         <p><b>💰 Amount:</b> ₱{amount:,.2f}</p>
         <p><b>📅 Date:</b> {date}</p>
-        <p><b>📝 Description:</b> {description}\
-            {'...' if len(description) >= 50 else ''}</p>
+        <p><b>📝 Description:</b> {description}{'...' if len(description) >= 50 else ''}</p>
         <br>
-        <p style="color: #ffb86c;"><b>💡\
-          You can use the Undo button if you change your mind</b></p>
+        <p style="color: #ffb86c;"><b>💡 You can use the Undo button if you change your mind</b></p>
         """
 
         # Professional confirmation dialog
@@ -2460,8 +2448,8 @@ class ExpenseTracker(QWidget):
                 self,
                 "Deleted",
                 "<p><b>Expense deleted successfully.\n\n</b></p>"
-                "<p><font color='#ffb86c'><b>💡\
-              Tip: Use the '↶ Undo' button to restore if needed.</b></font></p>",
+                + "<p><font color='#ffb86c'><b>💡 Tip: Use the '↶ U" \
+    "ndo' button to restore if needed.</b></font></p>"
                 QMessageBox.Ok,
             )
             logger.warning("Expense deleted via UI: %s", record)
@@ -3689,15 +3677,13 @@ class BudgetDialog(QDialog):
         else:
             # Create bar charts for ALL budgets
             for category, budget in budgets.items():
-                spending =\
-                    self.data_manager.budget_manager._get_monthly_spending(
-                        category, current_month
-                        )
+                spending = self.data_manager.budget_manager._get_monthly_spending(
+                    category, current_month
+                )
                 percentage = min((spending / budget) * 100, 100) if budget > 0 else 0
 
                 print(
-                    f"DEBUG: Creating bar chart for\
-                          {category}: {spending}/{budget} ({percentage}%)"
+                    f"DEBUG: Creating bar chart for {category}: {spending}/{budget} ({percentage}%)"
                 )
 
                 # Create bar chart widget
@@ -3786,7 +3772,7 @@ class BudgetDialog(QDialog):
         )
         percentage_label = QLabel(f"{percentage:.1f}% - {status_text}")
         percentage_label.setStyleSheet(
-            """
+            f"""
             QLabel {{
                 color: {status_color};
                 font-weight: bold;
@@ -3827,7 +3813,7 @@ class BudgetDialog(QDialog):
 
         fill_widget = QWidget()
         fill_widget.setStyleSheet(
-            """
+            f"""
             QWidget {{
                 background: {fill_color};
                 border-radius: 8px;

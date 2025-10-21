@@ -337,7 +337,7 @@ class MainWindow(QMainWindow):
                 border-radius: 6px;
                 margin: 5px;
                 border: 1px solid #00ffff;
-            }   
+            }
         """
         )
         reports_layout.addWidget(self.summary_label)
@@ -362,19 +362,19 @@ class MainWindow(QMainWindow):
             font-family: "Segoe UI";
             font-size: 12px;
         }
-        
+
         QTableWidget::item {
             background-color: #252526;
             color: #e0e0e0;
             padding: 8px 12px;
             border-bottom: 1px solid #404040;
         }
-        
+
         QTableWidget::item:selected {
             background-color: #007acc;
             color: #ffffff;
         }
-        
+
         QHeaderView::section {
             background-color: #333333;
             color: #ffffff;
@@ -454,17 +454,18 @@ class MainWindow(QMainWindow):
 
             if migrated_count > 0 or merged_count > 0:
                 logger.info(
-                    f"🔄 Migrated {migrated_count} categories and merged {merged_count} duplicates"
+                    f"🔄 Migrated {migrated_count} categories and \
+    merged {merged_count} duplicates"
                 )
 
                 # Show a one-time notification to user
                 QMessageBox.information(
                     self,
                     "Categories Updated",
-                    f"Your categories have been automatically organized:\n\n"
+                    "Your categories have been automatically organized:\n\n"
                     f"• {migrated_count} categories capitalized\n"
                     f"• {merged_count} duplicate groups merged\n\n"
-                    f"All expenses are now properly categorized with consistent naming.",
+                    "All expenses are now properly categorized with consistent naming.",
                 )
         except Exception as e:
             logger.error(f"Error during category migration: {e}")
@@ -479,14 +480,17 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(
                     self,
                     "Categories Cleaned Up",
-                    f"Successfully merged {merged_count} groups of duplicate categories.\n\n"
-                    f"All your expenses are now organized with consistent category names.",
+                    f"Successfully merged {merged_count}\
+                    groups of duplicate categories.\n\n"
+                    "All your expenses are now organized\
+                    with consistent category names.",
                 )
             else:
                 QMessageBox.information(
                     self,
                     "No Changes Needed",
-                    "Your categories are already properly organized with no duplicates found.",
+                    "Your categories are already\
+                    properly organized with no duplicates found.",
                 )
 
             # Refresh the UI
@@ -533,7 +537,8 @@ class MainWindow(QMainWindow):
         if filtered:
             cats = ", ".join(sorted(categories))
             self.summary_label.setText(
-                f"Summary: {len(filtered)} expenses | Categories: {cats} | Total: ₱{total_amount:.2f}"
+                f"Summary: {len(filtered)}\
+                expenses | Categories: {cats} | Total: ₱{total_amount:.2f}"
             )
         else:
             self.summary_label.setText("Summary: No data")
@@ -692,7 +697,7 @@ class MainWindow(QMainWindow):
                 return True
             else:
                 file_path, _ = QFileDialog.getSaveFileName(
-                    self, "Save PDF File", "expenses.pdf", "PDF Files (*.pdf)"
+                    self, "Save PDF File", "expenses.pd", "PDF Files (*.pdf)"
                 )
                 if file_path:
                     ReportService.export_to_pdf(data, file_path)
@@ -787,7 +792,8 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, "Error", "Could not open category dialog.")
 
     def exit_application(self):
-        """Exit the application with save confirmation - matches dashboard exit behavior"""
+        """Exit the application with save confirmation - \
+    matches dashboard exit behavior"""
 
         reply = QMessageBox.question(
             self,
@@ -805,7 +811,8 @@ class MainWindow(QMainWindow):
             QMessageBox.information(
                 self,
                 "Save Successful",
-                "Thank you for using Expense Tracker.\nYour data has been saved successfully.",
+                "Thank you for using Expense Tracker.\
+                \nYour data has been saved successfully.",
             )
 
             # Close the application
@@ -832,49 +839,49 @@ class MainWindow(QMainWindow):
 
     def show_about_dialog(self):
         """Show professional About dialog"""
-        about_text = f"""
+        about_text = """
         <html>
         <head>
         <style>
-            body {{ 
-                color: #e0e0e0; 
-                font-family: 'Segoe UI', Arial, sans-serif; 
-                margin: 0; 
-                padding: 0; 
+            body {{
+                color: #e0e0e0;
+                font-family: 'Segoe UI', Arial, sans-serif;
+                margin: 0;
+                padding: 0;
             }}
-            .header {{ 
-                color: #00ffff; 
-                font-size: 24px; 
-                font-weight: bold; 
+            .header {{
+                color: #00ffff;
+                font-size: 24px;
+                font-weight: bold;
                 margin-bottom: 10px;
                 text-align: center;
             }}
-            .version {{ 
-                color: #ffb86c; 
-                font-size: 14px; 
+            .version {{
+                color: #ffb86c;
+                font-size: 14px;
                 margin-bottom: 20px;
                 text-align: center;
             }}
-            .section {{ 
-                margin: 15px 0; 
+            .section {{
+                margin: 15px 0;
                 padding: 10px;
                 background: #2d2d2d;
                 border-radius: 6px;
                 border-left: 4px solid #007acc;
             }}
-            .feature {{ 
-                margin: 8px 0; 
+            .feature {{
+                margin: 8px 0;
                 padding-left: 10px;
             }}
-            .tech {{ 
-                color: #b0b0b0; 
-                font-size: 12px; 
+            .tech {{
+                color: #b0b0b0;
+                font-size: 12px;
                 margin-top: 20px;
                 text-align: center;
             }}
-            .copyright {{ 
-                color: #808080; 
-                font-size: 11px; 
+            .copyright {{
+                color: #808080;
+                font-size: 11px;
                 margin-top: 25px;
                 text-align: center;
             }}
@@ -883,7 +890,7 @@ class MainWindow(QMainWindow):
         <body>
             <div class="header">💼 Expense Tracker Pro</div>
             <div class="version">Version 1.0</div>
-            
+
             <div class="section">
                 <strong>🎯 Features:</strong>
                 <div class="feature">✅ Complete expense tracking & management</div>
@@ -894,16 +901,18 @@ class MainWindow(QMainWindow):
                 <div class="feature">🔄 Import/Export (CSV, Excel, PDF)</div>
                 <div class="feature">🎨 Dark theme with professional UI</div>
             </div>
-            
+
             <div class="section">
                 <strong>🛠️ Built With:</strong>
-                <div class="feature">Python • PyQt5 (GUI) • Matplotlib (Charts) • OpenPyXL (Excel) • FPDF (Reports)</div>
+                <div class="feature">Python • PyQt5 (GUI)\
+                      • Matplotlib (Charts) • OpenPyXL (Excel)\
+                          • FPDF (Reports)</div>
             </div>
-            
+
             <div class="tech">
                 Professional expense management solution
             </div>
-            
+
             <div class="copyright">
                 © 2025 Expense Tracker Pro. All rights reserved.
             </div>
@@ -985,14 +994,14 @@ if __name__ == "__main__":
             background-color: #1e1e1e;
             color: #e0e0e0;
         }
-        
+
         QTabWidget::pane {
             border: 1px solid #404040;
             background-color: #2d2d2d;
             border-radius: 4px;
             margin: 4px;
         }
-        
+
         QTabBar::tab {
             background-color: #3c3c3c;
             color: #e0e0e0;
@@ -1005,30 +1014,30 @@ if __name__ == "__main__":
             border: none;
             min-width: 80px;
         }
-        
+
         QTabBar::tab:selected {
             background-color: #007acc;
             color: #ffffff;
             font-weight: 600;
         }
-        
+
         QTabBar::tab:hover:!selected {
             background-color: #4a4a4a;
         }
-        
+
         QMessageBox {
             background-color: #2d2d2d;
             color: #e0e0e0;
             border: 1px solid #404040;
             border-radius: 6px;
         }
-        
+
         QMessageBox QLabel {
             color: #e0e0e0;
             font-family: "Segoe UI";
             font-size: 13px;
         }
-        
+
         QMessageBox QPushButton {
             background-color: #007acc;
             color: #ffffff;
@@ -1040,11 +1049,11 @@ if __name__ == "__main__":
             font-size: 12px;
             min-width: 80px;
         }
-        
+
         QMessageBox QPushButton:hover {
             background-color: #005a9e;
         }
-        
+
         QMessageBox QPushButton:pressed {
             background-color: #004578;
         }
@@ -1085,85 +1094,86 @@ if __name__ == "__main__":
             margin: 0px;
             border-radius: 0px;
         }
-        
+
         QScrollBar::handle:vertical {
             background: #007acc;
             border-radius: 7px;
             min-height: 25px;
             margin: 2px;
         }
-        
+
         QScrollBar::handle:vertical:hover {
             background: #005a9e;
         }
-        
+
         QScrollBar::handle:vertical:pressed {
             background: #004578;
         }
-        
+
         QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
             border: none;
             background: none;
             height: 0px;
         }
-        
+
         QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
             background: none;
         }
-        
+
         QScrollBar:horizontal {
             background: #2d2d2d;
             height: 15px;
             margin: 0px;
             border-radius: 0px;
         }
-        
+
         QScrollBar::handle:horizontal {
             background: #007acc;
             border-radius: 7px;
             min-width: 25px;
             margin: 2px;
         }
-        
+
         QScrollBar::handle:horizontal:hover {
             background: #005a9e;
         }
-        
+
         QScrollBar::handle:horizontal:pressed {
             background: #004578;
         }
-        
+
         QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
             border: none;
             background: none;
             width: 0px;
         }
-        
+
         /* Scroll Areas */
         QScrollArea {
             border: 1px solid #404040;
             border-radius: 6px;
             background-color: #252526;
         }
-        
+
         /* Table Scrollbars */
         QTableWidget QScrollBar:vertical, QListWidget QScrollBar:vertical {
             background: #2d2d2d;
             width: 15px;
         }
-        
-        QTableWidget QScrollBar::handle:vertical, QListWidget QScrollBar::handle:vertical {
+
+        QTableWidget QScrollBar::handle:vertical, \
+    QListWidget QScrollBar::handle:vertical {
             background: #007acc;
             border-radius: 7px;
             min-height: 25px;
             margin: 2px;
         }
-        
+
         QTextEdit QScrollBar:vertical {
             background: #2d2d2d;
             width: 15px;
         }
-        
+
         QTextEdit QScrollBar::handle:vertical {
             background: #007acc;
             border-radius: 7px;
