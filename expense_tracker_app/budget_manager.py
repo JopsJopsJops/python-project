@@ -53,7 +53,7 @@ class BudgetManager:
             data = {
                 "budgets": self.budgets,
                 "last_updated": datetime.now().isoformat(),
-                "budget_period": "monthly", \
+                "budget_period": "monthly",
                 # Explicitly state this is monthly budgeting
                 "description": "Monthly category budgets - \
                 resets conceptually each month",
