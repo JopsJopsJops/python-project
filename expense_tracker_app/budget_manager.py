@@ -189,8 +189,7 @@ class BudgetManager:
 
             for expense in all_expenses:
                 expense_category = expense.get("category", "")
-                expense_date = \
-                    expense.get("date", "")
+                expense_date = expense.get("date", "")
                 expense_amount = expense.get("amount", 0)
 
                 # Check if this expense belongs to our category\

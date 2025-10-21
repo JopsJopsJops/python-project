@@ -36,8 +36,10 @@ class TestDataManagerBudgetIntegration:
         # Debug: Check what's happening
         print("=== BUDGET PROGRESS DEBUG ===")
         print("Budget set: {data_manager.budget_manager.budgets}")
-        print(f"Expenses in category '{unique_category}':\
-               {data_manager.expenses.get(unique_category, [])}")
+        print(
+            f"Expenses in category '{unique_category}':\
+               {data_manager.expenses.get(unique_category, [])}"
+        )
 
         # Get progress and check structure
         progress = data_manager.budget_manager.get_budget_progress(unique_category)

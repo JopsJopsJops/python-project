@@ -184,8 +184,7 @@ class TestDataImportService:
         )
         df.to_excel(temp_excel_file, index=False)
 
-        result = \
-            DataImportService.import_from_excel(temp_excel_file, mock_data_manager)
+        result = DataImportService.import_from_excel(temp_excel_file, mock_data_manager)
         assert result["success"] is True
 
         # FIX: Check the actual structure returned by the import

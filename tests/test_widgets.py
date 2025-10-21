@@ -308,8 +308,7 @@ class TestExpenseTracker:
                     qtbot.addWidget(expense_tracker)
 
         category = "Food"
-        original_record = \
-            {"date": "2023-01-01", "amount": 25.0, "description": "Lunch"}
+        original_record = {"date": "2023-01-01", "amount": 25.0, "description": "Lunch"}
 
         # Mock the dialog and dependencies
         with patch("expense_tracker_app.widgets.AddExpenseDialog") as MockDialog:

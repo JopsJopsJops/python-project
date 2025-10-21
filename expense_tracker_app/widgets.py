@@ -3689,10 +3689,9 @@ class BudgetDialog(QDialog):
         else:
             # Create bar charts for ALL budgets
             for category, budget in budgets.items():
-                spending =\
-                    self.data_manager.budget_manager._get_monthly_spending(
-                        category, current_month
-                        )
+                spending = self.data_manager.budget_manager._get_monthly_spending(
+                    category, current_month
+                )
                 percentage = min((spending / budget) * 100, 100) if budget > 0 else 0
 
                 print(
