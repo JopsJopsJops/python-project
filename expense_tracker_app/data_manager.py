@@ -582,12 +582,6 @@ class DataManager:
                 out[cat] = list(records)
         return out
 
-    def get_category_subtotals(self):
-        return {
-            category: sum(rec.get("amount", 0.0) for rec in records)
-            for category, records in self.expenses.items()
-        }
-
     def search_expenses(self, keyword):
         """
         Search expenses by keyword in description.
@@ -652,7 +646,7 @@ class DataManager:
         }
         logger.debug("Calculated category subtotals: %s", subtotals)
         return subtotals
-
+    
     def get_grand_total(self):
         """Return the sum of all expenses."""
         grand_total = sum(

@@ -230,7 +230,7 @@ class BudgetManager:
             "budget": budget,
             "remaining": max(0, budget - spent),
             "percentage": (spent / budget * 100) if budget > 0 else 0,
-            "month": current_month,  # Include month for clarity
+            "month": current_month
         }
 
     def get_all_budgets(self) -> Dict[str, Dict[str, float]]:
