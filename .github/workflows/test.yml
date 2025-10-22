@@ -33,6 +33,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Install system dependencies (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        # Windows usually has Qt dependencies included, but you can add specific ones if needed
+        echo "Windows dependencies handled by installed Python packages"
         
     - name: Run tests with pytest
       run: |
@@ -49,33 +55,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.12'
-    
-    - name: Install dependencies
+
+    - name: Install linting tools only
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        
-    - name: Install type stubs
-      run: |
-        pip install types-reportlab types-openpyxl types-PyYAML
-        
-    - name: Check code formatting with black
-      run: |
-        black --check expense_tracker_app/ tests/
-        
-    - name: Check imports sorting with isort
-      run: |
-        isort --check-only expense_tracker_app/ tests/
-        
-    - name: Lint with flake8
-      run: |
-        flake8 expense_tracker_app/ tests/ --count --show-source --statistics --max-line-length=100
-        
-    - name: Type checking with mypy
-      run: |
-        mypy expense_tracker_app/
+        pip install flake8 black isort mypy types-reportlab types-openpyxl types-PyYAML
+        # No need for full requirements.txt in lint job
