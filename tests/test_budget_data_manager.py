@@ -1,5 +1,7 @@
-import pytest
 from datetime import datetime
+
+import pytest
+
 from expense_tracker_app.data_manager import DataManager
 
 
@@ -26,7 +28,7 @@ class TestDataManagerBudgetIntegration:
         """Test that budget progress is calculated correctly with expenses"""
         # Use EXACT same case as your app uses - lowercase
         unique_category = "Testbudgetprogress"
-        
+
         # Use current date so the expense is counted in budget progress
         current_date = datetime.now().strftime("%Y-%m-%d")
 

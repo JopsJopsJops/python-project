@@ -7,21 +7,11 @@ from unittest.mock import MagicMock, Mock, PropertyMock, patch
 import pytest
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
-    QApplication,
-    QLabel,
-    QMessageBox,
-    QPushButton,
-    QTableWidgetItem,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import (QApplication, QLabel, QMessageBox, QPushButton,
+                             QTableWidgetItem, QVBoxLayout, QWidget)
 
-from expense_tracker_app.widgets import (
-    DashboardWidget,
-    ExpenseTracker,
-    NumericTableWidgetItem,
-)
+from expense_tracker_app.widgets import (DashboardWidget, ExpenseTracker,
+                                         NumericTableWidgetItem)
 
 try:
     from matplotlib.backends.backend_pdf import PdfPages
@@ -358,26 +348,46 @@ class TestExpenseTracker:
         """Test deleting an expense."""
         # Set up mock data manager
         mock_data_manager = MagicMock()
-        
+
         # Create proper data structure that render_table expects
         # Based on the error, it expects a dict with category keys
         sample_data = {
             "Food": [
-                {"amount": 100.0, "category": "Food", "description": "Lunch", "date": "2024-01-01"}
+                {
+                    "amount": 100.0,
+                    "category": "Food",
+                    "description": "Lunch",
+                    "date": "2024-01-01",
+                }
             ],
             "Transport": [
-                {"amount": 50.0, "category": "Transport", "description": "Bus", "date": "2024-01-02"}
-            ]
+                {
+                    "amount": 50.0,
+                    "category": "Transport",
+                    "description": "Bus",
+                    "date": "2024-01-02",
+                }
+            ],
         }
-        
+
         mock_data_manager.expenses = [
-            {"amount": 100.0, "category": "Food", "description": "Lunch", "date": "2024-01-01"},
-            {"amount": 50.0, "category": "Transport", "description": "Bus", "date": "2024-01-02"}
+            {
+                "amount": 100.0,
+                "category": "Food",
+                "description": "Lunch",
+                "date": "2024-01-01",
+            },
+            {
+                "amount": 50.0,
+                "category": "Transport",
+                "description": "Bus",
+                "date": "2024-01-02",
+            },
         ]
-        
+
         expense_tracker = ExpenseTracker()
         expense_tracker.data_manager = mock_data_manager
-        
+
         # First, render the table with the correct data structure
         try:
             # Try with the dictionary structure that has keys
@@ -385,12 +395,14 @@ class TestExpenseTracker:
         except Exception as e:
             # If that fails, try without rendering the table
             # and test the delete functionality directly
-            print(f"Note: render_table failed with {e}, testing delete without table rendering")
-        
+            print(
+                f"Note: render_table failed with {e}, testing delete without table rendering"
+            )
+
         # Mock the confirmation dialog to return Yes
-        with patch('PyQt5.QtWidgets.QMessageBox.question') as mock_question:
+        with patch("PyQt5.QtWidgets.QMessageBox.question") as mock_question:
             mock_question.return_value = QtWidgets.QMessageBox.Yes
-            
+
             # Call the delete method directly
             # We'll test that the method exists and can be called without crashing
             try:

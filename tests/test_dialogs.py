@@ -44,21 +44,21 @@ class TestCategoryDialog:
         """Test adding a new category through dialog."""
         mock_dm = MagicMock()
         mock_dm.categories = ["Food", "Transport"]
-        
+
         # Match the actual return type of add_category
         mock_dm.add_category.return_value = (True, "Success")
-        
+
         dialog = CategoryDialog(data_manager=mock_dm)
-        
+
         # Find the actual input field name by inspecting the dialog
         input_field = None
         for child in dialog.findChildren(QtWidgets.QLineEdit):
             input_field = child
             break
-        
+
         if input_field:
             input_field.setText("Travel")
-            
+
             # Just test that it doesn't crash
             try:
                 dialog.add_category()
@@ -72,22 +72,21 @@ class TestCategoryDialog:
             # No input field found - skip or adjust test
             pytest.skip("No category input field found in CategoryDialog")
 
-
     @pytest.mark.gui
     def test_add_category_duplicate(self, qapp):
         """Test adding a duplicate category."""
         mock_dm = MagicMock()
         mock_dm.categories = ["Food", "Transport", "Travel"]
         mock_dm.add_category.return_value = (False, "Duplicate")
-        
+
         dialog = CategoryDialog(data_manager=mock_dm)
-        
+
         # Find the actual input field
         input_field = None
         for child in dialog.findChildren(QtWidgets.QLineEdit):
             input_field = child
             break
-        
+
         if input_field:
             input_field.setText("Travel")
             try:
@@ -106,23 +105,23 @@ class TestCategoryDialog:
         mock_dm = MagicMock()
         mock_dm.categories = ["Food", "Travel", "Uncategorized"]
         mock_dm.remove_category.return_value = (True, "Removed")
-        
+
         dialog = CategoryDialog(data_manager=mock_dm)
-        
+
         # Find the actual list widget
         list_widget = None
         for child in dialog.findChildren(QtWidgets.QListWidget):
             list_widget = child
             break
-        
+
         if list_widget:
             # Add items to the actual list widget
             for category in mock_dm.categories:
                 list_widget.addItem(category)
-            
+
             # Select an item
             list_widget.setCurrentRow(1)
-            
+
             try:
                 dialog.remove_category()
                 # Don't assert about internal state - just verify no crash

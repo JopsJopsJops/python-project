@@ -1,9 +1,10 @@
 import sys
-import pytest
 import unittest
 from unittest import mock
 from unittest.mock import Mock, patch
-from PyQt5 import QtWidgets, QtCore
+
+import pytest
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMessageBox
 
 from expense_tracker_app.data_manager import DataManager
@@ -66,47 +67,47 @@ class TestCategoryManagement(unittest.TestCase):
     def test_remove_category_merge_flow(self):
         """Test removing a category - simplified version that matches actual implementation."""
         dm = DataManager()
-        
+
         # Clear any existing data
         dm.expenses.clear()
         dm.categories.clear()
-        
+
         # Setup test data
         dm.categories = ["Food", "Dining"]
         dm.add_expense("Food", 100, "2024-01-01", "Lunch")
-        
+
         # Mock just the confirmation dialog since that's what's actually used
-        with mock.patch('PyQt5.QtWidgets.QMessageBox.question') as mock_question:
+        with mock.patch("PyQt5.QtWidgets.QMessageBox.question") as mock_question:
             mock_question.return_value = QtWidgets.QMessageBox.Yes
-            
+
             # This will likely move expenses to Uncategorized since we're not providing merge target
             result = dm.remove_category("Food")
-        
+
         # Based on your actual implementation, check where the expense ended up
         self.assertNotIn("Food", dm.categories)
         self.assertNotIn("Food", dm.expenses)
-        
+
         # The expense should be in either Dining or Uncategorized
         all_expenses = dm.list_all_expenses()
         self.assertEqual(len(all_expenses), 1)
         self.assertEqual(all_expenses[0]["amount"], 100)
-        
+
         # Don't assert specific category since it depends on implementation
         self.assertTrue(result)
 
     def test_remove_category_uncategorized_confirmation(self):
         """Test that removing 'Uncategorized' category shows special confirmation."""
         dm = DataManager()
-        
+
         # Completely reset the categories to our test set
         dm.categories.clear()
         dm.categories.extend(["Food", "Transport", "Uncategorized"])
-        
+
         # Also clear expenses to avoid any side effects
         dm.expenses.clear()
-        
+
         print(f"Initial categories: {dm.categories}")
-        
+
         # The method might be using a different dialog or no dialog at all
         # Let's test what actually happens without mocking
         try:
@@ -115,15 +116,17 @@ class TestCategoryManagement(unittest.TestCase):
         except Exception as e:
             print(f"Error: {e}")
             result = None
-        
+
         print(f"Final categories: {dm.categories}")
-        
+
         # Based on the actual behavior, adjust the test
         if "Uncategorized" not in dm.categories:
             # Uncategorized was removed (this is the actual behavior)
             # The test should verify that other categories weren't affected
             assert "Food" in dm.categories, "Food category should not be affected"
-            assert "Transport" in dm.categories, "Transport category should not be affected"
+            assert (
+                "Transport" in dm.categories
+            ), "Transport category should not be affected"
             # The method might return a tuple (True, message) instead of just True
             if isinstance(result, tuple):
                 assert result[0] is True, "Removal should have succeeded"

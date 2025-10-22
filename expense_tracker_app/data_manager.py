@@ -1,6 +1,5 @@
 import json
 import logging
-
 import os
 from datetime import datetime
 
@@ -646,7 +645,7 @@ class DataManager:
         }
         logger.debug("Calculated category subtotals: %s", subtotals)
         return subtotals
-    
+
     def get_grand_total(self):
         """Return the sum of all expenses."""
         grand_total = sum(

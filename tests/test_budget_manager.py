@@ -139,21 +139,21 @@ class TestBudgetManager:
         # Get initial count and the current Food budget value
         initial_budget_count = len(budget_manager.budgets)
         initial_food_budget = budget_manager.budgets.get("Food")
-        
+
         # Set budget with different cases - should update the SAME budget
         budget_manager.set_budget("FOOD", 500.0)  # Should update "Food" budget
         budget_manager.set_budget("Food", 600.0)  # Should update same "Food" budget
 
         # Should have same number of budgets (not increased)
         assert len(budget_manager.budgets) == initial_budget_count
-        
+
         # "Food" budget should be updated to the last value
         assert "Food" in budget_manager.budgets
         assert budget_manager.budgets["Food"] == 600.0
-        
+
         # No new "FOOD" budget should exist
         assert "FOOD" not in budget_manager.budgets
-        
+
         # Clean up - restore original Food budget if needed
         if initial_food_budget is not None:
             budget_manager.set_budget("Food", initial_food_budget)
