@@ -8,25 +8,12 @@ import openpyxl
 from fpdf import FPDF
 from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import (
-    QAction,
-    QApplication,
-    QComboBox,
-    QDateEdit,
-    QDialog,
-    QFileDialog,
-    QHBoxLayout,
-    QHeaderView,
-    QLabel,
-    QMainWindow,
-    QMessageBox,
-    QPushButton,
-    QTableWidget,
-    QTableWidgetItem,
-    QTabWidget,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import (QAction, QApplication, QComboBox,
+                            QDateEdit, QDialog, QFileDialog,
+                            QHBoxLayout, QHeaderView, QLabel,
+                            QMainWindow, QMessageBox, QPushButton,
+                            QTableWidget, QTableWidgetItem,
+                            QTabWidget, QVBoxLayout, QWidget)
 
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog

@@ -5,31 +5,14 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtCore import QDate, QPropertyAnimation, Qt, QTimer
 from PyQt5.QtGui import QColor, QFont, QKeySequence, QTextCharFormat
-from PyQt5.QtWidgets import (
-    QAbstractItemView,
-    QComboBox,
-    QDateEdit,
-    QDialog,
-    QFileDialog,
-    QGraphicsOpacityEffect,
-    QHBoxLayout,
-    QHeaderView,
-    QLabel,
-    QLineEdit,
-    QMessageBox,
-    QProgressBar,
-    QPushButton,
-    QScrollArea,
-    QShortcut,
-    QSizePolicy,
-    QSplitter,
-    QTableWidget,
-    QTableWidgetItem,
-    QTabWidget,
-    QTextEdit,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import (QAbstractItemView, QComboBox, QDateEdit,
+                            QDialog, QFileDialog, QGraphicsOpacityEffect,
+                            QHBoxLayout, QHeaderView, QLabel,
+                            QLineEdit, QMessageBox, QProgressBar,
+                            QPushButton, QScrollArea, QShortcut,
+                            QSizePolicy, QSplitter, QTableWidget,
+                            QTableWidgetItem, QTabWidget, QTextEdit,
+                            QVBoxLayout, QWidget)
 
 from expense_tracker_app.budget_manager import BudgetManager
 from expense_tracker_app.data_manager import DataManager
