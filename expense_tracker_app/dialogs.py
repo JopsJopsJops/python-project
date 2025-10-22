@@ -2,21 +2,10 @@ import logging
 
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QColor, QFont, QTextCharFormat
-from PyQt5.QtWidgets import (
-    QCalendarWidget,
-    QComboBox,
-    QDialog,
-    QDialogButtonBox,
-    QHBoxLayout,
-    QInputDialog,
-    QLabel,
-    QLineEdit,
-    QListWidget,
-    QMessageBox,
-    QPushButton,
-    QSizePolicy,
-    QVBoxLayout,
-)
+from PyQt5.QtWidgets import (QCalendarWidget, QComboBox, QDialog,
+                             QDialogButtonBox, QHBoxLayout, QInputDialog,
+                             QLabel, QLineEdit, QListWidget, QMessageBox,
+                             QPushButton, QSizePolicy, QVBoxLayout)
 
 from expense_tracker_app.data_manager import DataManager
 
@@ -256,14 +245,8 @@ class CategoryDialog(QDialog):
                 # Better UX: Step-by-step approach with clearer consequences
                 from PyQt5.QtCore import Qt
                 from PyQt5.QtGui import QFont
-                from PyQt5.QtWidgets import (
-                    QDialog,
-                    QFrame,
-                    QHBoxLayout,
-                    QLabel,
-                    QPushButton,
-                    QVBoxLayout,
-                )
+                from PyQt5.QtWidgets import (QDialog, QFrame, QHBoxLayout,
+                                             QLabel, QPushButton, QVBoxLayout)
 
                 dialog = QDialog(self)
                 dialog.setWindowTitle(f"Remove '{category}'")
