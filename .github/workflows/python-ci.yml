@@ -51,25 +51,12 @@ jobs:
         path: htmlcov/
         retention-days: 30
 
-    - name: Check and auto-format with black
-      run: |
-        black --check expense_tracker_app/ tests/ && echo "Formatting is correct!" || {
-          echo "Formatting issues found, auto-formatting..."
-          black expense_tracker_app/ tests/
-          echo "Files have been auto-formatted"
-          # Optionally commit the changes:
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add .
-          git commit -m "style: Auto-format with black" || echo "No changes to commit"
-          git push
-        }   
-
-
   lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
     
     - uses: actions/setup-python@v4
       with:
@@ -78,15 +65,28 @@ jobs:
     - name: Install linting tools only
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # or use the pinned versions directly
+        pip install black==23.12.1 flake8==6.1.0 isort==5.13.2 mypy==1.8.0 types-reportlab==4.0.0.4 types-openpyxl==3.0.0.11 types-PyYAML==6.0.12.12
         
-    - name: Check code formatting with black
+    - name: Auto-format with black and isort
       run: |
-        black --check expense_tracker_app/ tests/
+        # Format imports first
+        isort expense_tracker_app/ tests/
         
-    - name: Check imports sorting with isort
-      run: |
-        isort --check-only expense_tracker_app/ tests/
+        # Then format code
+        black expense_tracker_app/ tests/
+        
+        # Check if any formatting changes were made
+        if git diff --exit-code; then
+          echo "✅ Code is already properly formatted"
+        else
+          echo "🔄 Code was auto-formatted, committing changes..."
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "style: Auto-format with black and isort"
+          git push
+          echo "✅ Formatting complete and changes pushed"
+        fi
         
     - name: Lint with flake8
       run: |
@@ -95,12 +95,3 @@ jobs:
     - name: Type checking with mypy
       run: |
         mypy expense_tracker_app/
-
-    - name: Check code formatting with black
-      run: |
-        black expense_tracker_app/ tests/ --check --diff
-
-    - name: Check code formatting with black
-      run: |
-        black --version
-        black --check expense_tracker_app/ tests/
