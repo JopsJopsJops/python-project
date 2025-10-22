@@ -78,7 +78,7 @@ jobs:
     - name: Install linting tools only
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-dev.txt  # or use the pinned versions directly
+        pip install -r requirements.txt  # or use the pinned versions directly
         
     - name: Check code formatting with black
       run: |
