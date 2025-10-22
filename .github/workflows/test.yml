@@ -1,4 +1,4 @@
-﻿name: Python CI
+﻿name: "Python CI"
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo apt-get update
-        sudo apt-get install -y libxcb-xinerama0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xkb1 libxkbcommon-x11-0 xvfb
+        sudo apt-get install -y libxcb-xinerama0 libxcb-icccm4 libxcb-image0 libxcb-keysims1 libxcb-randr0 libxcb-render-util0 libxcb-xkb1 libxkbcommon-x11-0 xvfb
         
     - name: Install dependencies
       run: |
@@ -55,6 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    
     - uses: actions/setup-python@v4
       with:
         python-version: '3.12'
@@ -64,3 +65,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 black isort mypy types-reportlab types-openpyxl types-PyYAML
         # No need for full requirements.txt in lint job
+        
+    - name: Check code formatting with black
+      run: |
+        black --check expense_tracker_app/ tests/
+        
+    - name: Check imports sorting with isort
+      run: |
+        isort --check-only expense_tracker_app/ tests/
+        
+    - name: Lint with flake8
+      run: |
+        flake8 expense_tracker_app/ tests/ --count --show-source --statistics --max-line-length=100
+        
+    - name: Type checking with mypy
+      run: |
+        mypy expense_tracker_app/
