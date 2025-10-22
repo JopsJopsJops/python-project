@@ -1,7 +1,6 @@
-toml
 [tool.black]
 line-length = 88
-target-version = ['py39', 'py310', 'py311', 'py312']
+target-version = ["py39", "py310", "py311", "py312"]
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -16,10 +15,3 @@ extend-exclude = '''
   | dist
 )/
 '''
-[tool.ruff]
-line-length = 88
-select = ["E", "F", "W"]
-ignore = ["E203", "W503", "F401", "F811", "F841"]
-
-[tool.ruff.format]
-quote-style = "double"

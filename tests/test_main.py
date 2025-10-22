@@ -66,11 +66,11 @@ def app():
 @pytest.fixture
 def main_window(mock_data_manager, qtbot):
     """Create main window for testing with proper mocking"""
-    with patch("expense_tracker_app.main.DataManager") as MockDataManager, patch(
-        "expense_tracker_app.main.ExpenseTracker"
-    ) as MockExpenseTracker, patch(
-        "expense_tracker_app.main.DashboardWidget"
-    ) as MockDashboardWidget:
+    with (
+        patch("expense_tracker_app.main.DataManager") as MockDataManager,
+        patch("expense_tracker_app.main.ExpenseTracker") as MockExpenseTracker,
+        patch("expense_tracker_app.main.DashboardWidget") as MockDashboardWidget,
+    ):
 
         MockDataManager.return_value = mock_data_manager
 
@@ -99,9 +99,11 @@ class TestMainWindow:
     @pytest.fixture
     def main_window_with_ui(self, qtbot):
         """Create MainWindow with proper UI mocking"""
-        with patch("expense_tracker_app.main.DataManager") as MockDM, patch(
-            "expense_tracker_app.main.ExpenseTracker"
-        ) as MockET, patch("expense_tracker_app.main.DashboardWidget") as MockDash:
+        with (
+            patch("expense_tracker_app.main.DataManager") as MockDM,
+            patch("expense_tracker_app.main.ExpenseTracker") as MockET,
+            patch("expense_tracker_app.main.DashboardWidget") as MockDash,
+        ):
 
             # Mock data manager with STRING dates (not datetime objects)
             mock_dm = Mock()
@@ -301,15 +303,16 @@ class TestMainWindow:
             ]
         )
 
-        with patch(
-            "expense_tracker_app.main.ReportService.export_to_excel"
-        ) as mock_excel, patch(
-            "expense_tracker_app.main.ReportService.export_to_csv"
-        ) as mock_csv, patch(
-            "expense_tracker_app.main.ReportService.export_to_pdf"
-        ) as mock_pdf, patch(
-            "expense_tracker_app.main.QFileDialog.getSaveFileName"
-        ) as mock_dialog:
+        with (
+            patch(
+                "expense_tracker_app.main.ReportService.export_to_excel"
+            ) as mock_excel,
+            patch("expense_tracker_app.main.ReportService.export_to_csv") as mock_csv,
+            patch("expense_tracker_app.main.ReportService.export_to_pdf") as mock_pdf,
+            patch(
+                "expense_tracker_app.main.QFileDialog.getSaveFileName"
+            ) as mock_dialog,
+        ):
 
             mock_dialog.return_value = ("test.xlsx", "Excel Files (*.xlsx)")
             mock_excel.return_value = "test.xlsx"
@@ -338,13 +341,17 @@ class TestMainWindow:
         """Test import methods"""
         window = main_window_with_ui
 
-        with patch(
-            "expense_tracker_app.main.DataImportService.import_from_csv"
-        ) as mock_csv_import, patch(
-            "expense_tracker_app.main.DataImportService.import_from_excel"
-        ) as mock_excel_import, patch(
-            "expense_tracker_app.main.QFileDialog.getOpenFileName"
-        ) as mock_dialog:
+        with (
+            patch(
+                "expense_tracker_app.main.DataImportService.import_from_csv"
+            ) as mock_csv_import,
+            patch(
+                "expense_tracker_app.main.DataImportService.import_from_excel"
+            ) as mock_excel_import,
+            patch(
+                "expense_tracker_app.main.QFileDialog.getOpenFileName"
+            ) as mock_dialog,
+        ):
 
             mock_dialog.return_value = ("test.csv", "CSV Files (*.csv)")
             mock_csv_import.return_value = {"success": True, "data": {"Food": []}}
@@ -367,11 +374,10 @@ class TestMainWindow:
         """Test application exit and close events"""
         window = main_window_with_ui
 
-        with patch(
-            "expense_tracker_app.main.QMessageBox.question"
-        ) as mock_question, patch(
-            "expense_tracker_app.main.QApplication.quit"
-        ) as mock_quit:
+        with (
+            patch("expense_tracker_app.main.QMessageBox.question") as mock_question,
+            patch("expense_tracker_app.main.QApplication.quit") as mock_quit,
+        ):
 
             # Test confirmed exit
             mock_question.return_value = QMessageBox.Yes
@@ -444,10 +450,13 @@ class TestMainWindow:
             ]
         )
 
-        with patch(
-            "expense_tracker_app.main.ReportService.export_to_excel",
-            side_effect=Exception("Export failed"),
-        ), patch("expense_tracker_app.main.QMessageBox.warning") as mock_warning:
+        with (
+            patch(
+                "expense_tracker_app.main.ReportService.export_to_excel",
+                side_effect=Exception("Export failed"),
+            ),
+            patch("expense_tracker_app.main.QMessageBox.warning") as mock_warning,
+        ):
 
             # FIX: Provide a filepath to trigger the exception path
             result = window.export_to_excel_or_csv(filepath="test.xlsx")
@@ -640,10 +649,13 @@ class TestMainWindow:
             ]
         )
 
-        with patch(
-            "expense_tracker_app.main.ReportService.export_to_excel",
-            side_effect=Exception("Export failed"),
-        ), patch("expense_tracker_app.main.QMessageBox.warning") as mock_warning:
+        with (
+            patch(
+                "expense_tracker_app.main.ReportService.export_to_excel",
+                side_effect=Exception("Export failed"),
+            ),
+            patch("expense_tracker_app.main.QMessageBox.warning") as mock_warning,
+        ):
 
             result = window.export_to_excel_or_csv(filepath="test.xlsx")
             assert result is False

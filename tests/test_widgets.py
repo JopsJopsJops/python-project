@@ -255,9 +255,10 @@ class TestExpenseTracker:
         }
         mock_dialog_class.return_value = mock_dialog
 
-        with patch.object(expense_tracker, "render_table") as mock_render, patch.object(
-            expense_tracker, "_refresh_dashboards"
-        ) as mock_refresh:
+        with (
+            patch.object(expense_tracker, "render_table") as mock_render,
+            patch.object(expense_tracker, "_refresh_dashboards") as mock_refresh,
+        ):
 
             expense_tracker.add_expense()
 
@@ -428,13 +429,11 @@ class TestExpenseTracker:
         """Test successful undo delete"""
         expense_tracker.data_manager.undo_delete.return_value = True
 
-        with patch(
-            "expense_tracker_app.widgets.QMessageBox.information"
-        ) as mock_info, patch.object(
-            expense_tracker, "show_expense"
-        ) as mock_show, patch.object(
-            expense_tracker, "_refresh_dashboards"
-        ) as mock_refresh:
+        with (
+            patch("expense_tracker_app.widgets.QMessageBox.information") as mock_info,
+            patch.object(expense_tracker, "show_expense") as mock_show,
+            patch.object(expense_tracker, "_refresh_dashboards") as mock_refresh,
+        ):
 
             expense_tracker.undo_last_delete()
 
@@ -461,13 +460,11 @@ class TestExpenseTracker:
         mock_dialog = Mock()
         mock_dialog_class.return_value = mock_dialog
 
-        with patch.object(
-            expense_tracker, "refresh_category_dropdowns"
-        ) as mock_refresh, patch.object(
-            expense_tracker, "show_expense"
-        ) as mock_show, patch.object(
-            expense_tracker, "_refresh_dashboards"
-        ) as mock_refresh_dash:
+        with (
+            patch.object(expense_tracker, "refresh_category_dropdowns") as mock_refresh,
+            patch.object(expense_tracker, "show_expense") as mock_show,
+            patch.object(expense_tracker, "_refresh_dashboards") as mock_refresh_dash,
+        ):
 
             expense_tracker.open_category_dialog()
 
@@ -663,15 +660,12 @@ class TestDashboardWidget:
         from expense_tracker_app.widgets import DashboardWidget
 
         # Mock ALL initialization methods
-        with patch.object(
-            DashboardWidget, "init_summary_tab"
-        ) as mock_summary, patch.object(
-            DashboardWidget, "init_charts_tab"
-        ) as mock_charts, patch.object(
-            DashboardWidget, "init_trends_tab"
-        ) as mock_trends, patch.object(
-            DashboardWidget, "update_dashboard"
-        ) as mock_update:
+        with (
+            patch.object(DashboardWidget, "init_summary_tab") as mock_summary,
+            patch.object(DashboardWidget, "init_charts_tab") as mock_charts,
+            patch.object(DashboardWidget, "init_trends_tab") as mock_trends,
+            patch.object(DashboardWidget, "update_dashboard") as mock_update,
+        ):
 
             dashboard = DashboardWidget(mock_dm)
             qtbot.addWidget(dashboard)  # This was missing!
@@ -704,9 +698,11 @@ class TestDashboardWidget:
 
         from expense_tracker_app.widgets import DashboardWidget
 
-        with patch.object(DashboardWidget, "init_summary_tab"), patch.object(
-            DashboardWidget, "init_charts_tab"
-        ), patch.object(DashboardWidget, "init_trends_tab"):
+        with (
+            patch.object(DashboardWidget, "init_summary_tab"),
+            patch.object(DashboardWidget, "init_charts_tab"),
+            patch.object(DashboardWidget, "init_trends_tab"),
+        ):
 
             dashboard = DashboardWidget(mock_dm)
             qtbot.addWidget(dashboard)  # Now qtbot is available

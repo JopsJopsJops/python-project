@@ -234,9 +234,10 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_csv_exception(self):
         """Test CSV export exception handling"""
-        with patch("builtins.open", side_effect=Exception("File error")), patch(
-            "expense_tracker_app.reports.QMessageBox.warning"
-        ) as mock_warning:
+        with (
+            patch("builtins.open", side_effect=Exception("File error")),
+            patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning,
+        ):
 
             result = ReportService.export_to_csv([], "invalid/path.csv")
 
@@ -285,10 +286,13 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_excel_exception(self):
         """Test Excel export exception handling"""
-        with patch(
-            "expense_tracker_app.reports.xlsxwriter.Workbook",
-            side_effect=Exception("Excel error"),
-        ), patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning:
+        with (
+            patch(
+                "expense_tracker_app.reports.xlsxwriter.Workbook",
+                side_effect=Exception("Excel error"),
+            ),
+            patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning,
+        ):
 
             result = ReportService.export_to_excel([], "test.xlsx")
 
@@ -337,10 +341,13 @@ class TestReportService:
     @pytest.mark.unit
     def test_export_to_pdf_exception(self):
         """Test PDF export exception handling"""
-        with patch(
-            "expense_tracker_app.reports.SimpleDocTemplate",
-            side_effect=Exception("PDF error"),
-        ), patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning:
+        with (
+            patch(
+                "expense_tracker_app.reports.SimpleDocTemplate",
+                side_effect=Exception("PDF error"),
+            ),
+            patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning,
+        ):
 
             result = ReportService.export_to_pdf([], "test.pdf")
 
