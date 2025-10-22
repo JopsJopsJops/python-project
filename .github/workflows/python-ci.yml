@@ -81,3 +81,7 @@ jobs:
     - name: Type checking with mypy
       run: |
         mypy expense_tracker_app/
+
+    - name: Check code formatting with black
+      run: |
+        black expense_tracker_app/ tests/ --check --diff
