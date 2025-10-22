@@ -63,7 +63,6 @@ jobs:
     - name: Install type stubs
       run: |
         pip install types-reportlab types-openpyxl types-PyYAML
-        # Note: PyQt5, matplotlib, xlsxwriter, fpdf don't have official type stubs
         
     - name: Check code formatting with black
       run: |
@@ -77,10 +76,6 @@ jobs:
       run: |
         flake8 expense_tracker_app/ tests/ --count --show-source --statistics --max-line-length=100
         
-    - name: Type checking with mypy (lenient)
-      run: |
-        mypy expense_tracker_app/ --ignore-missing-imports --disallow-untyped-defs=false
-
     - name: Type checking with mypy
       run: |
-        mypy expense_tracker_app/    
+        mypy expense_tracker_app/
