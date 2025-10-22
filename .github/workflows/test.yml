@@ -80,7 +80,7 @@ jobs:
     - name: Type checking with mypy (lenient)
       run: |
         mypy expense_tracker_app/ --ignore-missing-imports --disallow-untyped-defs=false
-     
+
     - name: Type checking with mypy
       run: |
         mypy expense_tracker_app/    
