@@ -145,7 +145,9 @@ class CategoryDialog(QDialog):
 
             if isinstance(self.data_manager, list):
                 # Test mode
-                normalized_name = name.capitalize()  # Simple capitalization for test mode
+                normalized_name = (
+                    name.capitalize()
+                )  # Simple capitalization for test mode
                 if normalized_name not in self.data_manager:
                     self.data_manager.append(normalized_name)
                     self.list_widget.addItem(normalized_name)
@@ -168,7 +170,9 @@ class CategoryDialog(QDialog):
                     if self.parent:
                         try:
                             self.parent.refresh_category_dropdowns()
-                            self.parent.render_table(self.data_manager.get_sorted_expenses())
+                            self.parent.render_table(
+                                self.data_manager.get_sorted_expenses()
+                            )
                         except Exception:
                             pass
                         self._refresh_dashboards()
@@ -200,11 +204,15 @@ class CategoryDialog(QDialog):
 
         category = selected.text()
         if category == "Uncategorized":
-            QMessageBox.warning(self, "Not Allowed", "'Uncategorized' cannot be removed.")
+            QMessageBox.warning(
+                self, "Not Allowed", "'Uncategorized' cannot be removed."
+            )
             return
 
         if category not in self.data_manager.categories:
-            QMessageBox.warning(self, "Error", f"'{category}' is not in the category list.")
+            QMessageBox.warning(
+                self, "Error", f"'{category}' is not in the category list."
+            )
             return
 
         # Get normalized (capitalized) version of the category
@@ -212,12 +220,14 @@ class CategoryDialog(QDialog):
 
         # Check if this is a duplicate that should be merged
         is_duplicate = (
-            category != normalized_category and normalized_category in self.data_manager.categories
+            category != normalized_category
+            and normalized_category in self.data_manager.categories
         )
 
         # Check if category has expenses
         has_expenses = (
-            category in self.data_manager.expenses and self.data_manager.expenses[category]
+            category in self.data_manager.expenses
+            and self.data_manager.expenses[category]
         )
 
         if has_expenses:
@@ -250,7 +260,13 @@ class CategoryDialog(QDialog):
             else:
                 # Better UX: Step-by-step approach with clearer consequences
                 from PyQt5.QtCore import Qt
-                from PyQt5.QtWidgets import QDialog, QFrame, QLabel, QPushButton, QVBoxLayout
+                from PyQt5.QtWidgets import (
+                    QDialog,
+                    QFrame,
+                    QLabel,
+                    QPushButton,
+                    QVBoxLayout,
+                )
 
                 dialog = QDialog(self)
                 dialog.setWindowTitle(f"Remove '{category}'")
@@ -309,7 +325,9 @@ class CategoryDialog(QDialog):
 
                 # Header
                 header_label = QLabel(f"🗑️ Remove '{category}'")
-                header_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #ff6b6b;")
+                header_label.setStyleSheet(
+                    "font-size: 16px; font-weight: bold; color: #ff6b6b;"
+                )
                 header_label.setAlignment(Qt.AlignCenter)
                 layout.addWidget(header_label)
 
@@ -421,7 +439,9 @@ class CategoryDialog(QDialog):
             success, message = self.data_manager.remove_category(category, merge_target)
 
             if success:
-                action = "merged into" if merge_target != "Uncategorized" else "moved to"
+                action = (
+                    "merged into" if merge_target != "Uncategorized" else "moved to"
+                )
                 QMessageBox.information(
                     self,
                     "Success",

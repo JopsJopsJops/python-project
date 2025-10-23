@@ -60,7 +60,9 @@ class TestDataImportService:
         try:
             result = DataImportService.import_from_csv(temp_path)
             # Both return formats are acceptable for error cases
-            assert result == {} or (isinstance(result, dict) and result.get("success") is False)
+            assert result == {} or (
+                isinstance(result, dict) and result.get("success") is False
+            )
         finally:
             os.unlink(temp_path)
 
@@ -78,7 +80,9 @@ class TestDataImportService:
             result = DataImportService.import_from_csv(temp_path)
             assert result["success"] is True
             # Invalid row should be skipped
-            assert "food" not in result["data"] or len(result["data"].get("food", [])) == 0
+            assert (
+                "food" not in result["data"] or len(result["data"].get("food", [])) == 0
+            )
         finally:
             os.unlink(temp_path)
 
@@ -96,7 +100,9 @@ class TestDataImportService:
             result = DataImportService.import_from_csv(temp_path)
             assert result["success"] is True
             # Negative amount should be rejected
-            assert "food" not in result["data"] or len(result["data"].get("food", [])) == 0
+            assert (
+                "food" not in result["data"] or len(result["data"].get("food", [])) == 0
+            )
         finally:
             os.unlink(temp_path)
 
@@ -135,7 +141,9 @@ class TestDataImportService:
     @pytest.mark.unit
     def test_import_from_excel_missing_category_column(self):
         """Test Excel import handles missing category column"""
-        with patch("expense_tracker_app.import_service.openpyxl.load_workbook") as mock_load:
+        with patch(
+            "expense_tracker_app.import_service.openpyxl.load_workbook"
+        ) as mock_load:
             mock_ws = Mock()
             mock_wb = Mock()
             mock_wb.active = mock_ws
@@ -202,7 +210,9 @@ class TestDataImportService:
         pass
 
     @pytest.mark.unit
-    def test_import_from_csv_direct_data_manager_update(self, mock_data_manager, temp_csv_file):
+    def test_import_from_csv_direct_data_manager_update(
+        self, mock_data_manager, temp_csv_file
+    ):
         """Test that CSV import properly updates the data manager"""
         # Create test CSV
         with open(temp_csv_file, "w", newline="") as f:
@@ -237,7 +247,9 @@ class TestDataImportService:
         assert result["success"] is True
 
     @pytest.mark.unit
-    def test_import_csv_with_missing_optional_fields(self, mock_data_manager, temp_csv_file):
+    def test_import_csv_with_missing_optional_fields(
+        self, mock_data_manager, temp_csv_file
+    ):
         """Test CSV import with some missing optional data"""
         with open(temp_csv_file, "w", newline="") as f:
             writer = csv.writer(f)

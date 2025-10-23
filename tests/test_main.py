@@ -1,16 +1,13 @@
 # test_main.py
 import os
 import sys
-import tempfile
 from datetime import datetime
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock, patch
 
 import pytest
 from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QApplication, QFileDialog, QMessageBox, QTabWidget
+from PyQt5.QtWidgets import QApplication, QMessageBox, QTabWidget
 
-from expense_tracker_app.data_manager import DataManager
-from expense_tracker_app.main import MainWindow
 
 # Add the project root to Python path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -302,10 +299,14 @@ class TestMainWindow:
         )
 
         with (
-            patch("expense_tracker_app.main.ReportService.export_to_excel") as mock_excel,
+            patch(
+                "expense_tracker_app.main.ReportService.export_to_excel"
+            ) as mock_excel,
             patch("expense_tracker_app.main.ReportService.export_to_csv") as mock_csv,
             patch("expense_tracker_app.main.ReportService.export_to_pdf") as mock_pdf,
-            patch("expense_tracker_app.main.QFileDialog.getSaveFileName") as mock_dialog,
+            patch(
+                "expense_tracker_app.main.QFileDialog.getSaveFileName"
+            ) as mock_dialog,
         ):
             mock_dialog.return_value = ("test.xlsx", "Excel Files (*.xlsx)")
             mock_excel.return_value = "test.xlsx"
@@ -335,11 +336,15 @@ class TestMainWindow:
         window = main_window_with_ui
 
         with (
-            patch("expense_tracker_app.main.DataImportService.import_from_csv") as mock_csv_import,
+            patch(
+                "expense_tracker_app.main.DataImportService.import_from_csv"
+            ) as mock_csv_import,
             patch(
                 "expense_tracker_app.main.DataImportService.import_from_excel"
             ) as mock_excel_import,
-            patch("expense_tracker_app.main.QFileDialog.getOpenFileName") as mock_dialog,
+            patch(
+                "expense_tracker_app.main.QFileDialog.getOpenFileName"
+            ) as mock_dialog,
         ):
             mock_dialog.return_value = ("test.csv", "CSV Files (*.csv)")
             mock_csv_import.return_value = {"success": True, "data": {"Food": []}}

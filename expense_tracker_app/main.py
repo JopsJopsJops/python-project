@@ -185,11 +185,15 @@ class MainWindow(QMainWindow):
 
         # View menu
         view_menu = menubar.addMenu("View")
-        view_menu.addAction("Show Expenses", lambda: self.tabs.setCurrentWidget(self.expenses_tab))
+        view_menu.addAction(
+            "Show Expenses", lambda: self.tabs.setCurrentWidget(self.expenses_tab)
+        )
         view_menu.addAction(
             "Show Dashboard", lambda: self.tabs.setCurrentWidget(self.dashboard_tab)
         )
-        view_menu.addAction("Show Reports", lambda: self.tabs.setCurrentWidget(self.reports_tab))
+        view_menu.addAction(
+            "Show Reports", lambda: self.tabs.setCurrentWidget(self.reports_tab)
+        )
 
         # Help
         help_menu = menubar.addMenu("Help")
@@ -252,7 +256,9 @@ class MainWindow(QMainWindow):
         )
         calendar = self.start_date.calendarWidget()
         if calendar:
-            calendar.setDateTextFormat(QDate.currentDate(), self.get_highlighted_date_format())
+            calendar.setDateTextFormat(
+                QDate.currentDate(), self.get_highlighted_date_format()
+            )
 
         filter_layout.addWidget(self.start_date)
 
@@ -263,14 +269,18 @@ class MainWindow(QMainWindow):
         self.end_date.setStyleSheet(self.start_date.styleSheet())
         calendar = self.end_date.calendarWidget()
         if calendar:
-            calendar.setDateTextFormat(QDate.currentDate(), self.get_highlighted_date_format())
+            calendar.setDateTextFormat(
+                QDate.currentDate(), self.get_highlighted_date_format()
+            )
 
         filter_layout.addWidget(self.end_date)
 
         filter_layout.addWidget(QLabel("Category:"))
         self.category_filter = QComboBox()
         self.category_filter.addItem("All")
-        self.category_filter.addItems(self.expense_tracker.data_manager.get_all_categories())
+        self.category_filter.addItems(
+            self.expense_tracker.data_manager.get_all_categories()
+        )
         self.category_filter.setStyleSheet(
             """
             QComboBox {
@@ -329,7 +339,9 @@ class MainWindow(QMainWindow):
 
         self.report_table = QTableWidget()
         self.report_table.setColumnCount(4)
-        self.report_table.setHorizontalHeaderLabels(["Category", "Amount", "Date", "Description"])
+        self.report_table.setHorizontalHeaderLabels(
+            ["Category", "Amount", "Date", "Description"]
+        )
         self.report_table.horizontalHeader().setStretchLastSection(True)
         self.report_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
@@ -482,7 +494,9 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             logger.error(f"Error during category cleanup: {e}")
-            QMessageBox.warning(self, "Cleanup Failed", f"Could not cleanup categories: {str(e)}")
+            QMessageBox.warning(
+                self, "Cleanup Failed", f"Could not cleanup categories: {str(e)}"
+            )
 
     def update_report_view(self):
         """Update the report table with currently filtered expenses."""
@@ -546,7 +560,9 @@ class MainWindow(QMainWindow):
         for cat, items in self.data_manager.expenses.items():
             for e in items:
                 entry_category = (
-                    e.get("category") if isinstance(e, dict) and e.get("category") else cat
+                    e.get("category")
+                    if isinstance(e, dict) and e.get("category")
+                    else cat
                 )
                 if entry_category is None:
                     entry_category = "Uncategorized"
@@ -642,7 +658,9 @@ class MainWindow(QMainWindow):
                     "Excel Files (*.xlsx);;CSV Files (*.csv)",
                 )
                 if file_path:
-                    if selected_filter.startswith("Excel") or file_path.lower().endswith(".xlsx"):
+                    if selected_filter.startswith(
+                        "Excel"
+                    ) or file_path.lower().endswith(".xlsx"):
                         if not file_path.lower().endswith(".xlsx"):
                             file_path += ".xlsx"
                         ReportService.export_to_excel(data, file_path)

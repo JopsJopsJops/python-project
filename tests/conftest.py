@@ -15,8 +15,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def pytest_configure(config):
     """Register custom markers to avoid warnings."""
-    config.addinivalue_line("markers", "gui: marks tests as GUI tests (require display)")
-    config.addinivalue_line("markers", "unit: marks tests as unit tests (no GUI required)")
+    config.addinivalue_line(
+        "markers", "gui: marks tests as GUI tests (require display)"
+    )
+    config.addinivalue_line(
+        "markers", "unit: marks tests as unit tests (no GUI required)"
+    )
     config.addinivalue_line("markers", "integration: marks tests as integration tests")
 
 
@@ -88,7 +92,9 @@ def mock_data_manager():
             {"amount": 25.50, "date": "2023-01-15", "description": "Lunch"},
             {"amount": 15.00, "date": "2023-01-20", "description": "Coffee"},
         ],
-        "Transport": [{"amount": 45.00, "date": "2023-01-10", "description": "Bus pass"}],
+        "Transport": [
+            {"amount": 45.00, "date": "2023-01-10", "description": "Bus pass"}
+        ],
     }
     mock_dm.get_all_expenses.return_value = mock_dm.expenses
     mock_dm.get_category_subtotals.return_value = {"Food": 40.50, "Transport": 45.00}

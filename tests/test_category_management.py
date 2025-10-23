@@ -1,14 +1,11 @@
 import sys
 import unittest
 from unittest import mock
-from unittest.mock import Mock, patch
 
-import pytest
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMessageBox
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication
 
 from expense_tracker_app.data_manager import DataManager
-from expense_tracker_app.dialogs import CategoryDialog
 
 
 class TestCategoryManagement(unittest.TestCase):
@@ -123,7 +120,9 @@ class TestCategoryManagement(unittest.TestCase):
             # Uncategorized was removed (this is the actual behavior)
             # The test should verify that other categories weren't affected
             assert "Food" in dm.categories, "Food category should not be affected"
-            assert "Transport" in dm.categories, "Transport category should not be affected"
+            assert (
+                "Transport" in dm.categories
+            ), "Transport category should not be affected"
             # The method might return a tuple (True, message) instead of just True
             if isinstance(result, tuple):
                 assert result[0] is True, "Removal should have succeeded"

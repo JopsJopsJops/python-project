@@ -100,7 +100,9 @@ class DataManager:
         for mismatch in mismatches:
             print(f"  ❌ '{mismatch}' - no expenses found with this exact name")
             # Suggest possible matches
-            possible_matches = [ec for ec in expense_categories if ec.lower() == mismatch.lower()]
+            possible_matches = [
+                ec for ec in expense_categories if ec.lower() == mismatch.lower()
+            ]
             if possible_matches:
                 print(f"     💡 Possible match: '{possible_matches[0]}'")
 
@@ -111,7 +113,9 @@ class DataManager:
         filename_to_load = file_path if file_path else self.filename
 
         if not os.path.exists(filename_to_load):
-            logger.info("No existing expense file found, starting fresh: %s", filename_to_load)
+            logger.info(
+                "No existing expense file found, starting fresh: %s", filename_to_load
+            )
             return
 
         try:
@@ -147,7 +151,9 @@ class DataManager:
                 "Vehicle",
                 "Uncategorized",
             ]
-            logger.warning("Failed to load expenses from %s, starting fresh", filename_to_load)
+            logger.warning(
+                "Failed to load expenses from %s, starting fresh", filename_to_load
+            )
         except Exception as e:
             logger.error("Failed to load expenses: %s", e)
             self.expenses = {}
@@ -198,7 +204,10 @@ class DataManager:
         if merge_target:
             # This is a merge operation
             normalized_merge_target = self.normalize_category_name(merge_target)
-            if category not in self.expenses or normalized_merge_target not in self.categories:
+            if (
+                category not in self.expenses
+                or normalized_merge_target not in self.categories
+            ):
                 raise ValueError("Cannot merge: category or target not found")
 
             # Move all expenses from category to merge_target
@@ -286,7 +295,9 @@ class DataManager:
                 new_category = self.normalize_category_name(old_category)
                 if new_category in new_budgets:
                     # Keep the higher budget if there are duplicates
-                    new_budgets[new_category] = max(new_budgets[new_category], budget_amount)
+                    new_budgets[new_category] = max(
+                        new_budgets[new_category], budget_amount
+                    )
                 else:
                     new_budgets[new_category] = budget_amount
 
@@ -312,7 +323,9 @@ class DataManager:
         merged_count = 0
         for normalized_category, duplicates in category_groups.items():
             if len(duplicates) > 1:
-                logger.info(f"📂 Found duplicates for '{normalized_category}': {duplicates}")
+                logger.info(
+                    f"📂 Found duplicates for '{normalized_category}': {duplicates}"
+                )
 
                 # Merge all duplicates into the normalized version
                 all_expenses = []
@@ -479,7 +492,9 @@ class DataManager:
                 self.expenses[normalized_category].remove(record_to_delete)
                 self.last_deleted = (normalized_category, record_to_delete)
                 self.save_data()
-                logger.warning("Deleted expense from %s: %s", normalized_category, record_to_delete)
+                logger.warning(
+                    "Deleted expense from %s: %s", normalized_category, record_to_delete
+                )
                 # NEW: Update budget alerts after deletion
                 self.update_budget_alerts()
                 return True
@@ -507,7 +522,9 @@ class DataManager:
                 self.expenses[normalized_category].remove(existing_record)
                 self.last_deleted = (normalized_category, existing_record)
                 self.save_data()
-                logger.warning("Deleted expense from %s: %s", normalized_category, existing_record)
+                logger.warning(
+                    "Deleted expense from %s: %s", normalized_category, existing_record
+                )
                 # NEW: Update budget alerts after deletion
                 self.update_budget_alerts()
                 return True
@@ -573,7 +590,9 @@ class DataManager:
             for record in records:
                 if keyword.lower() in record.get("description", "").lower():
                     results.append((category, record))
-        logger.debug("Search for keyword='%s' returned %d results", keyword, len(results))
+        logger.debug(
+            "Search for keyword='%s' returned %d results", keyword, len(results)
+        )
         return results
 
     def get_all_categories(self):
@@ -594,7 +613,9 @@ class DataManager:
 
         self.expenses[normalized_old_category].remove(old_record)
 
-        category = self.normalize_category_name(new_data.get("category", normalized_old_category))
+        category = self.normalize_category_name(
+            new_data.get("category", normalized_old_category)
+        )
         amount = float(new_data.get("amount", old_record.get("amount", 0)))
         date = new_data.get("date", old_record.get("date", ""))
         desc = new_data.get("description", old_record.get("description", ""))
@@ -627,7 +648,9 @@ class DataManager:
     def get_grand_total(self):
         """Return the sum of all expenses."""
         grand_total = sum(
-            rec.get("amount", 0.0) or 0.0 for records in self.expenses.values() for rec in records
+            rec.get("amount", 0.0) or 0.0
+            for records in self.expenses.values()
+            for rec in records
         )
         logger.debug("Calculated grand total: %.2f", grand_total)
         return grand_total

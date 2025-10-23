@@ -50,7 +50,9 @@ class DataImportService:
                         data.setdefault(category, []).append(rec)
 
                         if data_manager:
-                            data_manager.add_expense(category, amount, date, description)
+                            data_manager.add_expense(
+                                category, amount, date, description
+                            )
 
                     except Exception as e:
                         logger.debug("Error processing CSV row: %s", e)
@@ -80,7 +82,9 @@ class DataImportService:
             wb = openpyxl.load_workbook(file_path)
             sheet = wb.active
 
-            headers = [str(c.value).strip().lower() if c.value else "" for c in sheet[1]]
+            headers = [
+                str(c.value).strip().lower() if c.value else "" for c in sheet[1]
+            ]
             if "category" not in headers:
                 logger.warning("Invalid Excel format: missing category column")
                 return {}
@@ -88,18 +92,26 @@ class DataImportService:
             category_idx = headers.index("category")
             amount_idx = headers.index("amount") if "amount" in headers else None
             date_idx = headers.index("date") if "date" in headers else None
-            desc_idx = headers.index("description") if "description" in headers else None
+            desc_idx = (
+                headers.index("description") if "description" in headers else None
+            )
 
             for row in sheet.iter_rows(min_row=2, values_only=True):
                 if not any(row):
                     continue
                 try:
-                    raw_category = row[category_idx] if category_idx < len(row) else None
-                    category = str(raw_category).strip() if raw_category else "Uncategorized"
+                    raw_category = (
+                        row[category_idx] if category_idx < len(row) else None
+                    )
+                    category = (
+                        str(raw_category).strip() if raw_category else "Uncategorized"
+                    )
                     category = category.lower()  # ✅ normalize
 
                     amount_val = (
-                        row[amount_idx] if (amount_idx is not None and amount_idx < len(row)) else 0
+                        row[amount_idx]
+                        if (amount_idx is not None and amount_idx < len(row))
+                        else 0
                     )
                     try:
                         amount = float(amount_val)
@@ -110,12 +122,20 @@ class DataImportService:
 
                     date = (
                         str(row[date_idx])
-                        if (date_idx is not None and date_idx < len(row) and row[date_idx])
+                        if (
+                            date_idx is not None
+                            and date_idx < len(row)
+                            and row[date_idx]
+                        )
                         else ""
                     )
                     description = (
                         str(row[desc_idx])
-                        if (desc_idx is not None and desc_idx < len(row) and row[desc_idx])
+                        if (
+                            desc_idx is not None
+                            and desc_idx < len(row)
+                            and row[desc_idx]
+                        )
                         else ""
                     )
 

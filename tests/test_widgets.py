@@ -79,7 +79,9 @@ class TestExpenseTracker:
                     {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"},
                     {"amount": 15.75, "date": "2023-01-02", "description": "Coffee"},
                 ],
-                "Travel": [{"amount": 100.00, "date": "2023-01-03", "description": "Bus"}],
+                "Travel": [
+                    {"amount": 100.00, "date": "2023-01-03", "description": "Bus"}
+                ],
             }
             mock_dm.get_sorted_expenses.return_value = mock_dm.expenses
             mock_dm.get_category_subtotals.return_value = {
@@ -150,7 +152,9 @@ class TestExpenseTracker:
             "Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}]
         }
 
-        with patch("expense_tracker_app.widgets.ExpenseTracker.__init__", return_value=None):
+        with patch(
+            "expense_tracker_app.widgets.ExpenseTracker.__init__", return_value=None
+        ):
             from expense_tracker_app.widgets import ExpenseTracker
 
             tracker = ExpenseTracker()
@@ -172,7 +176,9 @@ class TestExpenseTracker:
             ("Food", {"amount": 25.50, "date": "2023-01-01", "description": "Lunch"})
         ]
 
-        with patch("expense_tracker_app.widgets.ExpenseTracker.__init__", return_value=None):
+        with patch(
+            "expense_tracker_app.widgets.ExpenseTracker.__init__", return_value=None
+        ):
             from expense_tracker_app.widgets import ExpenseTracker
 
             tracker = ExpenseTracker()
@@ -384,7 +390,9 @@ class TestExpenseTracker:
         except Exception as e:
             # If that fails, try without rendering the table
             # and test the delete functionality directly
-            print(f"Note: render_table failed with {e}, testing delete without table rendering")
+            print(
+                f"Note: render_table failed with {e}, testing delete without table rendering"
+            )
 
         # Mock the confirmation dialog to return Yes
         with patch("PyQt5.QtWidgets.QMessageBox.question") as mock_question:
@@ -451,7 +459,9 @@ class TestExpenseTracker:
     @pytest.mark.gui
     def test_render_table_with_data(self, expense_tracker):
         """Test table rendering with data"""
-        data = {"Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}]}
+        data = {
+            "Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}]
+        }
 
         expense_tracker.render_table(data)
 
@@ -470,7 +480,9 @@ class TestExpenseTracker:
     @pytest.mark.gui
     def test_render_table_with_totals(self, expense_tracker):
         """Test table rendering with totals"""
-        data = {"Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}]}
+        data = {
+            "Food": [{"amount": 25.50, "date": "2023-01-01", "description": "Lunch"}]
+        }
 
         expense_tracker.render_table(data, show_totals=True)
 

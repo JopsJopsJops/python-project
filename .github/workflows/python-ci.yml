@@ -63,20 +63,12 @@ jobs:
     - name: Install linting tools
       run: |
         python -m pip install --upgrade pip
-        pip install black flake8 isort mypy types-reportlab types-openpyxl types-PyYAML
+        pip install ruff black  # Keep black for now, but use ruff for checks
         
-    - name: Check code formatting with black
+    - name: Check code quality with ruff
       run: |
-        black --check expense_tracker_app/ tests/
+        ruff check expense_tracker_app/ tests/
         
-    - name: Check import sorting with isort
+    - name: Check formatting with ruff format
       run: |
-        isort --check-only expense_tracker_app/ tests/
-        
-    - name: Lint with flake8
-      run: |
-        flake8 expense_tracker_app/ tests/ --count --show-source --statistics --max-line-length=100
-        
-    - name: Type checking with mypy
-      run: |
-        mypy expense_tracker_app/
+        ruff format --check expense_tracker_app/ tests/

@@ -79,7 +79,9 @@ class ReportService:
                     try:
                         rows.append(
                             {
-                                "category": (str(r[0]) if len(r) > 0 else "Uncategorized"),
+                                "category": (
+                                    str(r[0]) if len(r) > 0 else "Uncategorized"
+                                ),
                                 "amount": float(r[1]) if len(r) > 1 else 0.0,
                                 "date": str(r[2]) if len(r) > 2 else "",
                                 "description": str(r[3]) if len(r) > 3 else "",

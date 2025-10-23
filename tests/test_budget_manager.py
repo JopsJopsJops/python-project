@@ -1,5 +1,3 @@
-import os
-
 import pytest
 
 from expense_tracker_app.budget_manager import BudgetManager
@@ -158,7 +156,9 @@ class TestBudgetManager:
         if initial_food_budget is not None:
             budget_manager.set_budget("Food", initial_food_budget)
 
-    def test_budget_alerts_with_case_variations_debug(self, budget_manager, data_manager):
+    def test_budget_alerts_with_case_variations_debug(
+        self, budget_manager, data_manager
+    ):
         """Debug test to understand case handling"""
         budget_manager.set_budget("FOOD", 500.0)
         data_manager.add_expense("food", 600.0, "2024-01-01", "Groceries")
