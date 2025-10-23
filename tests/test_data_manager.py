@@ -36,7 +36,7 @@ class TestDataManager:
         if hasattr(self, "temp_file") and os.path.exists(self.temp_file.name):
             try:
                 os.unlink(self.temp_file.name)
-            except:
+            except Exception:
                 pass
 
     @pytest.mark.unit

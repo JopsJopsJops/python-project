@@ -58,7 +58,6 @@ class DataImportService:
                         logger.debug("Error processing CSV row: %s", e)
                         continue
 
-            success = True
             return {"success": True, "data": data}
         except Exception as e:
             logger.error("CSV import failed: %s", e)
@@ -149,7 +148,6 @@ class DataImportService:
                     logger.debug("Error processing Excel row: %s", e)
                     continue
 
-            success = True
             return {"success": True, "data": data}
         except Exception as e:
             logger.error("Excel import failed: %s", e)

@@ -3,7 +3,7 @@ repos:
     rev: v0.1.6
     hooks:
       - id: ruff
-        args: [--ignore=F811,E722]  # Only ignore specific error codes
+        args: [--ignore=F841]  # Ignore unused variable warnings for now
         
   - repo: https://github.com/psf/black
     rev: 23.12.1
