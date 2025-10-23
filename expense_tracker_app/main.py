@@ -1,22 +1,30 @@
-import csv
 import logging
-import os
 import sys
 from datetime import datetime
 
-import openpyxl
-from fpdf import FPDF
 from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import (QAction, QApplication, QComboBox,
-                            QDateEdit, QDialog, QFileDialog,
-                            QHBoxLayout, QHeaderView, QLabel,
-                            QMainWindow, QMessageBox, QPushButton,
-                            QTableWidget, QTableWidgetItem,
-                            QTabWidget, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QAction,
+    QApplication,
+    QComboBox,
+    QDateEdit,
+    QDialog,
+    QFileDialog,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QMainWindow,
+    QMessageBox,
+    QPushButton,
+    QTableWidget,
+    QTableWidgetItem,
+    QTabWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
 from expense_tracker_app.data_manager import DataManager
-from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 from expense_tracker_app.import_service import DataImportService
 from expense_tracker_app.reports import ReportService
 from expense_tracker_app.widgets import DashboardWidget, ExpenseTracker
@@ -177,15 +185,11 @@ class MainWindow(QMainWindow):
 
         # View menu
         view_menu = menubar.addMenu("View")
-        view_menu.addAction(
-            "Show Expenses", lambda: self.tabs.setCurrentWidget(self.expenses_tab)
-        )
+        view_menu.addAction("Show Expenses", lambda: self.tabs.setCurrentWidget(self.expenses_tab))
         view_menu.addAction(
             "Show Dashboard", lambda: self.tabs.setCurrentWidget(self.dashboard_tab)
         )
-        view_menu.addAction(
-            "Show Reports", lambda: self.tabs.setCurrentWidget(self.reports_tab)
-        )
+        view_menu.addAction("Show Reports", lambda: self.tabs.setCurrentWidget(self.reports_tab))
 
         # Help
         help_menu = menubar.addMenu("Help")
@@ -248,9 +252,7 @@ class MainWindow(QMainWindow):
         )
         calendar = self.start_date.calendarWidget()
         if calendar:
-            calendar.setDateTextFormat(
-                QDate.currentDate(), self.get_highlighted_date_format()
-            )
+            calendar.setDateTextFormat(QDate.currentDate(), self.get_highlighted_date_format())
 
         filter_layout.addWidget(self.start_date)
 
@@ -261,18 +263,14 @@ class MainWindow(QMainWindow):
         self.end_date.setStyleSheet(self.start_date.styleSheet())
         calendar = self.end_date.calendarWidget()
         if calendar:
-            calendar.setDateTextFormat(
-                QDate.currentDate(), self.get_highlighted_date_format()
-            )
+            calendar.setDateTextFormat(QDate.currentDate(), self.get_highlighted_date_format())
 
         filter_layout.addWidget(self.end_date)
 
         filter_layout.addWidget(QLabel("Category:"))
         self.category_filter = QComboBox()
         self.category_filter.addItem("All")
-        self.category_filter.addItems(
-            self.expense_tracker.data_manager.get_all_categories()
-        )
+        self.category_filter.addItems(self.expense_tracker.data_manager.get_all_categories())
         self.category_filter.setStyleSheet(
             """
             QComboBox {
@@ -331,9 +329,7 @@ class MainWindow(QMainWindow):
 
         self.report_table = QTableWidget()
         self.report_table.setColumnCount(4)
-        self.report_table.setHorizontalHeaderLabels(
-            ["Category", "Amount", "Date", "Description"]
-        )
+        self.report_table.setHorizontalHeaderLabels(["Category", "Amount", "Date", "Description"])
         self.report_table.horizontalHeader().setStretchLastSection(True)
         self.report_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
@@ -421,7 +417,6 @@ class MainWindow(QMainWindow):
 
     def get_highlighted_date_format(self):
         """Return formatting for highlighted current date"""
-        from PyQt5.QtCore import QDate
         from PyQt5.QtGui import QColor, QFont, QTextCharFormat
 
         format = QTextCharFormat()
@@ -431,7 +426,8 @@ class MainWindow(QMainWindow):
         return format
 
     def migrate_categories_on_startup(self):
-        """Automatically migrate categories to proper case on application startup"""
+        """Automatically migrate categories\
+              to proper case on application startup"""
         try:
             # First, migrate all categories to proper capitalization
             migrated_count = self.data_manager.migrate_categories_to_proper_case()
@@ -452,7 +448,8 @@ class MainWindow(QMainWindow):
                     "Your categories have been automatically organized:\n\n"
                     f"• {migrated_count} categories capitalized\n"
                     f"• {merged_count} duplicate groups merged\n\n"
-                    "All expenses are now properly categorized with consistent naming.",
+                    "All expenses are now properly categorized\
+                          with consistent naming.",
                 )
         except Exception as e:
             logger.error(f"Error during category migration: {e}")
@@ -485,9 +482,7 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             logger.error(f"Error during category cleanup: {e}")
-            QMessageBox.warning(
-                self, "Cleanup Failed", f"Could not cleanup categories: {str(e)}"
-            )
+            QMessageBox.warning(self, "Cleanup Failed", f"Could not cleanup categories: {str(e)}")
 
     def update_report_view(self):
         """Update the report table with currently filtered expenses."""
@@ -551,9 +546,7 @@ class MainWindow(QMainWindow):
         for cat, items in self.data_manager.expenses.items():
             for e in items:
                 entry_category = (
-                    e.get("category")
-                    if isinstance(e, dict) and e.get("category")
-                    else cat
+                    e.get("category") if isinstance(e, dict) and e.get("category") else cat
                 )
                 if entry_category is None:
                     entry_category = "Uncategorized"
@@ -618,7 +611,8 @@ class MainWindow(QMainWindow):
                 self.dashboard.update_budget_alerts()
 
     def export_to_excel_or_csv(self, filepath=None, filetype=None):
-        """Export to Excel or CSV. If filepath provided, extension determines format."""
+        """Export to Excel or CSV.\
+              If filepath provided, extension determines format."""
         logger.info("Starting Excel/CSV export (MainWindow) -> %s", filepath)
         data = self.get_filtered_expenses()
         if not data:
@@ -648,9 +642,7 @@ class MainWindow(QMainWindow):
                     "Excel Files (*.xlsx);;CSV Files (*.csv)",
                 )
                 if file_path:
-                    if selected_filter.startswith(
-                        "Excel"
-                    ) or file_path.lower().endswith(".xlsx"):
+                    if selected_filter.startswith("Excel") or file_path.lower().endswith(".xlsx"):
                         if not file_path.lower().endswith(".xlsx"):
                             file_path += ".xlsx"
                         ReportService.export_to_excel(data, file_path)
@@ -666,7 +658,8 @@ class MainWindow(QMainWindow):
         return False
 
     def export_to_pdf(self, filepath=None):
-        """Export to PDF. If filepath provided, export directly (used by tests)."""
+        """Export to PDF. If filepath provided, \
+            export directly (used by tests)."""
         logger.info("Starting PDF export (MainWindow) -> %s", filepath)
         data = self.get_filtered_expenses()
         if not data:
@@ -710,7 +703,8 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(
                     self,
                     "Import Successful",
-                    "Expenses imported successfully!\n\nAll views have been refreshed.",
+                    "Expenses imported successfully!\
+                        \n\nAll views have been refreshed.",
                 )
             except Exception as e:
                 QMessageBox.warning(self, "Import Failed", f"Error: {e}")
@@ -880,12 +874,18 @@ class MainWindow(QMainWindow):
 
             <div class="section">
                 <strong>🎯 Features:</strong>
-                <div class="feature">✅ Complete expense tracking & management</div>
-                <div class="feature">📊 Interactive charts & spending analytics</div>
-                <div class="feature">💰 Smart budget management with alerts</div>
-                <div class="feature">📁 Category management with auto-merge</div>
-                <div class="feature">📈 Professional reports & exports</div>
-                <div class="feature">🔄 Import/Export (CSV, Excel, PDF)</div>
+                <div class="feature">✅ \
+                    Complete expense tracking & management</div>
+                <div class="feature">📊 \
+                    Interactive charts & spending analytics</div>
+                <div class="feature">💰 \
+                    Smart budget management with alerts</div>
+                <div class="feature">📁 \
+                    Category management with auto-merge</div>
+                <div class="feature">📈 \
+                    Professional reports & exports</div>
+                <div class="feature">🔄 \
+                    Import/Export (CSV, Excel, PDF)</div>
                 <div class="feature">🎨 Dark theme with professional UI</div>
             </div>
 

@@ -2,9 +2,10 @@
 """
 Safe test runner that handles Qt application issues
 """
+import os
 import subprocess
 import sys
-import os
+
 
 def run_safe_tests():
     """Run tests safely, skipping problematic UI tests."""
@@ -42,20 +43,24 @@ def run_safe_tests():
         print(f"   - {test}")
 
     try:
-        result = subprocess.run([
-            "pytest",
-            *existing_tests,
-            "-v",           # verbose output
-            "--tb=short",   # shorter tracebacks
-            "--color=yes",  # colored output
-            "-x"            # stop on first failure
-        ], capture_output=False)
+        result = subprocess.run(
+            [
+                "pytest",
+                *existing_tests,
+                "-v",  # verbose output
+                "--tb=short",  # shorter tracebacks
+                "--color=yes",  # colored output
+                "-x",  # stop on first failure
+            ],
+            capture_output=False,
+        )
 
         return result.returncode
 
     except FileNotFoundError:
         print("❌ pytest not found! Install it with: pip install pytest")
         return 1
+
 
 if __name__ == "__main__":
     print("🚀 Running Safe Test Suite (Skipping Problematic UI Tests)")

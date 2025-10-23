@@ -6,7 +6,7 @@ import json
 import logging
 import os
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 
@@ -63,9 +63,7 @@ class BudgetManager:
             with open(self.budget_file, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
-            logger.info(
-                f"💾 Saved {len(self.budgets)} monthly budgets to {self.budget_file}"
-            )
+            logger.info(f"💾 Saved {len(self.budgets)} monthly budgets to {self.budget_file}")
             return True
 
         except Exception as e:
@@ -87,9 +85,7 @@ class BudgetManager:
         success = self.save_budgets()
 
         if success:
-            logger.info(
-                f"💰 Monthly budget set for {normalized_category}: ₱{amount:,.2f}"
-            )
+            logger.info(f"💰 Monthly budget set for {normalized_category}: ₱{amount:,.2f}")
         else:
             logger.error(f"❌ Budget set for {normalized_category} but failed to save!")
 
@@ -133,9 +129,7 @@ class BudgetManager:
             if success:
                 logger.info(f"🗑️ Monthly budget removed for {normalized_category}")
             else:
-                logger.error(
-                    f"❌ Budget removed for {normalized_category} but failed to save!"
-                )
+                logger.error(f"❌ Budget removed for {normalized_category} but failed to save!")
 
             return success
         return False
@@ -194,10 +188,7 @@ class BudgetManager:
 
                 # Check if this expense belongs to our category\
                 #  (CASE-INSENSITIVE) and current month
-                if (
-                    expense_category.lower() == category.lower()
-                    and expense_date.startswith(month)
-                ):
+                if expense_category.lower() == category.lower() and expense_date.startswith(month):
                     try:
                         monthly_total += float(expense_amount)
                         logger.debug(
@@ -205,14 +196,10 @@ class BudgetManager:
                         ₱{expense_amount} on {expense_date}"
                         )
                     except (ValueError, TypeError) as e:
-                        logger.warning(
-                            f"   ❌ Invalid amount for expense: {expense_amount} - {e}"
-                        )
+                        logger.warning(f"   ❌ Invalid amount for expense: {expense_amount} - {e}")
                         continue
 
-            logger.debug(
-                f"📈 Monthly spending for {category} in {month}: ₱{monthly_total:,.2f}"
-            )
+            logger.debug(f"📈 Monthly spending for {category} in {month}: ₱{monthly_total:,.2f}")
             return monthly_total
 
         except Exception as e:
@@ -235,9 +222,7 @@ class BudgetManager:
 
     def get_all_budgets(self) -> Dict[str, Dict[str, float]]:
         """Get progress for all monthly budgets."""
-        return {
-            category: self.get_budget_progress(category) for category in self.budgets
-        }
+        return {category: self.get_budget_progress(category) for category in self.budgets}
 
     def get_budget_summary(self) -> Dict:
         """Get complete monthly budget summary with alerts."""

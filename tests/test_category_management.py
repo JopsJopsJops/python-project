@@ -12,7 +12,6 @@ from expense_tracker_app.dialogs import CategoryDialog
 
 
 class TestCategoryManagement(unittest.TestCase):
-
     def setUp(self):
         # Create QApplication instance for PyQt tests
         self.app = QApplication.instance()
@@ -124,9 +123,7 @@ class TestCategoryManagement(unittest.TestCase):
             # Uncategorized was removed (this is the actual behavior)
             # The test should verify that other categories weren't affected
             assert "Food" in dm.categories, "Food category should not be affected"
-            assert (
-                "Transport" in dm.categories
-            ), "Transport category should not be affected"
+            assert "Transport" in dm.categories, "Transport category should not be affected"
             # The method might return a tuple (True, message) instead of just True
             if isinstance(result, tuple):
                 assert result[0] is True, "Removal should have succeeded"

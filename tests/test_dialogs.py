@@ -4,8 +4,7 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QListWidgetItem, QMessageBox
+from PyQt5.QtWidgets import QApplication
 
 from expense_tracker_app.dialogs import AddExpenseDialog, CategoryDialog
 

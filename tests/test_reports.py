@@ -1,7 +1,7 @@
 # test_reports.py
 import os
 import tempfile
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -238,7 +238,6 @@ class TestReportService:
             patch("builtins.open", side_effect=Exception("File error")),
             patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning,
         ):
-
             result = ReportService.export_to_csv([], "invalid/path.csv")
 
             assert result is None
@@ -293,7 +292,6 @@ class TestReportService:
             ),
             patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning,
         ):
-
             result = ReportService.export_to_excel([], "test.xlsx")
 
             assert result is None
@@ -348,7 +346,6 @@ class TestReportService:
             ),
             patch("expense_tracker_app.reports.QMessageBox.warning") as mock_warning,
         ):
-
             result = ReportService.export_to_pdf([], "test.pdf")
 
             assert result is None

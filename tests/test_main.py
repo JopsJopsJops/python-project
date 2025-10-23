@@ -71,7 +71,6 @@ def main_window(mock_data_manager, qtbot):
         patch("expense_tracker_app.main.ExpenseTracker") as MockExpenseTracker,
         patch("expense_tracker_app.main.DashboardWidget") as MockDashboardWidget,
     ):
-
         MockDataManager.return_value = mock_data_manager
 
         # Mock the widgets
@@ -104,7 +103,6 @@ class TestMainWindow:
             patch("expense_tracker_app.main.ExpenseTracker") as MockET,
             patch("expense_tracker_app.main.DashboardWidget") as MockDash,
         ):
-
             # Mock data manager with STRING dates (not datetime objects)
             mock_dm = Mock()
             mock_dm.expenses = {
@@ -304,16 +302,11 @@ class TestMainWindow:
         )
 
         with (
-            patch(
-                "expense_tracker_app.main.ReportService.export_to_excel"
-            ) as mock_excel,
+            patch("expense_tracker_app.main.ReportService.export_to_excel") as mock_excel,
             patch("expense_tracker_app.main.ReportService.export_to_csv") as mock_csv,
             patch("expense_tracker_app.main.ReportService.export_to_pdf") as mock_pdf,
-            patch(
-                "expense_tracker_app.main.QFileDialog.getSaveFileName"
-            ) as mock_dialog,
+            patch("expense_tracker_app.main.QFileDialog.getSaveFileName") as mock_dialog,
         ):
-
             mock_dialog.return_value = ("test.xlsx", "Excel Files (*.xlsx)")
             mock_excel.return_value = "test.xlsx"
 
@@ -342,17 +335,12 @@ class TestMainWindow:
         window = main_window_with_ui
 
         with (
-            patch(
-                "expense_tracker_app.main.DataImportService.import_from_csv"
-            ) as mock_csv_import,
+            patch("expense_tracker_app.main.DataImportService.import_from_csv") as mock_csv_import,
             patch(
                 "expense_tracker_app.main.DataImportService.import_from_excel"
             ) as mock_excel_import,
-            patch(
-                "expense_tracker_app.main.QFileDialog.getOpenFileName"
-            ) as mock_dialog,
+            patch("expense_tracker_app.main.QFileDialog.getOpenFileName") as mock_dialog,
         ):
-
             mock_dialog.return_value = ("test.csv", "CSV Files (*.csv)")
             mock_csv_import.return_value = {"success": True, "data": {"Food": []}}
 
@@ -378,7 +366,6 @@ class TestMainWindow:
             patch("expense_tracker_app.main.QMessageBox.question") as mock_question,
             patch("expense_tracker_app.main.QApplication.quit") as mock_quit,
         ):
-
             # Test confirmed exit
             mock_question.return_value = QMessageBox.Yes
             window.exit_application()
@@ -457,7 +444,6 @@ class TestMainWindow:
             ),
             patch("expense_tracker_app.main.QMessageBox.warning") as mock_warning,
         ):
-
             # FIX: Provide a filepath to trigger the exception path
             result = window.export_to_excel_or_csv(filepath="test.xlsx")
             assert result is False
@@ -656,7 +642,6 @@ class TestMainWindow:
             ),
             patch("expense_tracker_app.main.QMessageBox.warning") as mock_warning,
         ):
-
             result = window.export_to_excel_or_csv(filepath="test.xlsx")
             assert result is False
             mock_warning.assert_called_once()

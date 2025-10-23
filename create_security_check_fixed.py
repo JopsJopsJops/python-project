@@ -2,9 +2,10 @@
 """
 Fixed security check script - ignores false positives
 """
+import glob
 import os
 import re
-import glob
+
 
 def check_for_sensitive_patterns():
     """Check code for ACTUAL sensitive data patterns"""
@@ -15,21 +16,21 @@ def check_for_sensitive_patterns():
         r'secret_key\s*=\s*["\'][^"\']+["\']',
         r'database_password\s*=\s*["\'][^"\']+["\']',
         r'private_key\s*=\s*["\'][^"\']+["\']',
-        r'aws_access_key',
-        r'aws_secret_key',
-        r'bearer_token',
-        r'oauth_token',
+        r"aws_access_key",
+        r"aws_secret_key",
+        r"bearer_token",
+        r"oauth_token",
     ]
 
     print("🔍 Scanning for ACTUAL sensitive data patterns...")
 
     # Check Python files
-    python_files = glob.glob('**/*.py', recursive=True)
+    python_files = glob.glob("**/*.py", recursive=True)
 
     issues_found = 0
     for file_path in python_files:
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
                 for i, line in enumerate(content.splitlines(), 1):
                     for pattern in sensitive_patterns:
@@ -47,14 +48,15 @@ def check_for_sensitive_patterns():
     else:
         print(f"🔴 Found {issues_found} potential issues to review")
 
+
 def check_file_extensions():
     """Check for files with sensitive extensions"""
-    sensitive_extensions = ['.key', '.pem', '.cert', '.pfx', '.p12']
+    sensitive_extensions = [".key", ".pem", ".cert", ".pfx", ".p12"]
 
     print("\n📁 Checking for sensitive file extensions...")
 
     found_files = []
-    for root, dirs, files in os.walk('.'):
+    for root, dirs, files in os.walk("."):
         for file in files:
             if any(file.endswith(ext) for ext in sensitive_extensions):
                 found_files.append(os.path.join(root, file))
@@ -66,24 +68,25 @@ def check_file_extensions():
     else:
         print("✅ No files with sensitive extensions found!")
 
+
 def check_gitignore():
     """Check if .gitignore is properly set up"""
     required_patterns = [
-        '__pycache__/',
-        '*.pyc',
-        '*.log',
-        '*.key',
-        '*.pem',
-        'expenses.json',  # User data should not be in repo
-        '*.local',
-        'config.ini',
-        '.env'
+        "__pycache__/",
+        "*.pyc",
+        "*.log",
+        "*.key",
+        "*.pem",
+        "expenses.json",  # User data should not be in repo
+        "*.local",
+        "config.ini",
+        ".env",
     ]
 
     print("\n📋 Checking .gitignore...")
 
-    if os.path.exists('.gitignore'):
-        with open('.gitignore', 'r') as f:
+    if os.path.exists(".gitignore"):
+        with open(".gitignore", "r") as f:
             gitignore_content = f.read()
 
         missing_patterns = []
@@ -99,6 +102,7 @@ def check_gitignore():
             print("✅ .gitignore is properly configured!")
     else:
         print("❌ No .gitignore file found!")
+
 
 if __name__ == "__main__":
     print("🔒 FINAL Security Check for Public Release")

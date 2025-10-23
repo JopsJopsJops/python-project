@@ -225,9 +225,7 @@ class TestDataManager:
     @pytest.mark.unit
     def test_add_category_merge(self):
         """Test category merging functionality - SKIPPED until merge is implemented"""
-        pytest.skip(
-            "Category merge functionality not yet implemented in add_category method"
-        )
+        pytest.skip("Category merge functionality not yet implemented in add_category method")
         """Test merging categories during add_category"""
         print("=== DEBUG CATEGORY MERGE ===")
 
@@ -256,9 +254,7 @@ class TestDataManager:
     @pytest.mark.unit
     def test_add_category_merge_invalid(self):
         with pytest.raises(ValueError):
-            self.data_manager.add_category(
-                "NonExistent", merge_target="AlsoNonExistent"
-            )
+            self.data_manager.add_category("NonExistent", merge_target="AlsoNonExistent")
 
     @pytest.mark.xfail(reason="Method returns different format than expected")
     @pytest.mark.unit
@@ -281,9 +277,7 @@ class TestDataManager:
                 assert success is True
         else:
             # Just check the category was actually removed
-            normalized_categories = [
-                cat.lower() for cat in self.data_manager.categories
-            ]
+            normalized_categories = [cat.lower() for cat in self.data_manager.categories]
             assert "testcategory" not in normalized_categories
 
     @pytest.mark.unit
@@ -529,8 +523,7 @@ class TestDataManager:
 
         assert result is True
         assert (
-            "Food" not in self.data_manager.expenses
-            or len(self.data_manager.expenses["Food"]) == 0
+            "Food" not in self.data_manager.expenses or len(self.data_manager.expenses["Food"]) == 0
         )
         assert "Travel" in self.data_manager.expenses
         assert self.data_manager.expenses["Travel"][0]["amount"] == 15.0
@@ -653,26 +646,18 @@ class TestDataManager:
 
             # Option 2: amount, category, description, date
             try:
-                self.data_manager.add_expense(
-                    100.0, "Food", "Test expense", "2024-01-01"
-                )
+                self.data_manager.add_expense(100.0, "Food", "Test expense", "2024-01-01")
                 print("DEBUG: Success with order: amount, category, description, date")
             except Exception as e2:
                 print(f"DEBUG: Failed with order 2: {e2}")
 
                 # Option 3: amount, description, date, category
                 try:
-                    self.data_manager.add_expense(
-                        100.0, "Test expense", "2024-01-01", "Food"
-                    )
-                    print(
-                        "DEBUG: Success with order: amount, description, date, category"
-                    )
+                    self.data_manager.add_expense(100.0, "Test expense", "2024-01-01", "Food")
+                    print("DEBUG: Success with order: amount, description, date, category")
                 except Exception as e3:
                     print(f"DEBUG: Failed with order 3: {e3}")
-                    pytest.skip(
-                        f"Cannot add expense with any parameter order. Signature: {sig}"
-                    )
+                    pytest.skip(f"Cannot add expense with any parameter order. Signature: {sig}")
 
         # Now try to remove the category
         result = self.data_manager.remove_category("Food")
@@ -680,9 +665,7 @@ class TestDataManager:
         # The expected behavior is that removal should fail when category has expenses
         if isinstance(result, tuple):
             success, message = result
-            if not success and (
-                "expenses" in message.lower() or "merge" in message.lower()
-            ):
+            if not success and ("expenses" in message.lower() or "merge" in message.lower()):
                 # This is the correct expected behavior
                 assert True
             else:

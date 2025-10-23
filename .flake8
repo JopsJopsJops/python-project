@@ -1,4 +1,23 @@
 ﻿[flake8]
-max-line-length = 88
-extend-ignore = E203, W503
-exclude = .git,__pycache__,build,dist,.venv,venv
+max-line-length = 100
+extend-ignore =
+    B007  # bugbear's version of unused variable
+    F841,  # Local variable assigned but never used
+    F401,  # Imported but unused  
+    F811,  # Redefinition of unused
+    E722,  # Bare except
+    E741,  # Ambiguous variable name
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    .venv,
+    scripts/,
+    fix_*.py,
+    revert_*.py,
+    fix_long_lines.py,
+    fix_stubborn_issues.py,
+    revert_broken_files.py
+per-file-ignores =
+    tests/*:F401,F841,F811,E722

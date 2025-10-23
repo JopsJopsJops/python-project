@@ -2,12 +2,21 @@ import logging
 
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QColor, QFont, QTextCharFormat
-from PyQt5.QtWidgets import (QCalendarWidget, QComboBox, QDialog,
-                            QDialogButtonBox, QHBoxLayout, QInputDialog,
-                            QLabel, QLineEdit, QListWidget, QMessageBox,
-                            QPushButton, QSizePolicy, QVBoxLayout)
-
-from expense_tracker_app.data_manager import DataManager
+from PyQt5.QtWidgets import (
+    QCalendarWidget,
+    QComboBox,
+    QDialog,
+    QDialogButtonBox,
+    QHBoxLayout,
+    QInputDialog,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QMessageBox,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -136,15 +145,17 @@ class CategoryDialog(QDialog):
 
             if isinstance(self.data_manager, list):
                 # Test mode
-                normalized_name = (
-                    name.capitalize()
-                )  # Simple capitalization for test mode
+                normalized_name = name.capitalize()  # Simple capitalization for test mode
                 if normalized_name not in self.data_manager:
                     self.data_manager.append(normalized_name)
-                    self.list_widget.addItem(normalized_name)  # ✅ Add normalized name
+                    self.list_widget.addItem(normalized_name)
+                    # ✅ Add normalized name
                 else:
                     QMessageBox.warning(
-                        self, "Duplicate", f"'{normalized_name}' already exists."
+                        self,
+                        "Duplicate",
+                        f"'{normalized_name}'\
+                              already exists.",
                     )
             else:
                 # Normal mode - USE THE PROPER CATEGORY MANAGEMENT
@@ -157,9 +168,7 @@ class CategoryDialog(QDialog):
                     if self.parent:
                         try:
                             self.parent.refresh_category_dropdowns()
-                            self.parent.render_table(
-                                self.data_manager.get_sorted_expenses()
-                            )
+                            self.parent.render_table(self.data_manager.get_sorted_expenses())
                         except Exception:
                             pass
                         self._refresh_dashboards()
@@ -167,7 +176,8 @@ class CategoryDialog(QDialog):
                     # Only show success message if it's a NEW category
                     if "added successfully" in message:
                         QMessageBox.information(self, "Success", message)
-                    # If it's "already in your list", don't show duplicate warning
+                    # If it's "already in your list", \
+                    # don't show duplicate warning
                 else:
                     # Show error message for actual duplicates
                     QMessageBox.warning(self, "Duplicate", message)
@@ -190,15 +200,11 @@ class CategoryDialog(QDialog):
 
         category = selected.text()
         if category == "Uncategorized":
-            QMessageBox.warning(
-                self, "Not Allowed", "'Uncategorized' cannot be removed."
-            )
+            QMessageBox.warning(self, "Not Allowed", "'Uncategorized' cannot be removed.")
             return
 
         if category not in self.data_manager.categories:
-            QMessageBox.warning(
-                self, "Error", f"'{category}' is not in the category list."
-            )
+            QMessageBox.warning(self, "Error", f"'{category}' is not in the category list.")
             return
 
         # Get normalized (capitalized) version of the category
@@ -206,19 +212,18 @@ class CategoryDialog(QDialog):
 
         # Check if this is a duplicate that should be merged
         is_duplicate = (
-            category != normalized_category
-            and normalized_category in self.data_manager.categories
+            category != normalized_category and normalized_category in self.data_manager.categories
         )
 
         # Check if category has expenses
         has_expenses = (
-            category in self.data_manager.expenses
-            and self.data_manager.expenses[category]
+            category in self.data_manager.expenses and self.data_manager.expenses[category]
         )
 
         if has_expenses:
             if is_duplicate:
-                # Smart merge: This is a duplicate (e.g., "food" when "Food" exists)
+                # Smart merge: This is a duplicate\
+                #  (e.g., "food" when "Food" exists)
                 reply = QMessageBox.question(
                     self,
                     "Merge Duplicate Category",
@@ -229,7 +234,8 @@ class CategoryDialog(QDialog):
                     f"into '{normalized_category}'?\n\n"
                     f"• <b>Merge</b> - \
     Expenses stay organized under '{normalized_category}'\n"
-                    "• <b>Move to Uncategorized</b> - Expenses will be harder to find",
+                    "• <b>Move to Uncategorized</b>\
+                          - Expenses will be harder to find",
                     QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel,
                     QMessageBox.Yes,  # Default to Yes for smart merging
                 )
@@ -244,15 +250,7 @@ class CategoryDialog(QDialog):
             else:
                 # Better UX: Step-by-step approach with clearer consequences
                 from PyQt5.QtCore import Qt
-                from PyQt5.QtGui import QFont
-                from PyQt5.QtWidgets import (
-                    QDialog,
-                    QFrame,
-                    QHBoxLayout,
-                    QLabel,
-                    QPushButton,
-                    QVBoxLayout,
-                )
+                from PyQt5.QtWidgets import QDialog, QFrame, QLabel, QPushButton, QVBoxLayout
 
                 dialog = QDialog(self)
                 dialog.setWindowTitle(f"Remove '{category}'")
@@ -311,9 +309,7 @@ class CategoryDialog(QDialog):
 
                 # Header
                 header_label = QLabel(f"🗑️ Remove '{category}'")
-                header_label.setStyleSheet(
-                    "font-size: 16px; font-weight: bold; color: #ff6b6b;"
-                )
+                header_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #ff6b6b;")
                 header_label.setAlignment(Qt.AlignCenter)
                 layout.addWidget(header_label)
 
@@ -322,7 +318,10 @@ class CategoryDialog(QDialog):
                     f"This category contains\
                     {len(self.data_manager.expenses[category])} expense(s)."
                 )
-                warning_label.setStyleSheet("color: #ffb86c; font-weight: bold;")
+                warning_label.setStyleSheet(
+                    "color: #ffb86c;\
+                                             font-weight: bold;"
+                )
                 warning_label.setAlignment(Qt.AlignCenter)
                 layout.addWidget(warning_label)
 
@@ -360,7 +359,10 @@ class CategoryDialog(QDialog):
                 uncat_layout = QVBoxLayout(uncat_frame)
 
                 uncat_header = QLabel("📁 Move to Uncategorized")
-                uncat_header.setStyleSheet("font-weight: bold; color: #ffb86c;")
+                uncat_header.setStyleSheet(
+                    "font-weight: bold;\
+                                            color: #ffb86c;"
+                )
                 uncat_layout.addWidget(uncat_header)
 
                 uncat_desc = QLabel(
@@ -412,15 +414,14 @@ class CategoryDialog(QDialog):
 
             # FIX: Ensure merge_target is a string, not a tuple
             if isinstance(merge_target, tuple):
-                merge_target = merge_target[0]  # Take the first element if it's a tuple
+                merge_target = merge_target[0]
+                # Take the first element if it's a tuple
 
             # Perform the removal with merge
             success, message = self.data_manager.remove_category(category, merge_target)
 
             if success:
-                action = (
-                    "merged into" if merge_target != "Uncategorized" else "moved to"
-                )
+                action = "merged into" if merge_target != "Uncategorized" else "moved to"
                 QMessageBox.information(
                     self,
                     "Success",
@@ -435,7 +436,8 @@ class CategoryDialog(QDialog):
             reply = QMessageBox.question(
                 self,
                 "Confirm Category Removal",
-                f"Are you sure you want to remove the category '{category}'?\n\n"
+                f"Are you sure you want to\
+                      remove the category '{category}'?\n\n"
                 "This category has no expenses.",
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.No,  # Default to No for safety
@@ -465,7 +467,8 @@ class CategoryDialog(QDialog):
     def ask_merge_target(self, category_to_remove):
         """Ask user which category to merge expenses into - \
     FIXED to return string only"""
-        # Get all available categories except the one being removed and Uncategorized
+        # Get all available categories except\
+        #  the one being removed and Uncategorized
         available_categories = [
             cat
             for cat in self.data_manager.categories
@@ -482,7 +485,8 @@ class CategoryDialog(QDialog):
         merge_target, ok = QInputDialog.getItem(
             self,
             "Select Merge Target",
-            f"Select which category to merge '{category_to_remove}' expenses into:",
+            f"Select which category to merge\
+                  '{category_to_remove}' expenses into:",
             available_categories,
             0,  # Default to first item
             False,  # Not editable
