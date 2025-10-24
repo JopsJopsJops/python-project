@@ -171,3 +171,6 @@ class TestCategoryManagement(unittest.TestCase):
             os.remove("test_expenses.json")
         if hasattr(self, "app"):
             self.app.quit()
+
+
+# Formatted
