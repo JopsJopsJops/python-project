@@ -142,7 +142,7 @@ class TestDataManager:
         fresh_dm.categories = ["Food", "Travel"]
 
         # Save the data - it returns None, not True
-        result = fresh_dm.save_data()
+        fresh_dm.save_data()
 
         # Don't assert the return value since it's None
         # Instead, verify that the data was actually saved
@@ -190,7 +190,7 @@ class TestDataManager:
     @pytest.mark.unit
     def test_add_category_new(self):
         """Test adding a new category."""
-        initial_count = len(self.data_manager.categories)
+        len(self.data_manager.categories)
         # The actual method might return differently - adjust to match reality
         result = self.data_manager.add_category("NewCategory")
 
@@ -317,7 +317,7 @@ class TestDataManager:
         # Try to add expense with new category - use correct parameter order
         try:
             # Based on the render_table error, try: amount, description, category, date
-            result = self.data_manager.add_expense(
+            self.data_manager.add_expense(
                 15.0, "Test expense", "NewCategory", "2024-01-01"
             )
         except Exception as e:
@@ -330,7 +330,7 @@ class TestDataManager:
             # Check if the new category was automatically added to categories list
             current_categories = self.data_manager.categories
             normalized_current = [cat.lower() for cat in current_categories]
-            normalized_initial = [cat.lower() for cat in initial_categories]
+            [cat.lower() for cat in initial_categories]
 
             # The category might not be auto-added - that could be expected behavior
             if "newcategory" in normalized_current:
@@ -677,9 +677,9 @@ class TestDataManager:
         """Test loading data when file doesn't exist."""
         # Check actual method name - might be load_expenses instead of load_data
         if hasattr(self.data_manager, "load_data"):
-            result = self.data_manager.load_data()
+            self.data_manager.load_data()
         elif hasattr(self.data_manager, "load_expenses"):
-            result = self.data_manager.load_expenses()
+            self.data_manager.load_expenses()
         else:
             # No such method - adjust test expectation
             import pytest
@@ -691,7 +691,7 @@ class TestDataManager:
         """Test loading invalid JSON data."""
         # Similar to above - use actual method names
         if hasattr(self.data_manager, "load_data"):
-            result = self.data_manager.load_data()
+            self.data_manager.load_data()
         else:
             import pytest
 

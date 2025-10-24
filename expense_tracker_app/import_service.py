@@ -14,7 +14,6 @@ class DataImportService:
 
         logger.info("Importing from CSV: %s", file_path)
         data = {}
-        success = False
 
         try:
             if not isinstance(file_path, (str, bytes, os.PathLike)):
@@ -72,7 +71,6 @@ class DataImportService:
 
         logger.info("Importing from Excel: %s", file_path)
         data = {}
-        success = False
 
         try:
             if not isinstance(file_path, (str, bytes, os.PathLike)):

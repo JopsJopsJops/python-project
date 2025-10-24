@@ -643,10 +643,10 @@ class TestDashboardWidget:
 
         # Mock ALL initialization methods
         with (
-            patch.object(DashboardWidget, "init_summary_tab") as mock_summary,
-            patch.object(DashboardWidget, "init_charts_tab") as mock_charts,
-            patch.object(DashboardWidget, "init_trends_tab") as mock_trends,
-            patch.object(DashboardWidget, "update_dashboard") as mock_update,
+            patch.object(DashboardWidget, "init_summary_tab"),
+            patch.object(DashboardWidget, "init_charts_tab"),
+            patch.object(DashboardWidget, "init_trends_tab"),
+            patch.object(DashboardWidget, "update_dashboard"),
         ):
             dashboard = DashboardWidget(mock_dm)
             qtbot.addWidget(dashboard)  # This was missing!

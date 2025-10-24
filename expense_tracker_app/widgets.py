@@ -641,9 +641,7 @@ class DashboardWidget(QWidget):
                 (essential_total / total_all) * 100 if total_all > 0 else 0
             )
 
-            insights.append(
-                f"🏠 <b>Essential Spending:</b> {essential_percentage:.1f}%"
-            )
+            insights.append(f"🏠 <b>Essential Spending:</b> {essential_percentage:.1f}%")
 
             if essential_percentage > 70:
                 recommendations.append("Consider reducing discretionary spending")
@@ -693,9 +691,7 @@ class DashboardWidget(QWidget):
             if hasattr(self.data_manager, "budget_manager"):
                 budget_alerts = self.data_manager.budget_manager.check_budget_alerts()
                 if budget_alerts:
-                    budget_warnings = [
-                        alert for alert in budget_alerts if "🚨" in alert
-                    ]
+                    budget_warnings = [alert for alert in budget_alerts if "🚨" in alert]
                     if budget_warnings:
                         warnings.append(f"{len(budget_warnings)} budget(s) exceeded")
 
@@ -2442,9 +2438,9 @@ class ExpenseTracker(QWidget):
         """Delete expense with confirmation dialog"""
 
         # Create user-friendly confirmation message
-        amount = record.get("amount", 0)
-        date = record.get("date", "")
-        description = record.get("description", "")[:50]  # First 50 chars
+        record.get("amount", 0)
+        record.get("date", "")
+        record.get("description", "")[:50]  # First 50 chars
 
         confirmation_msg = """
         <h3>🗑️ Are you sure you want\
@@ -3801,11 +3797,6 @@ class BudgetDialog(QDialog):
         center_layout.setSpacing(4)
 
         # Percentage label
-        status_color = (
-            "#ff6b6b"
-            if percentage > 100
-            else "#ffb86c" if percentage > 80 else "#6bff6b"
-        )
         status_text = (
             "OVER" if percentage > 100 else "WARNING" if percentage > 80 else "GOOD"
         )
@@ -3844,11 +3835,11 @@ class BudgetDialog(QDialog):
 
         # Determine fill color based on percentage
         if percentage > 100:
-            fill_color = "#ff4444"  # Bright red for over budget
+            pass  # Bright red for over budget
         elif percentage > 80:
-            fill_color = "#ffaa00"  # Orange for warning
+            pass  # Orange for warning
         else:
-            fill_color = "#00cc00"  # Green for good
+            pass  # Green for good
 
         fill_widget = QWidget()
         fill_widget.setStyleSheet(
