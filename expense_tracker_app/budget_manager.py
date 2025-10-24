@@ -170,7 +170,7 @@ class BudgetManager:
                 alerts.append(
                     f"⚠️ Approaching budget limit for {category}: "
                     f"₱{monthly_spending:,.2f} of ₱{budget_limit:,.2f} "
-                    f"({monthly_spending/budget_limit*100:.1f}%)"
+                    f"({monthly_spending / budget_limit * 100:.1f}%)"
                 )
 
         return alerts

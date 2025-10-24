@@ -641,7 +641,9 @@ class DashboardWidget(QWidget):
                 (essential_total / total_all) * 100 if total_all > 0 else 0
             )
 
-            insights.append(f"🏠 <b>Essential Spending:</b> {essential_percentage:.1f}%")
+            insights.append(
+                f"🏠 <b>Essential Spending:</b> {essential_percentage:.1f}%"
+            )
 
             if essential_percentage > 70:
                 recommendations.append("Consider reducing discretionary spending")
@@ -691,7 +693,9 @@ class DashboardWidget(QWidget):
             if hasattr(self.data_manager, "budget_manager"):
                 budget_alerts = self.data_manager.budget_manager.check_budget_alerts()
                 if budget_alerts:
-                    budget_warnings = [alert for alert in budget_alerts if "🚨" in alert]
+                    budget_warnings = [
+                        alert for alert in budget_alerts if "🚨" in alert
+                    ]
                     if budget_warnings:
                         warnings.append(f"{len(budget_warnings)} budget(s) exceeded")
 
@@ -1618,8 +1622,8 @@ class DashboardWidget(QWidget):
                 ax_cover.text(
                     0.5,
                     0.3,
-                    f'Generated: \
-                        {datetime.datetime.now().strftime("%Y-%m-%d %H:%M")}',
+                    f"Generated: \
+                        {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}",
                     ha="center",
                     va="center",
                     fontsize=10,
