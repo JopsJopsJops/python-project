@@ -2,6 +2,7 @@
 """
 Safe test runner that handles Qt application issues
 """
+
 import os
 import subprocess
 import sys
@@ -20,7 +21,7 @@ def run_safe_tests():
         "tests/test_import_service.py",
         "tests/test_reports.py",
         "tests/test_table_helpers.py",
-        "tests/test_main.py"
+        "tests/test_main.py",
         # Skip problematic UI tests
         # "tests/test_ui_budget.py",
         # "tests/test_widgets.py",

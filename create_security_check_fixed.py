@@ -2,6 +2,7 @@
 """
 Fixed security check script - ignores false positives
 """
+
 import glob
 import os
 import re
