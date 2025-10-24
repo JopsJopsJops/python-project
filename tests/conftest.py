@@ -74,14 +74,6 @@ def temp_pdf_file():
         os.unlink(temp_file.name)
 
 
-@pytest.fixture(scope="session")
-def qapp():
-    app = QApplication.instance()
-    if app is None:
-        app = QApplication(sys.argv)
-    yield app
-
-
 @pytest.fixture
 def mock_data_manager():
     """Create a mock DataManager for testing."""

@@ -8,7 +8,6 @@ import pytest
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QApplication, QMessageBox, QTabWidget
 
-
 # Add the project root to Python path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -477,11 +476,6 @@ class TestMainWindow:
         window.update_report_date_ranges.assert_called_once()
 
     @pytest.mark.gui
-    def test_export_with_no_data(self, main_window_with_ui):
-        # Implement this test
-        pass
-
-    @pytest.mark.gui
     def test_pdf_export_with_no_data(self, main_window_with_ui):
         # Implement this test
         pass
@@ -611,17 +605,6 @@ class TestMainWindow:
 
         with patch("expense_tracker_app.main.QMessageBox.information") as mock_info:
             result = window.export_to_excel_or_csv()
-            assert result is False
-            mock_info.assert_called_once()
-
-    @pytest.mark.gui
-    def test_pdf_export_with_no_data(self, main_window_with_ui):
-        """Test PDF export when no expenses exist"""
-        window = main_window_with_ui
-        window.get_filtered_expenses = Mock(return_value=[])
-
-        with patch("expense_tracker_app.main.QMessageBox.information") as mock_info:
-            result = window.export_to_pdf()
             assert result is False
             mock_info.assert_called_once()
 

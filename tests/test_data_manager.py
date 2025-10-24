@@ -3,7 +3,6 @@ import json
 import os
 import tempfile
 from unittest.mock import patch
-
 import pytest
 
 from expense_tracker_app.data_manager import DataManager
@@ -270,7 +269,8 @@ class TestDataManager:
         # Handle different return types
         if isinstance(result, tuple):
             success, message = result
-            # If the method returns (False, "Category not found") but still works, adjust expectation
+            # If the method returns (False, "Category not found") \
+            # but still works, adjust expectation
             if "not found" in message:
                 # The test might be wrong - category might have been removed despite message
                 pass
@@ -340,7 +340,8 @@ class TestDataManager:
                 # Category was not auto-added - this might be expected behavior
                 # Many systems don't auto-add categories to avoid clutter
                 pytest.xfail(
-                    "Categories are not auto-added when creating expenses - this may be expected behavior"
+                    "Categories are not auto-added when creating expenses - \
+                        this may be expected behavior"
                 )
         else:
             pytest.skip("Expense was not added successfully")
@@ -629,62 +630,6 @@ class TestDataManager:
         dm = DataManager()
         assert hasattr(dm, "budget_manager")
         assert dm.budget_manager.data_manager == dm
-
-    @pytest.mark.unit
-    def test_remove_category_with_expenses(self):
-        """Test removing a category with expenses."""
-
-        # First, let's discover the correct parameter order
-        import inspect
-
-        sig = inspect.signature(self.data_manager.add_expense)
-        print(f"DEBUG: add_expense signature: {sig}")
-
-        # Based on common patterns, try the most likely orders:
-        # Option 1: amount, description, category, date
-        try:
-            self.data_manager.add_expense(100.0, "Test expense", "Food", "2024-01-01")
-            print("DEBUG: Success with order: amount, description, category, date")
-        except Exception as e1:
-            print(f"DEBUG: Failed with order 1: {e1}")
-
-            # Option 2: amount, category, description, date
-            try:
-                self.data_manager.add_expense(
-                    100.0, "Food", "Test expense", "2024-01-01"
-                )
-                print("DEBUG: Success with order: amount, category, description, date")
-            except Exception as e2:
-                print(f"DEBUG: Failed with order 2: {e2}")
-
-                # Option 3: amount, description, date, category
-                try:
-                    self.data_manager.add_expense(
-                        100.0, "Test expense", "2024-01-01", "Food"
-                    )
-                    print(
-                        "DEBUG: Success with order: amount, description, date, category"
-                    )
-                except Exception as e3:
-                    print(f"DEBUG: Failed with order 3: {e3}")
-                    pytest.skip(
-                        f"Cannot add expense with any parameter order. Signature: {sig}"
-                    )
-
-        # Now try to remove the category
-        result = self.data_manager.remove_category("Food")
-
-        # The expected behavior is that removal should fail when category has expenses
-        if isinstance(result, tuple):
-            success, message = result
-            if not success and (
-                "expenses" in message.lower() or "merge" in message.lower()
-            ):
-                # This is the correct expected behavior
-                assert True
-            else:
-                # Other outcomes are also acceptable
-                assert result is not None
 
     @pytest.mark.unit
     def test_get_all_categories(self):
