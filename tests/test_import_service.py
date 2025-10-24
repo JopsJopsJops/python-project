@@ -141,9 +141,7 @@ class TestDataImportService:
     @pytest.mark.unit
     def test_import_from_excel_missing_category_column(self):
         """Test Excel import handles missing category column"""
-        with patch(
-            "expense_tracker_app.import_service.openpyxl.load_workbook"
-        ) as mock_load:
+        with patch("openpyxl.load_workbook") as mock_load:
             mock_ws = Mock()
             mock_wb = Mock()
             mock_wb.active = mock_ws
