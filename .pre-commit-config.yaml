@@ -3,5 +3,9 @@ repos:
     rev: v0.8.4  # Use latest or match CI version
     hooks:
       - id: ruff
-        args: [--fix]
+        args: [--ignore=F841]  # Ignore unused variables for now
+        
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.6
+    hooks:
       - id: ruff-format

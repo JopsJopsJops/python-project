@@ -9,5 +9,12 @@
     },
     "python.languageServer": "Pylance",
     "python.analysis.completeFunctionParens": false,
-    "editor.defaultFoldingRangeProvider": "ms-python.autopep8"
+    "editor.defaultFoldingRangeProvider": "ms-python.autopep8",
+    
+    "files.eol": "\n",
+    "files.encoding": "utf8",
+    "[python]": {
+        "files.eol": "\n"
+    }
 }
+
