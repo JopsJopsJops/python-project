@@ -71,4 +71,5 @@ jobs:
         
     - name: Check formatting with ruff format
       run: |
-        ruff format --check expense_tracker_app/ tests/# CI fix applied
+        ruff format --check expense_tracker_app/ tests/
+        # CI fix applied
