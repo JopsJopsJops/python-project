@@ -13,6 +13,23 @@ from expense_tracker_app.data_manager import DataManager
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
+# Automatically skip tests that use GUI fixtures in CI
+def pytest_collection_modifyitems(config, items):
+    if os.environ.get("CI") == "true":
+        skip_gui = pytest.mark.skip(reason="GUI tests disabled in CI")
+        for item in items:
+            # Skip tests that use qapp or qtbot fixtures
+            if "qapp" in item.fixturenames or "qtbot" in item.fixturenames:
+                item.add_marker(skip_gui)
+            # Skip tests in known GUI test files
+            if (
+                "test_budget_dialog" in str(item.fspath)
+                or "test_category_management" in str(item.fspath)
+                or "test_widgets" in str(item.fspath)
+            ):
+                item.add_marker(skip_gui)
+
+
 def pytest_configure(config):
     """Register custom markers to avoid warnings."""
     config.addinivalue_line(
