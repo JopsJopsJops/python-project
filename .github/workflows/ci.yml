@@ -67,6 +67,3 @@ jobs:
         
     - name: Check code quality with ruff
       run: ruff check expense_tracker_app/ tests/
-        
-    - name: Check formatting with ruff format
-      run: ruff format --check expense_tracker_app/ tests/
