@@ -1,4 +1,4 @@
-﻿PyQt5>=5.15
+PyQt5>=5.15
 pandas>=1.5
 openpyxl>=3.0
 fpdf>=1.7
@@ -13,4 +13,4 @@ pytest-cov>=4.0
 pytest-mock>=3.0
 pytest-xdist>=3.0
 
-black==23.12.1
+ruff>=0.1.0
