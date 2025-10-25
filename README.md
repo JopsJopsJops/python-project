@@ -2,7 +2,7 @@
 
 A modern, feature-rich expense tracking application built with Python and PyQt5, designed to help you manage your finances with style and efficiency.
 
-![CI Status](https://github.com/JopsJopsJops/python-project/actions/workflows/test.yml/badge.svg)
+![CI Status](https://github.com/JopsJopsJops/python-project/actions/workflows/ci.yml/badge.svg)
 ![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
