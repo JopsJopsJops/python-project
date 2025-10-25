@@ -71,6 +71,7 @@ class DataImportService:
 
         logger.info("Importing from Excel: %s", file_path)
         data = {}
+        success = False
 
         try:
             if not isinstance(file_path, (str, bytes, os.PathLike)):
@@ -146,6 +147,7 @@ class DataImportService:
                     logger.debug("Error processing Excel row: %s", e)
                     continue
 
+            success = True
             return {"success": True, "data": data}
         except Exception as e:
             logger.error("Excel import failed: %s", e)

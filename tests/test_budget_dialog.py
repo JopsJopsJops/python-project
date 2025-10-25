@@ -1,5 +1,4 @@
 import pytest
-from PyQt5.QtWidgets import QApplication
 
 from expense_tracker_app.data_manager import DataManager
 from expense_tracker_app.widgets import BudgetDialog
@@ -7,19 +6,11 @@ from expense_tracker_app.widgets import BudgetDialog
 
 class TestBudgetDialog:
     @pytest.fixture
-    def app(self):
-        """Create QApplication instance for tests"""
-        app = QApplication.instance()
-        if app is None:
-            app = QApplication([])
-        return app
-
-    @pytest.fixture
     def data_manager(self):
         """Create DataManager instance for tests"""
         return DataManager()
 
-    def test_budget_dialog_initialization(self, app, data_manager):
+    def test_budget_dialog_initialization(self, qapp, data_manager):
         """Test BudgetDialog initialization"""
         dialog = BudgetDialog(data_manager)
         assert dialog.data_manager == data_manager

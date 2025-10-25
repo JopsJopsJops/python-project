@@ -742,7 +742,8 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(
                     self,
                     "Import Successful",
-                    "Expenses imported successfully!\n\nAll views have been refreshed.",
+                    "Expenses imported successfully!\n\n\
+                        All views have been refreshed.",
                 )
             except Exception as e:
                 QMessageBox.warning(self, "Import Failed", f"Error: {e}")
