@@ -3,7 +3,6 @@ import sys
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest
-from PyQt5 import QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 
@@ -343,18 +342,18 @@ class TestExpenseTracker:
         """Test deleting an expense."""
         # Set up mock data manager
         mock_data_manager = MagicMock()
+        mock_data_manager.delete_expense.return_value = True
 
-        # Create proper data structure that render_table expects
-        # Based on the error, it expects a dict with category keys
-        sample_data = {
-            "Food": [
-                {
-                    "amount": 100.0,
-                    "category": "Food",
-                    "description": "Lunch",
-                    "date": "2024-01-01",
-                }
-            ],
+        # Sample expense record
+        test_record = {
+            "amount": 100.0,
+            "category": "Food",
+            "description": "Lunch",
+            "date": "2024-01-01",
+        }
+
+        mock_data_manager.expenses = {
+            "Food": [test_record],
             "Transport": [
                 {
                     "amount": 50.0,
@@ -365,48 +364,26 @@ class TestExpenseTracker:
             ],
         }
 
-        mock_data_manager.expenses = [
-            {
-                "amount": 100.0,
-                "category": "Food",
-                "description": "Lunch",
-                "date": "2024-01-01",
-            },
-            {
-                "amount": 50.0,
-                "category": "Transport",
-                "description": "Bus",
-                "date": "2024-01-02",
-            },
-        ]
-
         expense_tracker = ExpenseTracker()
         expense_tracker.data_manager = mock_data_manager
 
-        # First, render the table with the correct data structure
-        try:
-            # Try with the dictionary structure that has keys
-            expense_tracker.render_table(sample_data)
-        except Exception as e:
-            # If that fails, try without rendering the table
-            # and test the delete functionality directly
-            print(
-                f"Note: render_table failed with {e}, testing delete without table rendering"
-            )
-
         # Mock the confirmation dialog to return Yes
         with patch("PyQt5.QtWidgets.QMessageBox.question") as mock_question:
-            mock_question.return_value = QtWidgets.QMessageBox.Yes
+            from PyQt5.QtWidgets import QMessageBox
 
-            # Call the delete method directly
-            # We'll test that the method exists and can be called without crashing
-            try:
-                expense_tracker.delete_expense()
-                # If we get here without exception, that's a success
-                assert True
-            except Exception as e:
-                # If it fails, that might be expected based on the UI state
-                pytest.xfail(f"delete_expense failed as expected: {e}")
+            mock_question.return_value = QMessageBox.Yes
+
+            # Mock the refresh methods to avoid UI updates
+            with patch.object(expense_tracker, "show_expense"), patch.object(
+                expense_tracker, "_refresh_dashboards"
+            ):
+                # Call delete_expense with the required arguments
+                expense_tracker.delete_expense(category="Food", record=test_record)
+
+                # Verify delete was called on data manager
+                mock_data_manager.delete_expense.assert_called_once_with(
+                    "Food", test_record
+                )
 
     @pytest.mark.gui
     def test_undo_last_delete_success(self, expense_tracker):

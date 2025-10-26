@@ -10,7 +10,7 @@
         "Transport": 300.0,
         "Food": 500.0
     },
-    "last_updated": "2025-10-27T01:03:27.263608",
+    "last_updated": "2025-10-27T02:22:01.521283",
     "budget_period": "monthly",
     "description": "Monthly category budgets -                 resets conceptually each month",
     "version": "1.0"
