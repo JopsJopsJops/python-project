@@ -1,7 +1,10 @@
 {
     "expenses": {},
     "categories": [
+        "Food",
         "Transport",
-        "Uncategorized"
+        "Entertainment",
+        "Bills",
+        "Other"
     ]
 }
