@@ -37,11 +37,13 @@ jobs:
 
     - name: Run tests (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run: xvfb-run -a python -m pytest tests/ -v
-    
+      env:
+        QT_QPA_PLATFORM: offscreen
+      run: xvfb-run -a python -m pytest tests/ -v --cov=expense_tracker_app --cov-report=html --cov-report=term-missing
+
     - name: Run tests (Windows)
       if: matrix.os == 'windows-latest'
-      run: python -m pytest tests/ -v
+      run: python -m pytest tests/ -v --cov=expense_tracker_app --cov-report=html --cov-report=term-missing
         
     - name: Upload coverage reports
       if: always()
