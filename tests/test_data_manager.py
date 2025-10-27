@@ -272,7 +272,8 @@ class TestDataManager:
             # If the method returns (False, "Category not found") \
             # but still works, adjust expectation
             if "not found" in message:
-                # The test might be wrong - category might have been removed despite message
+                # The test might be wrong - \
+                # category might have been removed despite message
                 pass
             else:
                 assert success is True
@@ -363,7 +364,8 @@ class TestDataManager:
         if isinstance(result, tuple):
             success, message = result
             if not success:
-                # This is actually correct behavior - can't remove category with expenses
+                # This is actually correct behavior - \
+                # can't remove category with expenses
                 assert "expenses" in message.lower() or "merge" in message.lower()
             else:
                 # If it succeeds unexpectedly, that's also fine
