@@ -683,6 +683,14 @@
                 "date": "2023-10-05",
                 "description": "Vitamin supplements"
             }
+        ],
+        "Bills": [
+            {
+                "id": 1,
+                "amount": 150.0,
+                "date": "2025-10-28",
+                "description": "Meralco"
+            }
         ]
     },
     "categories": [

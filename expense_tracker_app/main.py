@@ -22,6 +22,7 @@ from PyQt5.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QWidget,
+    QTextBrowser,
 )
 
 from expense_tracker_app.data_manager import DataManager
@@ -465,7 +466,7 @@ class MainWindow(QMainWindow):
             if migrated_count > 0 or merged_count > 0:
                 logger.info(
                     f"🔄 Migrated {migrated_count} categories and \
-    merged {merged_count} duplicates"
+merged {merged_count} duplicates"
                 )
 
                 # Show a one-time notification to user
@@ -475,8 +476,8 @@ class MainWindow(QMainWindow):
                     "Your categories have been automatically organized:\n\n"
                     f"• {migrated_count} categories capitalized\n"
                     f"• {merged_count} duplicate groups merged\n\n"
-                    "All expenses are now properly categorized\
-                          with consistent naming.",
+                    "All expenses are now properly categorized \
+with consistent naming.",
                 )
         except Exception as e:
             logger.error(f"Error during category migration: {e}")
@@ -493,15 +494,15 @@ class MainWindow(QMainWindow):
                     "Categories Cleaned Up",
                     f"Successfully merged {merged_count}\
                     groups of duplicate categories.\n\n"
-                    "All your expenses are now organized\
-                    with consistent category names.",
+                    "All your expenses are now organized \
+with consistent category names.",
                 )
             else:
                 QMessageBox.information(
                     self,
                     "No Changes Needed",
-                    "Your categories are already\
-                    properly organized with no duplicates found.",
+                    "Your categories are already \
+properly organized with no duplicates found.",
                 )
 
             # Refresh the UI
@@ -853,152 +854,241 @@ Categories: {cats} | Total: ₱{total_amount:.2f}"
     def show_about_dialog(self):
         """Show professional About dialog"""
         about_text = """
-        <html>
-        <head>
-        <style>
-            body {{
-                color: #e0e0e0;
-                font-family: 'Segoe UI', Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-            }}
-            .header {{
-                color: #00ffff;
-                font-size: 24px;
-                font-weight: bold;
-                margin-bottom: 10px;
+        <div style="
+            color: #e8e6e3;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: transparent;
+            padding: 30px;
+            line-height: 1.6;
+        ">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="font-size: 48px; margin-bottom: 1px;"></div>
+                <h1 style="color: #00ffff; font-size: 32px; font-weight: bold; margin: 0;">
+                    Expense Tracker Pro
+                </h1>
+                <div style="color: #ffb86c; font-size: 16px; font-weight: 500; margin-top: 2px;">
+                    Version 1.0 
+                    <span style="
+                        display: inline-block;
+                        color: #ffb86c;
+                        padding: 4px 12px;
+                        border-radius: 20px;
+                        font-size: 16px;
+                        font-weight: 500;
+                        margin-left: 10px;
+                        text-transform: capitalize;
+                    ">Professional</span>
+                </div>
+            </div>
+
+            <!-- Features Card - Centered -->
+            <div style="
+                background: rgba(45, 45, 65, 0.9);
+                border-radius: 12px;
+                padding: 25px;
+                margin: 20px 0;
+                border: 1px solid rgba(0, 255, 255, 0.3);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            ">
+                 <h2 style="color: #00ffff; font-size: 20px; font-weight: 600; margin: 0 0 20px 0; text-align: center;">
+                🎯 Core Features
+            </h2>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                <div style="text-align: center; padding: 12px; background: transparent; border-radius: 8px; width: 90%;">
+                    <span style="font-size: 18px; margin-right: 8px;">✅</span>
+                    <span style="font-weight: 500;">Complete expense tracking & management</span>
+                </div>
+                <div style="text-align: center; padding: 12px; background: transparent; border-radius: 8px; width: 90%;">
+                    <span style="font-size: 18px; margin-right: 8px;">📊</span>
+                    <span style="font-weight: 500;">Interactive charts & spending analytics</span>
+                </div>
+                <div style="text-align: center; padding: 12px; background: transparent; border-radius: 8px; width: 90%;">
+                    <span style="font-size: 18px; margin-right: 8px;">💰</span>
+                    <span style="font-weight: 500;">Smart budget management with alerts</span>
+                </div>
+                <div style="text-align: center; padding: 12px; background: transparent; border-radius: 8px; width: 90%;">
+                    <span style="font-size: 18px; margin-right: 8px;">📁</span>
+                    <span style="font-weight: 500;">Category management with auto-merge</span>
+                </div>
+                <div style="text-align: center; padding: 12px; background: transparent; border-radius: 8px; width: 90%;">
+                    <span style="font-size: 18px; margin-right: 8px;">📈</span>
+                    <span style="font-weight: 500;">Professional reports & exports</span>
+                </div>
+                <div style="text-align: center; padding: 12px; background: transparent; border-radius: 8px; width: 90%;">
+                    <span style="font-size: 18px; margin-right: 8px;">🔄</span>
+                    <span style="font-weight: 500;">Import/Export (CSV, Excel, PDF)</span>
+                </div>
+                <div style="text-align: center; padding: 12px; background: transparent; border-radius: 8px; width: 90%;">
+                    <span style="font-size: 18px; margin-right: 8px;">🎨</span>
+                    <span style="font-weight: 500;">Dark theme with professional UI</span>
+                </div>
+            </div>
+        </div>
+
+            <!-- Technology Stack - Centered -->
+            <div style="
+                background: rgba(45, 45, 65, 0.9);
+                border-radius: 12px;
+                padding: 25px;
+                margin: 20px 0;
+                border: 1px solid rgba(0, 255, 255, 0.3);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            ">
+                <h2 style="color: #00ffff; font-size: 20px; font-weight: 600; margin: 0 0 20px 0; text-align: center;">
+                    🛠️ Technology Stack
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                    <div style="text-align: center; padding: 15px; background: rgba(0, 122, 204, 0.15); border-radius: 10px; border: 1px solid rgba(0, 255, 255, 0.3);">
+                        <div style="color: #00ffff; font-weight: 600; font-size: 13px;">Python 3</div>
+                        <div style="color: #b0b0b0; font-size: 11px;">Core Language</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(0, 122, 204, 0.15); border-radius: 10px; border: 1px solid rgba(0, 255, 255, 0.3);">
+                        <div style="color: #00ffff; font-weight: 600; font-size: 13px;">PyQt5</div>
+                        <div style="color: #b0b0b0; font-size: 11px;">GUI Framework</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(0, 122, 204, 0.15); border-radius: 10px; border: 1px solid rgba(0, 255, 255, 0.3);">
+                        <div style="color: #00ffff; font-weight: 600; font-size: 13px;">Matplotlib</div>
+                        <div style="color: #b0b0b0; font-size: 11px;">Data Visualization</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(0, 122, 204, 0.15); border-radius: 10px; border: 1px solid rgba(0, 255, 255, 0.3);">
+                        <div style="color: #00ffff; font-weight: 600; font-size: 13px;">OpenPyXL</div>
+                        <div style="color: #b0b0b0; font-size: 11px;">Excel Integration</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(0, 122, 204, 0.15); border-radius: 10px; border: 1px solid rgba(0, 255, 255, 0.3);">
+                        <div style="color: #00ffff; font-weight: 600; font-size: 13px;">FPDF</div>
+                        <div style="color: #b0b0b0; font-size: 11px;">PDF Reports</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: rgba(0, 122, 204, 0.15); border-radius: 10px; border: 1px solid rgba(0, 255, 255, 0.3);">
+                        <div style="color: #00ffff; font-weight: 600; font-size: 13px;">Pandas</div>
+                        <div style="color: #b0b0b0; font-size: 11px;">Data Analysis</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quote - Full sentence highlighted -->
+            <div style="
                 text-align: center;
-            }}
-            .version {{
-                color: #ffb86c;
-                font-size: 14px;
-                margin-bottom: 20px;
-                text-align: center;
-            }}
-            .section {{
-                margin: 15px 0;
-                padding: 10px;
-                background: #2d2d2d;
-                border-radius: 6px;
-                border-left: 4px solid #007acc;
-            }}
-            .feature {{
-                margin: 8px 0;
-                padding-left: 10px;
-            }}
-            .tech {{
                 color: #b0b0b0;
-                font-size: 12px;
-                margin-top: 20px;
+                font-style: italic;
+                font-size: 14px;
+                margin: 30px 0;
+                padding: 20px;
+                border: 1px solid rgba(255, 184, 108, 0.3);
+                background: rgba(255, 184, 108, 0.08);
+                border-radius: 10px;
+            ">
+                <span style="color: #ffb86c; font-weight: 500;">
+                    "Professional expense management solution<br>
+                    designed for individuals and small businesses"
+                </span>
+            </div>
+
+            <!-- Footer -->
+            <div style="
                 text-align: center;
-            }}
-            .copyright {{
-                color: #808080;
-                font-size: 11px;
-                margin-top: 25px;
-                text-align: center;
-            }}
-        </style>
-        </head>
-        <body>
-            <div class="header">💼 Expense Tracker Pro</div>
-            <div class="version">Version 1.0</div>
-
-            <div class="section">
-                <strong>🎯 Features:</strong>
-                <div class="feature">✅ \
-                    Complete expense tracking & management</div>
-                <div class="feature">📊 \
-                    Interactive charts & spending analytics</div>
-                <div class="feature">💰 \
-                    Smart budget management with alerts</div>
-                <div class="feature">📁 \
-                    Category management with auto-merge</div>
-                <div class="feature">📈 \
-                    Professional reports & exports</div>
-                <div class="feature">🔄 \
-                    Import/Export (CSV, Excel, PDF)</div>
-                <div class="feature">🎨 Dark theme with professional UI</div>
+                margin-top: 30px;
+                padding-top: 20px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            ">
+                <div style="color: #808080; font-size: 12px; line-height: 1.5;">
+                    © 2025 Expense Tracker Pro · <span style="color: #ffb86c; font-weight: 600;">Professional Edition</span><br>
+                    All rights reserved · Crafted with ❤️ for productivity
+                </div>
             </div>
-
-            <div class="section">
-                <strong>🛠️ Built With:</strong>
-                <div class="feature">Python • PyQt5 (GUI)\
-                      • Matplotlib (Charts) • OpenPyXL (Excel)\
-                          • FPDF (Reports)</div>
-            </div>
-
-            <div class="tech">
-                Professional expense management solution
-            </div>
-
-            <div class="copyright">
-                © 2025 Expense Tracker Pro. All rights reserved.
-            </div>
-        </body>
-        </html>
+        </div>
         """
 
-        # Create custom dialog for better control
+        # Create dialog
         dialog = QDialog(self)
-        dialog.setWindowTitle("About Expense Tracker")
-        dialog.setMinimumSize(500, 550)
+        dialog.setWindowTitle("About Expense Tracker Pro")
+        dialog.setFixedSize(600, 750)
+
+        # Keep the original dialog background
         dialog.setStyleSheet(
             """
             QDialog {
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
                     stop:0 #1a1a2e, stop:0.5 #16213e, stop:1 #0f3460);
-                border: 2px solid #007acc;
-                border-radius: 10px;
+                border: 2px solid #00ffff;
+                border-radius: 16px;
             }
         """
         )
 
         layout = QVBoxLayout(dialog)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
 
-        # App icon/logo placeholder
-        icon_label = QLabel("💼")
-        icon_label.setAlignment(Qt.AlignCenter)
-        icon_label.setStyleSheet(
+        # QTextBrowser with transparent background to show dialog gradient
+        about_browser = QTextBrowser()
+        about_browser.setHtml(about_text)
+        about_browser.setOpenExternalLinks(True)
+        about_browser.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        about_browser.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        about_browser.setStyleSheet(
             """
-            QLabel {
-                font-size: 64px;
-                padding: 20px;
+            QTextBrowser {
+                background: transparent;
+                border: none;
+                padding: 0px;
+            }
+            QScrollBar:vertical {
+                background: rgba(255, 255, 255, 0.1);
+                width: 10px;
+                border-radius: 5px;
+            }
+            QScrollBar::handle:vertical {
+                background: rgba(0, 255, 255, 0.5);
+                border-radius: 5px;
+                min-height: 20px;
             }
         """
         )
-        layout.addWidget(icon_label)
+        layout.addWidget(about_browser)
 
-        # About text
-        about_label = QLabel(about_text)
-        about_label.setAlignment(Qt.AlignCenter)
-        about_label.setWordWrap(True)
-        about_label.setTextFormat(Qt.RichText)
-        layout.addWidget(about_label)
+        # Button container
+        button_container = QWidget()
+        button_container.setStyleSheet(
+            """
+            QWidget {
+                background: rgba(0, 0, 0, 0.4);
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        """
+        )
+        button_layout = QHBoxLayout(button_container)
+        button_layout.setContentsMargins(20, 15, 20, 15)
 
-        # Close button
-        close_btn = QPushButton("Close")
-        close_btn.setMinimumHeight(35)
-        close_btn.setStyleSheet(
+        # OK button
+        ok_button = QPushButton("Got It")
+        ok_button.setCursor(Qt.PointingHandCursor)
+        ok_button.setStyleSheet(
             """
             QPushButton {
-                background-color: #007acc;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #007acc, stop:1 #00a8ff);
                 color: white;
                 border: none;
-                padding: 8px 16px;
-                border-radius: 4px;
-                font-weight: 500;
-                font-family: "Segoe UI";
-                font-size: 12px;
-                margin: 10px;
+                padding: 12px 40px;
+                border-radius: 8px;
+                font-weight: bold;
+                font-size: 14px;
+                min-width: 120px;
             }
             QPushButton:hover {
-                background-color: #005a9e;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #00a8ff, stop:1 #00ffff);
+            }
+            QPushButton:pressed {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #005a9e, stop:1 #007acc);
             }
         """
         )
-        close_btn.clicked.connect(dialog.accept)
-        layout.addWidget(close_btn)
+        ok_button.clicked.connect(dialog.accept)
+
+        button_layout.addStretch()
+        button_layout.addWidget(ok_button)
+        button_layout.addStretch()
+
+        layout.addWidget(button_container)
 
         dialog.exec_()
 

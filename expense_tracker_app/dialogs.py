@@ -333,8 +333,8 @@ class CategoryDialog(QDialog):
 
                 # Warning
                 warning_label = QLabel(
-                    f"This category contains\
-                    {len(self.data_manager.expenses[category])} expense(s)."
+                    f"This category contains \
+{len(self.data_manager.expenses[category])} expense(s)."
                 )
                 warning_label.setStyleSheet(
                     "color: #ffb86c;\
@@ -344,7 +344,7 @@ class CategoryDialog(QDialog):
                 layout.addWidget(warning_label)
 
                 # Options with clear benefits
-                layout.addWidget(QLabel("Choose what happens to the expenses:"))
+                layout.addWidget(QLabel("  Choose what happens to the expenses:"))
 
                 # Option 1: Merge (Recommended)
                 merge_frame = QFrame()
@@ -357,8 +357,8 @@ class CategoryDialog(QDialog):
                 merge_layout.addWidget(merge_header)
 
                 merge_desc = QLabel(
-                    "• Expenses stay organized\n•\
-                          Easy to find later\n• Recommended approach"
+                    "• Expenses stay organized\n• \
+Easy to find later\n• Recommended approach"
                 )
                 merge_desc.setStyleSheet("color: #b0b0b0; font-size: 11px;")
                 merge_layout.addWidget(merge_desc)
@@ -384,8 +384,8 @@ class CategoryDialog(QDialog):
                 uncat_layout.addWidget(uncat_header)
 
                 uncat_desc = QLabel(
-                    "• Expenses become harder to find\n•\
-                          Use only if you can't merge\n• Not recommended"
+                    "• Expenses become harder to find\n• \
+Use only if you can't merge\n• Not recommended"
                 )
                 uncat_desc.setStyleSheet("color: #b0b0b0; font-size: 11px;")
                 uncat_layout.addWidget(uncat_desc)
