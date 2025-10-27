@@ -546,7 +546,8 @@ class MainWindow(QMainWindow):
         if filtered:
             cats = ", ".join(sorted(categories))
             self.summary_label.setText(
-                f"Summary: {len(filtered)} expenses | Categories: {cats} | Total: ₱{total_amount:.2f}"
+                f"Summary: {len(filtered)} expenses | \
+Categories: {cats} | Total: ₱{total_amount:.2f}"
             )
         else:
             self.summary_label.setText("Summary: No data")
