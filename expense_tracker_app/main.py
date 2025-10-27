@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 from PyQt5.QtCore import QDate, Qt
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QColor, QTextCharFormat
 from PyQt5.QtWidgets import (
     QAction,
     QApplication,
@@ -233,19 +233,18 @@ class MainWindow(QMainWindow):
             start_date = QDate.fromString(sorted_dates[0], "yyyy-MM-dd")
             end_date = QDate.fromString(sorted_dates[-1], "yyyy-MM-dd")
         else:
-            # Fallback if no data
             start_date = QDate.currentDate().addMonths(-1)
             end_date = QDate.currentDate()
 
         filter_layout.addWidget(QLabel("From:"))
         self.start_date = QDateEdit()
         self.start_date.setCalendarPopup(True)
-        self.start_date.setDate(start_date)  # Use dynamic start date
+        self.start_date.setDate(start_date)
         self.start_date.setStyleSheet(
             """
             QDateEdit {
                 background: #2d2d2d;
-                color: white;
+                color: #e0e0e0;
                 border: 1px solid #404040;
                 border-radius: 4px;
                 padding: 6px;
@@ -256,22 +255,18 @@ class MainWindow(QMainWindow):
         )
         calendar = self.start_date.calendarWidget()
         if calendar:
-            calendar.setDateTextFormat(
-                QDate.currentDate(), self.get_highlighted_date_format()
-            )
+            self.setup_calendar_style(calendar)
 
         filter_layout.addWidget(self.start_date)
 
         filter_layout.addWidget(QLabel("To:"))
         self.end_date = QDateEdit()
         self.end_date.setCalendarPopup(True)
-        self.end_date.setDate(end_date)  # Use dynamic end date
+        self.end_date.setDate(end_date)
         self.end_date.setStyleSheet(self.start_date.styleSheet())
         calendar = self.end_date.calendarWidget()
         if calendar:
-            calendar.setDateTextFormat(
-                QDate.currentDate(), self.get_highlighted_date_format()
-            )
+            self.setup_calendar_style(calendar)
 
         filter_layout.addWidget(self.end_date)
 
@@ -328,10 +323,9 @@ class MainWindow(QMainWindow):
                 font-weight: bold;
                 padding: 10px;
                 background: #1a1a2e;
-                border: 1px solid #ffff00;
+                border: 1px solid #00ffff;
                 border-radius: 6px;
                 margin: 5px;
-                border: 1px solid #00ffff;
             }
         """
         )
@@ -342,50 +336,54 @@ class MainWindow(QMainWindow):
         self.report_table.setHorizontalHeaderLabels(
             ["Category", "Amount", "Date", "Description"]
         )
-        self.report_table.horizontalHeader().setStretchLastSection(True)
-        self.report_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        # Set resize mode ONCE - don't call this in update_report_view
+        header = self.report_table.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)  # Category
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)  # Amount
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)  # Date
+        header.setSectionResizeMode(3, QHeaderView.Stretch)  # Description stretches
 
         # Dark neon table styling
         self.report_table.setStyleSheet(
             """
             QTableWidget {
-            background-color: #252526;
-            color: #e0e0e0;
-            gridline-color: #404040;
-            border: 1px solid #404040;
-            border-radius: 4px;
-            font-family: "Segoe UI";
-            font-size: 12px;
-        }
+                background-color: #252526;
+                color: #e0e0e0;
+                gridline-color: #404040;
+                border: 1px solid #404040;
+                border-radius: 4px;
+                font-family: "Segoe UI";
+                font-size: 12px;
+            }
 
-        QTableWidget::item {
-            background-color: #252526;
-            color: #e0e0e0;
-            padding: 8px 12px;
-            border-bottom: 1px solid #404040;
-        }
+            QTableWidget::item {
+                background-color: #252526;
+                color: #e0e0e0;
+                padding: 8px 12px;
+                border-bottom: 1px solid #404040;
+            }
 
-        QTableWidget::item:selected {
-            background-color: #007acc;
-            color: #ffffff;
-        }
+            QTableWidget::item:selected {
+                background-color: #007acc;
+                color: #ffffff;
+            }
 
-        QHeaderView::section {
-            background-color: #333333;
-            color: #ffffff;
-            padding: 10px;
-            border: none;
-            border-right: 1px solid #404040;
-            border-bottom: 2px solid #007acc;
-            font-weight: 600;
-            font-family: "Segoe UI";
-            font-size: 12px;
-        }
-    """
+            QHeaderView::section {
+                background-color: #333333;
+                color: #ffffff;
+                padding: 10px;
+                border: none;
+                border-right: 1px solid #404040;
+                border-bottom: 2px solid #007acc;
+                font-weight: 600;
+                font-family: "Segoe UI";
+                font-size: 12px;
+            }
+        """
         )
 
         self.report_table.setShowGrid(True)
-        self.report_table.setAlternatingRowColors(True)
         self.report_table.setAlternatingRowColors(False)
 
         reports_layout.addWidget(self.report_table)
@@ -395,7 +393,6 @@ class MainWindow(QMainWindow):
         btn_excel_csv = QPushButton("Export to Excel/CSV")
         btn_pdf = QPushButton("Export to PDF")
 
-        # Professional button styling
         button_style = """
             QPushButton {
                 background-color: #007acc;
@@ -427,15 +424,33 @@ class MainWindow(QMainWindow):
         reports_layout.addStretch()
         self.tabs.addTab(self.reports_tab, "📈 Reports")
 
-    def get_highlighted_date_format(self):
-        """Return formatting for highlighted current date"""
-        from PyQt5.QtGui import QColor, QFont, QTextCharFormat
+    def setup_calendar_style(self, calendar):
+        """Apply consistent calendar styling across the app"""
+        calendar.setStyleSheet(
+            """
+            QCalendarWidget {
+                background-color: #2b2b2b;
+                color: #e0e0e0;
+                border: 1px solid #404040;
+                border-radius: 8px;
+                font-family: "Segoe UI";
+            }
+            QCalendarWidget QAbstractItemView:enabled:selected {
+                background-color: #007acc;
+                color: #ffffff;
+                font-weight: bold;
+                border: 2px solid #00ffff;
+                border-radius: 4px;
+            }
+        """
+        )
 
+        # Highlight today (yellow bold, no background)
+        today = QDate.currentDate()
         format = QTextCharFormat()
-        format.setBackground(QColor("#007acc"))  # Blue background
-        format.setForeground(QColor("#ffffff"))  # White text
-        format.setFontWeight(QFont.Bold)
-        return format
+        format.setForeground(QColor("#ffff00"))  # Yellow text
+        format.setFontWeight(QFont.Bold)  # Bold
+        calendar.setDateTextFormat(today, format)
 
     def migrate_categories_on_startup(self):
         """Automatically migrate categories\
@@ -528,13 +543,10 @@ class MainWindow(QMainWindow):
                 item = QTableWidgetItem(str(val))
                 self.report_table.setItem(row_idx, col_idx, item)
 
-        self.report_table.resizeColumnsToContents()
-
         if filtered:
             cats = ", ".join(sorted(categories))
             self.summary_label.setText(
-                f"Summary: {len(filtered)}\
-                expenses | Categories: {cats} | Total: ₱{total_amount:.2f}"
+                f"Summary: {len(filtered)} expenses | Categories: {cats} | Total: ₱{total_amount:.2f}"
             )
         else:
             self.summary_label.setText("Summary: No data")

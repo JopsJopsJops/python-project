@@ -679,7 +679,7 @@ class DashboardWidget(QWidget):
             # Daily spending rate
             if total_all > 0:
                 daily_avg = total_all / 30
-                # weekly_avg = daily_avg * 7 # just incase needed in the future.
+                weekly_avg = daily_avg * 7
                 insights.append(f"💰 <b>Daily Average:</b> ₱{daily_avg:,.0f}")
 
             # Category diversity
@@ -957,11 +957,7 @@ class DashboardWidget(QWidget):
         )
         calendar = self.chart_start_date.calendarWidget()
         if calendar:
-            format = QTextCharFormat()
-            format.setBackground(QColor("#007acc"))
-            format.setForeground(QColor("#ffffff"))
-            format.setFontWeight(QFont.Bold)
-            calendar.setDateTextFormat(QDate.currentDate(), format)
+            self.setup_calendar_style(calendar)
 
         filter_layout.addWidget(self.chart_start_date)
 
@@ -972,11 +968,7 @@ class DashboardWidget(QWidget):
         self.chart_end_date.setStyleSheet(self.chart_start_date.styleSheet())
         calendar = self.chart_end_date.calendarWidget()
         if calendar:
-            format = QTextCharFormat()
-            format.setBackground(QColor("#007acc"))
-            format.setForeground(QColor("#ffffff"))
-            format.setFontWeight(QFont.Bold)
-            calendar.setDateTextFormat(QDate.currentDate(), format)
+            self.setup_calendar_style(calendar)
 
         filter_layout.addWidget(self.chart_end_date)
 
@@ -1081,6 +1073,34 @@ class DashboardWidget(QWidget):
         export_layout.addStretch()
 
         main_layout.addLayout(export_layout)
+
+    def setup_calendar_style(self, calendar):
+        """Apply consistent calendar styling across the app"""
+        calendar.setStyleSheet(
+            """
+            QCalendarWidget {
+                background-color: #2b2b2b;
+                color: #e0e0e0;
+                border: 1px solid #404040;
+                border-radius: 8px;
+                font-family: "Segoe UI";
+            }
+            QCalendarWidget QAbstractItemView:enabled:selected {
+                background-color: #007acc;
+                color: #ffffff;
+                font-weight: bold;
+                border: 2px solid #00ffff;
+                border-radius: 4px;
+            }
+        """
+        )
+
+        # Highlight today (yellow bold, no background)
+        today = QDate.currentDate()
+        format = QTextCharFormat()
+        format.setForeground(QColor("#ffff00"))  # Yellow text
+        format.setFontWeight(QFont.Bold)  # Bold
+        calendar.setDateTextFormat(today, format)
 
     def update_chart_date_ranges(self):
         """Update the chart date ranges when new data is loaded"""
@@ -1622,8 +1642,8 @@ class DashboardWidget(QWidget):
                 ax_cover.text(
                     0.5,
                     0.3,
-                    f"Generated: \
-                        {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}",
+                    f'Generated: \
+                        {datetime.datetime.now().strftime("%Y-%m-%d %H:%M")}',
                     ha="center",
                     va="center",
                     fontsize=10,
@@ -1929,8 +1949,7 @@ class DashboardWidget(QWidget):
             # Add value annotations for important points
             if len(totals) > 0:
                 max_idx = totals.index(max(totals))
-                # min_idx = totals.index(min(totals)) \
-                # # just incase needed in the future.
+                min_idx = totals.index(min(totals))
 
                 # Highlight maximum point
                 self.trend_ax.annotate(
@@ -2201,42 +2220,45 @@ class ExpenseTracker(QWidget):
             btn.setFixedHeight(36)
             btn.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Fixed)
 
-            btn.setStyleSheet(
-                """
+            # Fixed style sheet - no f-string formatting, use .format() instead
+            btn_style = """
                 QPushButton {{
-                background-color: {color};
-                color: {'#ffffff' if self.is_dark_color(color) else '#000000'};
-                border: none;
-                padding: 8px 12px;
-                border-radius: 4px;
-                font-weight: 500;
-                font-family: "Segoe UI";
-                font-size: 11px;
-                min-height: 32px;
-                margin: 1px;
-            }}
+                    background-color: {color};
+                    color: {text_color};
+                    border: none;
+                    padding: 8px 12px;
+                    border-radius: 4px;
+                    font-weight: 500;
+                    font-family: "Segoe UI";
+                    font-size: 11px;
+                    min-height: 32px;
+                    margin: 1px;
+                }}
 
-            QPushButton:hover {{
-                background-color: {self.darken_color_universal(color)};
-                color: {'#ffffff'\
-                if self.is_dark_color(self.darken_color_universal(color))\
-                else '#000000'};
-            }}
+                QPushButton:hover {{
+                    background-color: {hover_color};
+                    color: {hover_text_color};
+                }}
 
-            QPushButton:pressed {{
-                background-color: {self.darken_color_universal(color, 0.3)};
- self.is_dark_color(
-                    self.darken_color_universal(color,
-                    0.3
-                )
-            }}
+                QPushButton:pressed {{
+                    background-color: {pressed_color};
+                    color: {pressed_text_color};
+                }}
 
-            QPushButton:disabled {{
-                background-color: #555555;
-                color: #888888;
-            }}
-        """
+                QPushButton:disabled {{
+                    background-color: #555555;
+                    color: #888888;
+                }}
+            """.format(
+                color=color,
+                text_color="#000000",  # Default to black text for bright colors
+                hover_color=self.darken_color_universal(color),
+                hover_text_color="#000000",  # Adjust if needed
+                pressed_color=self.darken_color_universal(color, 0.3),
+                pressed_text_color="#000000",  # Adjust if needed
             )
+
+            btn.setStyleSheet(btn_style)
 
             # Connect signals
             if "Add" in text:
@@ -2442,9 +2464,9 @@ class ExpenseTracker(QWidget):
         """Delete expense with confirmation dialog"""
 
         # Create user-friendly confirmation message
-        record.get("amount", 0)
-        record.get("date", "")
-        record.get("description", "")[:50]  # First 50 chars
+        amount = record.get("amount", 0)
+        date = record.get("date", "")
+        description = record.get("description", "")[:50]  # First 50 chars
 
         confirmation_msg = """
         <h3>🗑️ Are you sure you want\
@@ -2975,13 +2997,14 @@ class BudgetDialog(QDialog):
         header_label = QLabel(f"💾 Set Monthly Budget - {current_month}")
         header_label.setStyleSheet(
             """
-            QLabel {
-                color: #00ff00;
-                font-size: 16px;
+             QLabel {
+                color: #00ffff;
                 font-weight: bold;
+                font-size: 16px;
                 padding: 10px;
                 background: #1a1a2e;
-                border-radius: 8px;
+                border-radius: 6px;
+                border: 1px solid #00ffff;
             }
         """
         )
@@ -3026,7 +3049,7 @@ class BudgetDialog(QDialog):
 
         category_hint = QLabel(
             "💡 Need a new category? \
-                Use the '📁 Categories' button in the main toolbar"
+Use the '📁 Categories' button in the main toolbar"
         )
         category_hint.setStyleSheet(
             """
@@ -3801,6 +3824,13 @@ class BudgetDialog(QDialog):
         center_layout.setSpacing(4)
 
         # Percentage label
+        status_color = (
+            "#ff6b6b"
+            if percentage > 100
+            else "#ffb86c"
+            if percentage > 80
+            else "#6bff6b"
+        )
         status_text = (
             "OVER" if percentage > 100 else "WARNING" if percentage > 80 else "GOOD"
         )
@@ -3839,11 +3869,11 @@ class BudgetDialog(QDialog):
 
         # Determine fill color based on percentage
         if percentage > 100:
-            pass  # Bright red for over budget
+            fill_color = "#ff4444"  # Bright red for over budget
         elif percentage > 80:
-            pass  # Orange for warning
+            fill_color = "#ffaa00"  # Orange for warning
         else:
-            pass  # Green for good
+            fill_color = "#00cc00"  # Green for good
 
         fill_widget = QWidget()
         fill_widget.setStyleSheet(

@@ -14,6 +14,8 @@ def run_command(cmd):
 
 def main():
     print("🚀 Running code formatting...")
+    subprocess.run(["ruff", "check", "--fix", "expense_tracker_app/", "tests/"])
+    subprocess.run(["black", "expense_tracker_app/", "tests/"])
 
     # Format imports
     print("📦 Sorting imports with isort...")

@@ -605,9 +605,31 @@ class AddExpenseDialog(QDialog):
         """
         )
 
+        # Calendar setup with proper styling
         self.calendar_widget = QCalendarWidget()
         self.calendar_widget.setGridVisible(True)
         self.calendar_widget.setSelectedDate(QDate.currentDate())
+
+        # Calendar styling
+        self.calendar_widget.setStyleSheet(
+            """
+            QCalendarWidget {
+                background-color: #2b2b2b;
+                color: #e0e0e0;
+                border: 1px solid #404040;
+                border-radius: 8px;
+                font-family: "Segoe UI";
+            }
+            QCalendarWidget QAbstractItemView:enabled:selected {
+                background-color: #007acc;
+                color: #ffffff;
+                font-weight: bold;
+                border: 2px solid #00ffff;
+                border-radius: 4px;
+            }
+        """
+        )
+
         self.calendar_widget.setDateTextFormat(
             QDate.currentDate(), self.get_highlighted_date_format()
         )
@@ -638,7 +660,8 @@ class AddExpenseDialog(QDialog):
         layout.addWidget(QLabel("Category:"))
         layout.addWidget(self.category_dropdown)
         category_hint = QLabel(
-            "💡 Need a new category? Use the '📁 Categories' button in the main toolbar"
+            "💡 Need a new category? \
+Use the '📁 Categories' button in the main toolbar"
         )
         category_hint.setStyleSheet(
             """
@@ -665,9 +688,9 @@ class AddExpenseDialog(QDialog):
     def get_highlighted_date_format(self):
         """Return formatting for highlighted current date"""
         format = QTextCharFormat()
-        format.setBackground(QColor("#007acc"))  # Blue background
-        format.setForeground(QColor("#ffffff"))  # White text
-        format.setFontWeight(QFont.Bold)
+        format.setForeground(QColor("#ffff00"))  # Yellow text
+        format.setFontWeight(QFont.Bold)  # Bold
+        # No background color - keep it transparent
         return format
 
     def get_data(self):
