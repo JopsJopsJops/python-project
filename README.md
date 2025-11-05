@@ -55,13 +55,11 @@ A modern, feature-rich expense tracking application built with Python and PyQt5,
 
 ### Budget Management
 ![Budget](screenshots/Budget_Management.png)
-
-*Set Monthly Budget, view current budgets, reports, analytics and utilization*
+   *Set Monthly Budget, view current budgets, reports, analytics and utilization*
 
 ### Live Demo
 ![Application Demo](screenshots/expense_tracker_app_demo.gif)
-
-*Quick overview of the application in action*
+ *Quick overview of the application in action*
 
 ## 🚀 Quick Start
 
