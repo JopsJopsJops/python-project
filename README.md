@@ -42,23 +42,23 @@ A modern, feature-rich expense tracking application built with Python and PyQt5,
 ## 📸 Screenshots
 
 ### Main Dashboard
-![Dashboard](screenshots/Dashboard_Overview.png)
+![Dashboard](screenshots/Dashboard_Overview.png)  
 *Interactive dashboard with spending insights and charts*
 
 ### Expense Management
-![Expense Table](screenshots/Expense_Management.png)  
+![Expense Table](screenshots/Expense_Management.png)    
 *Add, edit, and search expenses with category filtering*
 
 ### Analytics & Reports
-![Charts](screenshots/Analytics.png)
+![Charts](screenshots/Analytics.png)  
 *Interactive charts and export capabilities*
 
 ### Budget Management
-![Budget](screenshots/Budget_Management.png)
+![Budget](screenshots/Budget_Management.png)  
 *Set Monthly Budget, view current budgets, reports, analytics and utilization*
 
 ### Live Demo
-![Application Demo](screenshots/expense_tracker_app_demo.gif)
+![Application Demo](screenshots/expense_tracker_app_demo.gif)  
 *Quick overview of the application in action*
 
 ## 🚀 Quick Start
